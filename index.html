@@ -30,7 +30,7 @@
         body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; font-size:16px; line-height:1.6; overflow-x:hidden; transition:background .35s,color .35s; }
 
         /* ── NAV ──────────────────────────────── */
-        nav { position:fixed; top:0; left:0; right:0; z-index:200; padding:18px 64px; display:flex; justify-content:space-between; align-items:center; backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); background:var(--nav-bg); border-bottom:1px solid transparent; transition:border-color .3s,background .35s; }
+        nav { position:fixed; top:0; left:0; right:0; z-index:200; padding:18px 64px; display:flex; justify-content:space-between; align-items:center; gap:16px; backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); background:var(--nav-bg); border-bottom:1px solid transparent; transition:border-color .3s,background .35s; }
         nav.scrolled { border-bottom-color:var(--border); }
         .nav-logo { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:600; color:var(--text); text-decoration:none; letter-spacing:.02em; }
         .nav-logo span { color:var(--accent); }
@@ -1182,10 +1182,7 @@
         }
 
         /* ── RESPONSIVE ─────────────────────────────────── */
-        @media(max-width:1024px){
-            .timeline-item { grid-template-columns: 220px 1fr; gap: 32px; }
-            .capability-grid { grid-template-columns: repeat(2,1fr); }
-        }
+        
         @media(max-width:768px){
             .section-wrap  { padding-top: 80px; padding-bottom: 80px; }
             .section-title { margin-bottom: 48px; }
@@ -1371,93 +1368,11 @@
         }
         img, svg, video { max-width: 100%; }
 
-        /* ── HAMBURGER BUTTON ────────────────────────────────── */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            gap: 5px;
-            width: 40px; height: 40px;
-            padding: 8px;
-            background: none;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-        .hamburger span {
-            display: block;
-            width: 100%; height: 1.5px;
-            background: var(--text);
-            border-radius: 2px;
-            transition: transform .3s, opacity .3s;
-        }
-        .hamburger.is-active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-        .hamburger.is-active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-        .hamburger.is-active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+        
 
-        /* ── MOBILE MENU OVERLAY ────────────────────────────── */
-        .mobile-menu-overlay {
-            display: none;
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,.5);
-            z-index: 299;
-            opacity: 0;
-            transition: opacity .35s;
-        }
-        .mobile-menu-overlay.is-open { opacity: 1; }
+        
 
-        /* ── MOBILE MENU DRAWER ─────────────────────────────── */
-        .mobile-menu {
-            display: none;
-            position: fixed;
-            top: 0; right: 0; bottom: 0;
-            width: min(320px, 88vw);
-            background: var(--surface);
-            border-left: 1px solid var(--border);
-            z-index: 300;
-            transform: translateX(100%);
-            transition: transform .35s cubic-bezier(.16,1,.3,1);
-            flex-direction: column;
-            padding: 0;
-        }
-        .mobile-menu.is-open { transform: translateX(0); }
-
-        .mobile-menu-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border);
-        }
-        .mobile-menu-close {
-            width: 36px; height: 36px;
-            display: flex; align-items: center; justify-content: center;
-            background: none; border: 1px solid var(--border);
-            border-radius: 6px; color: var(--text);
-            font-size: 14px; cursor: pointer;
-        }
-        .mobile-nav-links {
-            list-style: none;
-            margin: 0; padding: 16px 0;
-            flex: 1;
-        }
-        .mobile-nav-links li a {
-            display: block;
-            padding: 16px 24px;
-            font-size: 18px;
-            font-weight: 500;
-            color: var(--text);
-            text-decoration: none;
-            letter-spacing: .04em;
-            border-bottom: 1px solid var(--border);
-            transition: color .2s, background .2s;
-        }
-        .mobile-nav-links li a:hover { color: var(--accent); background: var(--surface-2); }
-        .mobile-menu-footer {
-            padding: 20px 24px;
-            border-top: 1px solid var(--border);
-        }
+        
 
         /* ── TIMELINE RESTORATION ───────────────────────────── */
         /* Override the two-column grid added by previous pass */
@@ -1554,11 +1469,11 @@
         /* ── TABLET 768px ───────────────────────────────────── */
         @media(max-width: 960px) {
             /* Show hamburger, hide desktop nav links */
-            .hamburger { display: flex; }
+            
             .nav-links  { display: none !important; }
             /* Show mobile overlay + drawer */
-            .mobile-menu-overlay { display: block; }
-            .mobile-menu         { display: flex; }
+            
+            
 
             /* Nav layout */
             nav { padding: 14px 24px; }
@@ -1703,12 +1618,333 @@
             .tools-platforms-section { margin-top: 40px; }
         }
 
+    
+        
+
+        
+
+            /* Nav: hamburger | logo | theme toggle */
+            nav { padding: 14px 20px; gap: 12px; }
+            .nav-right { gap: 12px; margin-left: auto; }
+            /* Theme toggle stays visible on mobile */
+            .theme-toggle { display: flex; }
+        }
+
+    
+        /* ══════════════════════════════════════════════════════
+           HAMBURGER + FULL-SCREEN MOBILE NAV  — clean v5
+           ══════════════════════════════════════════════════════ */
+
+        /* ── HAMBURGER BUTTON ───────────────────────────────── */
+        
+        
+        /* Material Symbols icon sizing */
+        
+        /* Toggle: show menu icon by default, close icon when open */
+        
+        
+        
+        
+
+        /* ── FULL-SCREEN NAV OVERLAY ────────────────────────── */
+        
+        
+
+        /* ── OVERLAY INNER LAYOUT ───────────────────────────── */
+        
+
+        /* ── OVERLAY HEADER ─────────────────────────────────── */
+        
+        
+
+        /* ── CLOSE BUTTON ───────────────────────────────────── */
+        
+        
+        
+        
+        
+        
+
+        /* ── NAV LINKS ──────────────────────────────────────── */
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
+        /* ── FOOTER CONTACTS ────────────────────────────────── */
+        
+        
+        
+
+        /* ── SHOW HAMBURGER ON TABLET/MOBILE (≤1024px) ──────── */
+        
+
+        @media (max-width: 600px) {
+            nav { padding-left: 20px; padding-right: 20px; }
+            
+            
+        }
+
+    
+        
+        /* Desktop: hbg hidden, logo is leftmost element */
+        nav { gap: 16px; }
+        .nav-right { margin-left: auto; }   /* pushes links to far right */
+
+        
+        @media (max-width: 600px) {
+            nav { padding-left: 16px; padding-right: 16px; }
+        }
+
+    
+        
+        /* ══ RESPONSIVE BREAKPOINTS ══════════════════════════ */
+
+        /* ── TABLET & MOBILE  ≤ 1024px ──────────────────────── */
+        @media (max-width: 1024px) {
+            /* Show hamburger (right side — last child) */
+            
+
+            /* Hide desktop nav links */
+            .nav-right .nav-links { display: none !important; }
+
+            /* Nav padding */
+            nav { padding-left: 20px !important; padding-right: 20px !important; }
+        }
+
+        /* ── MOBILE ≤ 600px ─────────────────────────────────── */
+        @media (max-width: 600px) {
+            nav { padding-left: 16px !important; padding-right: 16px !important; }
+            
+            
+            
+            
+            
+        }
+
+    
+        
+        
+        /* ── Overlay: ensure display:flex fires correctly ─────── */
+        
+        
+
+    
+        /* ══════════════════════════════════════════════════════
+           MOBILE NAV  —  v7 final
+           ══════════════════════════════════════════════════════ */
+
+        /* ── HAMBURGER BUTTON ───────────────────────────────── */
+        .hbg {
+            display: none;          /* desktop: hidden */
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            background: transparent;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text);
+            flex-shrink: 0;
+            -webkit-tap-highlight-color: transparent;
+            transition: border-color .2s, color .2s;
+        }
+        .hbg:hover { border-color: var(--accent); color: var(--accent); }
+        .hbg-open-icon  { display: block; }
+        .hbg-close-icon { display: none;  }
+        .hbg.is-open .hbg-open-icon  { display: none;  }
+        .hbg.is-open .hbg-close-icon { display: block; }
+
+        /* ── FULL-SCREEN OVERLAY ────────────────────────────── */
+        .fnav {
+            /* Hidden by default — JS toggles inline display:flex */
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 950;
+            background: var(--bg);
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(-8px);
+            transition: opacity .3s ease, transform .3s ease;
+            /* No overflow here — children handle their own scroll */
+        }
+        /* is-open: JS sets display:flex then class triggers transition */
+        .fnav.is-open {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── STICKY HEADER (logo + close button) ────────────── */
+        .fnav-bar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            height: 64px;
+            min-height: 64px;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+        .fnav-brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            font-weight: 500;
+            letter-spacing: .01em;
+            white-space: nowrap;
+        }
+        .fnav-brand .logo-last { color: var(--accent); }
+
+        /* ── CLOSE ✕ BUTTON ─────────────────────────────────── */
+        .fnav-x {
+            display: flex !important;   /* always visible when fnav is open */
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text);
+            flex-shrink: 0;
+            -webkit-tap-highlight-color: transparent;
+            transition: border-color .2s, color .2s, background .2s;
+        }
+        .fnav-x:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--surface-2, rgba(255,255,255,.06));
+        }
+        .fnav-x svg { display: block; flex-shrink: 0; }
+
+        /* ── SCROLLABLE BODY ────────────────────────────────── */
+        .fnav-body {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── NAV LINKS (vertically centred) ────────────────── */
+        .fnav-links {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 8px 28px 0;
+        }
+        .fnav-link {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+            text-decoration: none;
+            color: var(--text);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity .28s ease, transform .28s ease, color .18s;
+        }
+        .fnav-link:last-child { border-bottom: none; }
+        .fnav.is-open .fnav-link              { opacity: 1; transform: translateY(0); }
+        .fnav.is-open .fnav-link:nth-child(1) { transition-delay: .06s; }
+        .fnav.is-open .fnav-link:nth-child(2) { transition-delay: .10s; }
+        .fnav.is-open .fnav-link:nth-child(3) { transition-delay: .14s; }
+        .fnav.is-open .fnav-link:nth-child(4) { transition-delay: .18s; }
+        .fnav.is-open .fnav-link:nth-child(5) { transition-delay: .22s; }
+        .fnav.is-open .fnav-link:nth-child(6) { transition-delay: .26s; }
+        .fnav-link:hover               { color: var(--accent); }
+        .fnav-link:hover .fnav-arr     { color: var(--accent); transform: translate(3px, -3px); }
+
+        .fnav-num {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .16em;
+            color: var(--accent);
+            width: 22px;
+            flex-shrink: 0;
+        }
+        .fnav-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(34px, 7vw, 52px);
+            font-weight: 300;
+            letter-spacing: -.02em;
+            line-height: 1;
+            flex: 1;
+        }
+        .fnav-arr {
+            font-size: 18px;
+            color: var(--text-dim);
+            flex-shrink: 0;
+            transition: transform .2s, color .2s;
+        }
+
+        /* ── FOOTER CONTACT LINKS ───────────────────────────── */
+        .fnav-foot {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px 16px;
+            padding: 20px 28px 28px;
+            border-top: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+        .fnav-dot  { color: var(--text-dim); font-size: 12px; }
+        .fnav-clink {
+            font-size: 12px;
+            color: var(--text-dim);
+            text-decoration: none;
+            text-transform: none !important;
+            letter-spacing: .03em;
+            transition: color .2s;
+        }
+        .fnav-clink:hover { color: var(--accent); }
+
+        /* ── SHOW HAMBURGER ≤ 1024px ────────────────────────── */
+        @media (max-width: 1024px) {
+            .hbg { display: flex; }
+            .nav-right .nav-links { display: none !important; }
+            nav { padding-left: 20px !important; padding-right: 20px !important; }
+        }
+        @media (max-width: 600px) {
+            nav { padding-left: 16px !important; padding-right: 16px !important; }
+            .fnav-bar   { padding: 0 16px; height: 60px; }
+            .fnav-links { padding: 8px 16px 0; }
+            .fnav-foot  { padding: 16px 16px 24px; }
+            .fnav-link  { padding: 16px 0; }
+            .fnav-text  { font-size: clamp(28px, 8vw, 40px); }
+        }
+
     </style>
 </head>
 <body>
 
 <nav id="nav">
-    <a href="#" class="nav-logo"><span class="logo-first">Abhishek</span>&thinsp;<span class="logo-last">V. Patade</span></a>
+    <!-- Logo — always visible, left -->
+    <a href="#" class="nav-logo">
+        <span class="logo-first">Abhishek</span>&thinsp;<span class="logo-last">V. Patade</span>
+    </a>
+
+    <!-- Desktop nav + theme toggle — hidden below 1024px -->
     <div class="nav-right">
         <ul class="nav-links">
             <li><a href="#expertise">Expertise</a></li>
@@ -1722,334 +1958,59 @@
             <span class="toggle-icon"></span>
             <span id="toggleLabel">Light</span>
         </button>
-        <button class="hamburger" id="hamburger" aria-label="Open menu" onclick="toggleMobileMenu()">
-            <span></span><span></span><span></span>
-        </button>
     </div>
+
+    <!-- Kebab / hamburger — right side, tablet & mobile only -->
+    <button class="hbg" id="hbg" aria-label="Open navigation" aria-expanded="false" onclick="hbgToggle()">
+        <svg class="hbg-open-icon" width="4" height="18" viewBox="0 0 4 18" fill="none" aria-hidden="true">
+            <circle cx="2" cy="2"  r="2" fill="currentColor"/>
+            <circle cx="2" cy="9"  r="2" fill="currentColor"/>
+            <circle cx="2" cy="16" r="2" fill="currentColor"/>
+        </svg>
+        <svg class="hbg-close-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <line x1="1" y1="1" x2="13" y2="13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <line x1="13" y1="1" x2="1"  y2="13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+    </button>
 </nav>
+<!-- ══ MOBILE NAV OVERLAY ══════════════════════════════════════════════ -->
+<div class="fnav" id="fnavOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Navigation menu">
 
-<!-- Mobile menu overlay -->
-<div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenu()"></div>
-<div class="mobile-menu" id="mobileMenu">
-    <div class="mobile-menu-header">
-        <span class="nav-logo"><span class="logo-first">Abhishek</span>&thinsp;<span class="logo-last">V. Patade</span></span>
-        <button class="mobile-menu-close" onclick="closeMobileMenu()" aria-label="Close menu">&#10005;</button>
-    </div>
-    <ul class="mobile-nav-links">
-        <li><a href="#expertise" onclick="closeMobileMenu()">Expertise</a></li>
-        <li><a href="#experience" onclick="closeMobileMenu()">Experience</a></li>
-        <li><a href="#skills" onclick="closeMobileMenu()">Skills</a></li>
-        <li><a href="#work" onclick="closeMobileMenu()">Work</a></li>
-        <li><a href="#resume" onclick="closeMobileMenu()">Resume</a></li>
-        <li><a href="#contact" onclick="closeMobileMenu()">Contact</a></li>
-    </ul>
-    <div class="mobile-menu-footer">
-        <button class="theme-toggle" onclick="toggleTheme();closeMobileMenu()" aria-label="Toggle theme">
-            <span class="toggle-icon"></span>
-            <span>Toggle Theme</span>
+    <!-- Sticky header: logo left, close right -->
+    <div class="fnav-bar">
+        <span class="fnav-brand">
+            <span class="logo-first">Abhishek</span>&thinsp;<span class="logo-last">V. Patade</span>
+        </span>
+        <button class="fnav-x" id="fnavClose" onclick="hbgClose()" aria-label="Close navigation">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <line x1="2.5" y1="2.5" x2="15.5" y2="15.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <line x1="15.5" y1="2.5" x2="2.5"  y2="15.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
         </button>
     </div>
-</div>
 
-<section id="hero">
-    <div class="hero-overlay"></div>
-    <div class="hero-visual" aria-hidden="true">
-    <svg class="hero-illustration" viewBox="0 0 580 480" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <linearGradient id="hgCard" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#1c1c2a"/>
-                <stop offset="100%" stop-color="#13131e"/>
-            </linearGradient>
-            <linearGradient id="hgGold" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#c58b1a"/>
-                <stop offset="100%" stop-color="#e8b84b"/>
-            </linearGradient>
-            <linearGradient id="hgBar" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#c58b1a" stop-opacity="0.9"/>
-                <stop offset="100%" stop-color="#c58b1a" stop-opacity="0.3"/>
-            </linearGradient>
-            <filter id="hShadow" x="-10%" y="-10%" width="120%" height="130%">
-                <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#000" flood-opacity="0.4"/>
-            </filter>
-            <filter id="hShadowSm" x="-5%" y="-5%" width="115%" height="125%">
-                <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.3"/>
-            </filter>
-        </defs>
-
-        <!-- ── BACKGROUND GLOW ──────────────────────────────── -->
-        <ellipse cx="420" cy="200" rx="180" ry="140" fill="#c58b1a" opacity="0.04"/>
-        <ellipse cx="200" cy="380" rx="120" ry="80" fill="#4a7fa5" opacity="0.05"/>
-
-        <!-- ── GRID DOTS (subtle background texture) ─────────── -->
-        <g opacity="0.06">
-            <circle cx="360" cy="40"  r="1.2" fill="#c58b1a"/>
-            <circle cx="376" cy="40"  r="1.2" fill="#c58b1a"/>
-            <circle cx="392" cy="40"  r="1.2" fill="#c58b1a"/>
-            <circle cx="408" cy="40"  r="1.2" fill="#c58b1a"/>
-            <circle cx="424" cy="40"  r="1.2" fill="#c58b1a"/>
-            <circle cx="360" cy="56"  r="1.2" fill="#c58b1a"/>
-            <circle cx="376" cy="56"  r="1.2" fill="#c58b1a"/>
-            <circle cx="392" cy="56"  r="1.2" fill="#c58b1a"/>
-            <circle cx="408" cy="56"  r="1.2" fill="#c58b1a"/>
-            <circle cx="424" cy="56"  r="1.2" fill="#c58b1a"/>
-            <circle cx="440" cy="56"  r="1.2" fill="#c58b1a"/>
-            <circle cx="360" cy="72"  r="1.2" fill="#c58b1a"/>
-            <circle cx="376" cy="72"  r="1.2" fill="#c58b1a"/>
-            <circle cx="408" cy="72"  r="1.2" fill="#c58b1a"/>
-            <circle cx="440" cy="72"  r="1.2" fill="#c58b1a"/>
-            <circle cx="456" cy="72"  r="1.2" fill="#c58b1a"/>
-        </g>
-
-        <!-- ══════════════════════════════════════════════════
-             MAIN DASHBOARD CARD
-             ══════════════════════════════════════════════════ -->
-        <rect x="30" y="30" width="348" height="272" rx="14" fill="url(#hgCard)" filter="url(#hShadow)"/>
-
-        <!-- Browser chrome -->
-        <rect x="30" y="30" width="348" height="38" rx="14" fill="#161622"/>
-        <rect x="30" y="54"  width="348" height="14" fill="#161622"/>
-        <!-- Traffic dots -->
-        <circle cx="52" cy="49" r="5.5" fill="#ff5f57" opacity="0.75"/>
-        <circle cx="70" cy="49" r="5.5" fill="#febc2e" opacity="0.75"/>
-        <circle cx="88" cy="49" r="5.5" fill="#28c840" opacity="0.75"/>
-        <!-- URL bar -->
-        <rect x="108" y="42" width="184" height="14" rx="7" fill="#0c0c18" opacity="0.8"/>
-        <rect x="113" y="45" width="52"  height="8"  rx="4" fill="#c58b1a" opacity="0.5"/>
-        <rect x="170" y="47" width="60"  height="4"  rx="2" fill="#2a2a40" opacity="0.8"/>
-        <!-- Lock icon area -->
-        <rect x="305" y="44" width="8" height="10" rx="1" fill="#3a3a50" opacity="0.7"/>
-
-        <!-- Left sidebar -->
-        <rect x="30" y="68" width="66" height="234" fill="#141420" opacity="0.8" rx="0"/>
-        <rect x="30" y="68" width="66" height="234" fill="url(#hgCard)"/>
-        <!-- Sidebar nav items -->
-        <rect x="40" y="82"  width="46" height="8" rx="4" fill="#c58b1a" opacity="0.85"/>
-        <rect x="40" y="100" width="36" height="6" rx="3" fill="#2a2a42" opacity="0.9"/>
-        <rect x="40" y="116" width="40" height="6" rx="3" fill="#2a2a42" opacity="0.9"/>
-        <rect x="40" y="132" width="34" height="6" rx="3" fill="#2a2a42" opacity="0.7"/>
-        <rect x="40" y="148" width="38" height="6" rx="3" fill="#2a2a42" opacity="0.7"/>
-        <rect x="40" y="164" width="32" height="6" rx="3" fill="#2a2a42" opacity="0.5"/>
-        <rect x="40" y="180" width="40" height="6" rx="3" fill="#2a2a42" opacity="0.5"/>
-        <rect x="40" y="196" width="30" height="6" rx="3" fill="#2a2a42" opacity="0.4"/>
-        <line x1="96" y1="68" x2="96" y2="302" stroke="#2a2a3e" stroke-width="1"/>
-
-        <!-- Main content area -->
-        <!-- Page title row -->
-        <rect x="108" y="76" width="72" height="7" rx="3.5" fill="#4a4a6e" opacity="0.6"/>
-        <rect x="290" y="74" width="38" height="11" rx="5.5" fill="#c58b1a" opacity="0.85"/>
-        <rect x="293" y="77" width="32" height="5"  rx="2.5" fill="#0c0c18"/>
-
-        <!-- KPI row: 3 stat cards -->
-        <!-- Card 1 -->
-        <rect x="108" y="92" width="72" height="46" rx="7" fill="#1a1a2c"/>
-        <rect x="114" y="98"  width="30" height="5"  rx="2.5" fill="#3a3a5a" opacity="0.8"/>
-        <rect x="114" y="108" width="44" height="10" rx="5" fill="#c58b1a" opacity="0.9"/>
-        <rect x="114" y="122" width="24" height="4"  rx="2" fill="#3a8a5a" opacity="0.8"/>
-        <!-- Card 2 -->
-        <rect x="188" y="92" width="72" height="46" rx="7" fill="#1a1a2c"/>
-        <rect x="194" y="98"  width="36" height="5"  rx="2.5" fill="#3a3a5a" opacity="0.8"/>
-        <rect x="194" y="108" width="38" height="10" rx="5" fill="#e0e0e8" opacity="0.85"/>
-        <rect x="194" y="122" width="28" height="4"  rx="2" fill="#c58b1a" opacity="0.7"/>
-        <!-- Card 3 -->
-        <rect x="268" y="92" width="72" height="46" rx="7" fill="#1a1a2c"/>
-        <rect x="274" y="98"  width="28" height="5"  rx="2.5" fill="#3a3a5a" opacity="0.8"/>
-        <rect x="274" y="108" width="50" height="10" rx="5" fill="#e0e0e8" opacity="0.85"/>
-        <rect x="274" y="122" width="20" height="4"  rx="2" fill="#4a8a6a" opacity="0.8"/>
-
-        <!-- Bar chart section -->
-        <rect x="108" y="148" width="136" height="90" rx="7" fill="#161624"/>
-        <!-- Chart label -->
-        <rect x="114" y="156" width="48" height="5" rx="2.5" fill="#3a3a5a" opacity="0.7"/>
-        <rect x="248" y="154" width="20" height="7" rx="3.5" fill="#c58b1a" opacity="0.2"/>
-        <rect x="250" y="156" width="16" height="3" rx="1.5" fill="#c58b1a" opacity="0.8"/>
-        <!-- Bar chart bars -->
-        <rect x="118" y="205" width="12" height="22" rx="2" fill="url(#hgBar)"/>
-        <rect x="136" y="192" width="12" height="35" rx="2" fill="url(#hgBar)" opacity="0.9"/>
-        <rect x="154" y="199" width="12" height="28" rx="2" fill="url(#hgBar)" opacity="0.7"/>
-        <rect x="172" y="180" width="12" height="47" rx="2" fill="url(#hgBar)"/>
-        <rect x="190" y="194" width="12" height="33" rx="2" fill="url(#hgBar)" opacity="0.8"/>
-        <rect x="208" y="201" width="12" height="26" rx="2" fill="url(#hgBar)" opacity="0.6"/>
-        <rect x="226" y="186" width="12" height="41" rx="2" fill="url(#hgBar)" opacity="0.95"/>
-        <!-- Baseline -->
-        <line x1="113" y1="228" x2="239" y2="228" stroke="#2a2a40" stroke-width="1"/>
-        <!-- Trend line overlay -->
-        <polyline points="124,212 142,199 160,205 178,187 196,200 214,207 232,193"
-            fill="none" stroke="#c58b1a" stroke-width="1.5"
-            stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
-
-        <!-- List / table panel -->
-        <rect x="252" y="148" width="118" height="90" rx="7" fill="#161624"/>
-        <rect x="258" y="156" width="56" height="5" rx="2.5" fill="#3a3a5a" opacity="0.7"/>
-        <!-- Table rows -->
-        <rect x="258" y="168" width="106" height="8" rx="4" fill="#1e1e30"/>
-        <rect x="260" y="171" width="6"   height="2" rx="1" fill="#4a8a6a" opacity="0.9"/>
-        <rect x="270" y="171" width="46"  height="2" rx="1" fill="#3a3a58" opacity="0.7"/>
-        <rect x="352" y="170" width="8"   height="4" rx="2" fill="#c58b1a" opacity="0.5"/>
-        <rect x="258" y="180" width="106" height="8" rx="4" fill="#1a1a28"/>
-        <rect x="260" y="183" width="6"   height="2" rx="1" fill="#c58b1a" opacity="0.9"/>
-        <rect x="270" y="183" width="38"  height="2" rx="1" fill="#3a3a58" opacity="0.7"/>
-        <rect x="352" y="182" width="8"   height="4" rx="2" fill="#4a8a6a" opacity="0.6"/>
-        <rect x="258" y="192" width="106" height="8" rx="4" fill="#1e1e30"/>
-        <rect x="260" y="195" width="6"   height="2" rx="1" fill="#5a7fa5" opacity="0.9"/>
-        <rect x="270" y="195" width="52"  height="2" rx="1" fill="#3a3a58" opacity="0.7"/>
-        <rect x="352" y="194" width="8"   height="4" rx="2" fill="#5a7fa5" opacity="0.5"/>
-        <rect x="258" y="204" width="106" height="8" rx="4" fill="#1a1a28"/>
-        <rect x="260" y="207" width="6"   height="2" rx="1" fill="#4a8a6a" opacity="0.7"/>
-        <rect x="270" y="207" width="42"  height="2" rx="1" fill="#3a3a58" opacity="0.6"/>
-        <rect x="352" y="206" width="8"   height="4" rx="2" fill="#3a3a5a" opacity="0.5"/>
-        <rect x="258" y="216" width="106" height="8" rx="4" fill="#1e1e30"/>
-        <rect x="260" y="219" width="6"   height="2" rx="1" fill="#8a5a9a" opacity="0.9"/>
-        <rect x="270" y="219" width="50"  height="2" rx="1" fill="#3a3a58" opacity="0.6"/>
-        <rect x="352" y="218" width="8"   height="4" rx="2" fill="#c58b1a" opacity="0.4"/>
-        <rect x="258" y="228" width="106" height="8" rx="4" fill="#1a1a28"/>
-        <rect x="260" y="231" width="6"   height="2" rx="1" fill="#c58b1a" opacity="0.7"/>
-        <rect x="270" y="231" width="34"  height="2" rx="1" fill="#3a3a58" opacity="0.5"/>
-
-        <!-- ══════════════════════════════════════════════════
-             FLOATING CARD 1 — KPI / ANALYTICS
-             ══════════════════════════════════════════════════ -->
-        <rect x="360" y="16" width="196" height="124" rx="12" fill="url(#hgCard)" filter="url(#hShadow)" stroke="#2a2a3e" stroke-width="1"/>
-        <!-- Header -->
-        <rect x="360" y="16" width="196" height="30" rx="12" fill="#161622"/>
-        <rect x="360" y="34"  width="196" height="12" fill="#161622"/>
-        <rect x="372" y="24"  width="8"   height="8" rx="4" fill="#c58b1a" opacity="0.9"/>
-        <rect x="384" y="26"  width="56"  height="4" rx="2" fill="#2a2a42" opacity="0.9"/>
-        <rect x="524" y="22"  width="20"  height="8" rx="4" fill="#c58b1a" opacity="0.15"/>
-        <rect x="526" y="24"  width="16"  height="4" rx="2" fill="#c58b1a" opacity="0.8"/>
-        <!-- Donut chart -->
-        <circle cx="540" cy="97" r="26" fill="none" stroke="#1e1e2e" stroke-width="10"/>
-        <circle cx="540" cy="97" r="26" fill="none" stroke="#c58b1a" stroke-width="10"
-            stroke-dasharray="110 54" stroke-dashoffset="40" opacity="0.9"/>
-        <circle cx="540" cy="97" r="26" fill="none" stroke="#3a5a7a" stroke-width="10"
-            stroke-dasharray="34 130" stroke-dashoffset="-70" opacity="0.7"/>
-        <!-- Center label -->
-        <rect x="530" y="91"  width="20"  height="8" rx="4" fill="#e0e0e8" opacity="0.7"/>
-        <!-- Left content -->
-        <rect x="372" y="50"  width="38"  height="10" rx="5" fill="#c58b1a" opacity="0.9"/>
-        <rect x="372" y="65"  width="52"  height="4"  rx="2" fill="#3a3a5a" opacity="0.7"/>
-        <rect x="372" y="74"  width="28"  height="4"  rx="2" fill="#4a8a6a" opacity="0.8"/>
-        <line x1="372" y1="86" x2="500" y2="86" stroke="#2a2a3e" stroke-width="1"/>
-        <rect x="372" y="92"  width="44"  height="5"  rx="2.5" fill="#3a3a5a" opacity="0.6"/>
-        <rect x="372" y="102" width="36"  height="5"  rx="2.5" fill="#3a3a5a" opacity="0.5"/>
-        <rect x="372" y="112" width="52"  height="5"  rx="2.5" fill="#3a3a5a" opacity="0.4"/>
-        <rect x="372" y="124" width="30"  height="7"  rx="3.5" fill="#c58b1a" opacity="0.15"/>
-        <rect x="375" y="126" width="24"  height="3"  rx="1.5" fill="#c58b1a" opacity="0.9"/>
-
-        <!-- ══════════════════════════════════════════════════
-             FLOATING CARD 2 — DESIGN SYSTEM TOKENS
-             ══════════════════════════════════════════════════ -->
-        <rect x="380" y="158" width="176" height="122" rx="12" fill="url(#hgCard)" filter="url(#hShadow)" stroke="#2a2a3e" stroke-width="1"/>
-        <rect x="380" y="158" width="176" height="28" rx="12" fill="#161622"/>
-        <rect x="380" y="174" width="176" height="12" fill="#161622"/>
-        <rect x="392" y="165" width="6"   height="6" rx="3" fill="#c58b1a" opacity="0.85"/>
-        <rect x="402" y="167" width="52"  height="4" rx="2" fill="#2a2a42" opacity="0.9"/>
-        <!-- Token swatches row -->
-        <rect x="392" y="194" width="16" height="16" rx="4" fill="#c58b1a" opacity="0.9"/>
-        <rect x="412" y="194" width="16" height="16" rx="4" fill="#e8b84b" opacity="0.7"/>
-        <rect x="432" y="194" width="16" height="16" rx="4" fill="#1e1e30"/>
-        <rect x="452" y="194" width="16" height="16" rx="4" fill="#2a2a42"/>
-        <rect x="472" y="194" width="16" height="16" rx="4" fill="#4a7fa5" opacity="0.7"/>
-        <rect x="492" y="194" width="16" height="16" rx="4" fill="#4a8a6a" opacity="0.7"/>
-        <rect x="512" y="194" width="16" height="16" rx="4" fill="#8a5a9a" opacity="0.7"/>
-        <!-- Token labels -->
-        <rect x="392" y="214" width="14" height="3" rx="1.5" fill="#3a3a5a" opacity="0.5"/>
-        <rect x="412" y="214" width="14" height="3" rx="1.5" fill="#3a3a5a" opacity="0.5"/>
-        <rect x="432" y="214" width="14" height="3" rx="1.5" fill="#3a3a5a" opacity="0.5"/>
-        <rect x="452" y="214" width="14" height="3" rx="1.5" fill="#3a3a5a" opacity="0.5"/>
-        <rect x="472" y="214" width="14" height="3" rx="1.5" fill="#3a3a5a" opacity="0.5"/>
-        <!-- Typography scale -->
-        <rect x="392" y="224" width="72" height="9" rx="4.5" fill="#e0e0e8" opacity="0.8"/>
-        <rect x="392" y="237" width="56" height="7" rx="3.5" fill="#e0e0e8" opacity="0.6"/>
-        <rect x="392" y="248" width="40" height="5" rx="2.5" fill="#e0e0e8" opacity="0.45"/>
-        <rect x="392" y="258" width="28" height="4" rx="2"   fill="#e0e0e8" opacity="0.3"/>
-        <!-- Component snippets -->
-        <rect x="468" y="224" width="76" height="18" rx="9" fill="#c58b1a" opacity="0.8"/>
-        <rect x="472" y="230" width="52" height="6"  rx="3" fill="#0c0c18" opacity="0.5"/>
-        <rect x="468" y="248" width="76" height="18" rx="9" fill="#1e1e30" stroke="#2a2a42" stroke-width="1"/>
-        <rect x="472" y="254" width="40" height="6"  rx="3" fill="#3a3a5a" opacity="0.7"/>
-
-        <!-- ══════════════════════════════════════════════════
-             FLOATING CARD 3 — AI INSIGHT PANEL
-             ══════════════════════════════════════════════════ -->
-        <rect x="30" y="316" width="195" height="92" rx="12" fill="url(#hgCard)" filter="url(#hShadowSm)" stroke="#2a2a3e" stroke-width="1"/>
-        <rect x="30" y="316" width="195" height="26" rx="12" fill="#161622"/>
-        <rect x="30" y="330"  width="195" height="12" fill="#161622"/>
-        <!-- AI badge -->
-        <rect x="42" y="321" width="28" height="14" rx="7" fill="#c58b1a" opacity="0.2"/>
-        <rect x="44" y="324" width="24" height="8"  rx="4" fill="#c58b1a" opacity="0.3"/>
-        <text x="56" y="330" text-anchor="middle" font-size="7" fill="#c58b1a" font-family="monospace" font-weight="700" opacity="0.95">AI</text>
-        <rect x="76" y="325" width="60"  height="4" rx="2" fill="#2a2a42" opacity="0.9"/>
-        <rect x="42" y="348" width="170" height="4" rx="2" fill="#3a3a5a" opacity="0.6"/>
-        <rect x="42" y="356" width="145" height="4" rx="2" fill="#3a3a5a" opacity="0.5"/>
-        <rect x="42" y="364" width="125" height="4" rx="2" fill="#3a3a5a" opacity="0.4"/>
-        <rect x="42" y="376" width="60"  height="8" rx="4" fill="#c58b1a" opacity="0.12"/>
-        <rect x="44" y="378" width="40"  height="4" rx="2" fill="#c58b1a" opacity="0.85"/>
-        <rect x="108" y="376" width="50" height="8" rx="4" fill="#1e1e30"/>
-        <rect x="110" y="378" width="36" height="4" rx="2" fill="#3a3a58" opacity="0.7"/>
-
-        <!-- ══════════════════════════════════════════════════
-             FLOATING CARD 4 — WORKFLOW / PROGRESS
-             ══════════════════════════════════════════════════ -->
-        <rect x="236" y="308" width="180" height="100" rx="12" fill="url(#hgCard)" filter="url(#hShadowSm)" stroke="#2a2a3e" stroke-width="1"/>
-        <rect x="236" y="308" width="180" height="26" rx="12" fill="#161622"/>
-        <rect x="236" y="322"  width="180" height="12" fill="#161622"/>
-        <rect x="248" y="315" width="6"   height="6" rx="3" fill="#4a8a6a" opacity="0.9"/>
-        <rect x="258" y="317" width="52"  height="4" rx="2" fill="#2a2a42" opacity="0.9"/>
-        <!-- Progress bars -->
-        <rect x="248" y="340" width="40"  height="4" rx="2" fill="#3a3a5a" opacity="0.6"/>
-        <rect x="248" y="348" width="154" height="7" rx="3.5" fill="#1e1e30"/>
-        <rect x="248" y="348" width="118" height="7" rx="3.5" fill="#c58b1a" opacity="0.7"/>
-        <rect x="406" y="347" width="18"  height="5" rx="2.5" fill="#e0e0e8" opacity="0.5"/>
-        <rect x="248" y="362" width="40"  height="4" rx="2" fill="#3a3a5a" opacity="0.5"/>
-        <rect x="248" y="370" width="154" height="7" rx="3.5" fill="#1e1e30"/>
-        <rect x="248" y="370" width="88"  height="7" rx="3.5" fill="#4a8a6a" opacity="0.65"/>
-        <rect x="406" y="369" width="18"  height="5" rx="2.5" fill="#e0e0e8" opacity="0.5"/>
-        <rect x="248" y="384" width="40"  height="4" rx="2" fill="#3a3a5a" opacity="0.4"/>
-        <rect x="248" y="392" width="154" height="7" rx="3.5" fill="#1e1e30"/>
-        <rect x="248" y="392" width="134" height="7" rx="3.5" fill="#5a7fa5" opacity="0.6"/>
-        <rect x="406" y="391" width="18"  height="5" rx="2.5" fill="#e0e0e8" opacity="0.5"/>
-
-        <!-- ══════════════════════════════════════════════════
-             FLOATING CARD 5 — METRIC BADGE
-             ══════════════════════════════════════════════════ -->
-        <rect x="428" y="298" width="128" height="112" rx="12" fill="url(#hgCard)" filter="url(#hShadowSm)" stroke="#2a2a3e" stroke-width="1"/>
-        <rect x="428" y="298" width="128" height="26" rx="12" fill="#161622"/>
-        <rect x="428" y="312"  width="128" height="12" fill="#161622"/>
-        <rect x="440" y="305" width="6"   height="6" rx="3" fill="#8a5a9a" opacity="0.9"/>
-        <rect x="450" y="307" width="40"  height="4" rx="2" fill="#2a2a42" opacity="0.9"/>
-        <!-- Big metric -->
-        <rect x="440" y="332" width="64"  height="14" rx="7" fill="#e0e0e8" opacity="0.9"/>
-        <rect x="440" y="350" width="38"  height="5"  rx="2.5" fill="#3a3a5a" opacity="0.7"/>
-        <!-- Sparkline -->
-        <polyline points="440,378 451,370 462,374 473,364 484,368 495,360 506,363 517,356 528,360 539,352 550,356"
-            fill="none" stroke="#c58b1a" stroke-width="1.5"
-            stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
-        <rect x="440" y="396" width="30"  height="5"  rx="2.5" fill="#4a8a6a" opacity="0.7"/>
-        <rect x="474" y="396" width="36"  height="5"  rx="2.5" fill="#3a3a5a" opacity="0.5"/>
-
-        <!-- ── CONNECTOR LINES (editorial touch) ─────────── -->
-        <path d="M 378 88 Q 370 88 370 140 L 370 152" stroke="#c58b1a" stroke-width="0.8" stroke-dasharray="3,2.5" fill="none" opacity="0.25"/>
-        <path d="M 378 240 Q 374 270 428 298" stroke="#4a7fa5" stroke-width="0.8" stroke-dasharray="3,2.5" fill="none" opacity="0.2"/>
-
-        <!-- ── CURSOR INDICATOR ──────────────────────────── -->
-        <circle cx="258" cy="178" r="7"   fill="#c58b1a" opacity="0.12"/>
-        <circle cx="258" cy="178" r="3.5" fill="#c58b1a" opacity="0.85"/>
-        <line x1="258" y1="168" x2="258" y2="158" stroke="#c58b1a" stroke-width="1" opacity="0.4"/>
-        <line x1="268" y1="178" x2="278" y2="178" stroke="#c58b1a" stroke-width="1" opacity="0.4"/>
-    </svg>
-</div>
-    <div class="hero-content reveal">
-        <h1 class="hero-name">Abhishek Vilas Patade</h1>
-        <p class="hero-role">Principal Product Designer</p>
-        <p class="hero-subtitle">UX Strategy&nbsp;&bull;&nbsp;Enterprise SaaS&nbsp;&bull;&nbsp;BFSI &amp; Insurtech&nbsp;&bull;&nbsp;Compliance Platforms&nbsp;&bull;&nbsp;Design Systems&nbsp;&bull;&nbsp;AI-Powered Experiences</p>
-        <p class="hero-summary">Product design leader with 18+ years of experience shaping enterprise SaaS, BFSI, Insurtech, and compliance platforms. I help organisations simplify complex workflows, scale design systems, and deliver intuitive user experiences that drive adoption and business impact. Experienced in leading design teams, partnering with stakeholders, and transforming product strategy into measurable outcomes.</p>
-        <div class="hero-cta">
-            <a href="#contact" class="btn-primary">&#8594;&nbsp; Let&#8217;s Talk</a>
-            <a href="https://www.linkedin.com/in/abhipatade/" target="_blank" class="btn-secondary">View LinkedIn &nbsp;&#8599;</a>
-            <a href="#resume" class="btn-tertiary">Download Resume</a>
+    <!-- Scrollable body: nav links + footer -->
+    <div class="fnav-body">
+        <nav class="fnav-links" aria-label="Mobile navigation">
+            <a href="#expertise"  class="fnav-link" onclick="hbgClose()"><span class="fnav-num">01</span><span class="fnav-text">Expertise</span><span class="fnav-arr">&#8599;</span></a>
+            <a href="#experience" class="fnav-link" onclick="hbgClose()"><span class="fnav-num">02</span><span class="fnav-text">Experience</span><span class="fnav-arr">&#8599;</span></a>
+            <a href="#skills"     class="fnav-link" onclick="hbgClose()"><span class="fnav-num">03</span><span class="fnav-text">Skills</span><span class="fnav-arr">&#8599;</span></a>
+            <a href="#work"       class="fnav-link" onclick="hbgClose()"><span class="fnav-num">04</span><span class="fnav-text">Work</span><span class="fnav-arr">&#8599;</span></a>
+            <a href="#resume"     class="fnav-link" onclick="hbgClose()"><span class="fnav-num">05</span><span class="fnav-text">Resume</span><span class="fnav-arr">&#8599;</span></a>
+            <a href="#contact"    class="fnav-link" onclick="hbgClose()"><span class="fnav-num">06</span><span class="fnav-text">Contact</span><span class="fnav-arr">&#8599;</span></a>
+        </nav>
+        <div class="fnav-foot">
+            <a href="mailto:abhipatade@gmail.com" class="fnav-clink">abhipatade@gmail.com</a>
+            <span class="fnav-dot">&#183;</span>
+            <a href="https://linkedin.com/in/abhipatade" target="_blank" class="fnav-clink">LinkedIn &#8599;</a>
         </div>
     </div>
-</section>
+
+</div>
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+
+
 
 
 
@@ -3094,36 +3055,100 @@
 </div>
 
 <script>
+/* ══ MOBILE NAV ═══════════════════════════════════════════════════════════ */
+(function () {
+    'use strict';
+
+    var overlay = null;
+    var hbgBtn  = null;
+    var isOpen  = false;
+
+    function init() {
+        overlay = document.getElementById('fnavOverlay');
+        hbgBtn  = document.getElementById('hbg');
+    }
+
+    function open() {
+        if (!overlay) init();
+        if (!overlay) return;
+        isOpen = true;
+
+        /* 1. Make overlay visible in the layout */
+        overlay.style.display = 'flex';
+
+        /* 2. Force a reflow so the browser registers the element
+              before we add .is-open (which triggers CSS transitions) */
+        void overlay.offsetHeight;
+
+        /* 3. Trigger fade-in + slide-in transition */
+        overlay.classList.add('is-open');
+        overlay.setAttribute('aria-hidden', 'false');
+
+        /* 4. Hamburger icon → close icon */
+        hbgBtn.classList.add('is-open');
+        hbgBtn.setAttribute('aria-expanded', 'true');
+        hbgBtn.setAttribute('aria-label', 'Close navigation');
+
+        /* 5. Lock background scroll */
+        document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+        if (!overlay) init();
+        if (!overlay) return;
+        isOpen = false;
+
+        /* Reverse transitions */
+        overlay.classList.remove('is-open');
+        overlay.setAttribute('aria-hidden', 'true');
+
+        /* Restore hamburger icon */
+        hbgBtn.classList.remove('is-open');
+        hbgBtn.setAttribute('aria-expanded', 'false');
+        hbgBtn.setAttribute('aria-label', 'Open navigation');
+
+        /* Restore background scroll */
+        document.body.style.overflow = '';
+
+        /* After CSS transition ends, set display:none */
+        overlay.addEventListener('transitionend', function onEnd(e) {
+            if (e.propertyName !== 'opacity') return;
+            overlay.removeEventListener('transitionend', onEnd);
+            if (!isOpen) overlay.style.display = 'none';
+        });
+    }
+
+    window.hbgToggle = function () { isOpen ? close() : open(); };
+    window.hbgOpen   = open;
+    window.hbgClose  = close;
+
+    /* Keyboard: Escape closes */
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && isOpen) close();
+    });
+
+    /* Init on DOM ready */
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
+/* ═════════════════════════════════════════════════════════════════════════ */
+
+
+
+
+
+// ════════════════════════════════════════════════════════════════════════════
+
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', function() { nav.classList.toggle('scrolled', window.scrollY > 40); });
 
     var html = document.documentElement;
     var label = document.getElementById('toggleLabel');
     
-// ── MOBILE MENU ────────────────────────────────────────────────────────────
-function toggleMobileMenu() {
-    const menu    = document.getElementById('mobileMenu');
-    const overlay = document.getElementById('mobileMenuOverlay');
-    const hamburger = document.getElementById('hamburger');
-    const isOpen  = menu.classList.contains('is-open');
-    if (isOpen) {
-        closeMobileMenu();
-    } else {
-        menu.classList.add('is-open');
-        overlay.classList.add('is-open');
-        hamburger.classList.add('is-active');
-        document.body.style.overflow = 'hidden';
-    }
-}
-function closeMobileMenu() {
-    const menu    = document.getElementById('mobileMenu');
-    const overlay = document.getElementById('mobileMenuOverlay');
-    const hamburger = document.getElementById('hamburger');
-    menu.classList.remove('is-open');
-    overlay.classList.remove('is-open');
-    hamburger.classList.remove('is-active');
-    document.body.style.overflow = '';
-}
+
 
 function toggleTheme() {
         var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
