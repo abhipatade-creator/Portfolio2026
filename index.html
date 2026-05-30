@@ -2008,6 +2008,57 @@
             pointer-events: none; z-index: 0;
         }
     
+    
+        /* ── TIMELINE VERTICAL LINE FIX ─────────────────────── */
+        /* Override all previous display:none rules on timeline pseudo-elements */
+        .timeline {
+            position: relative !important;
+            padding-left: 32px !important;
+        }
+        .timeline::before {
+            content: '' !important;
+            display: block !important;
+            position: absolute !important;
+            left: 0 !important;
+            top: 10px !important;
+            bottom: 0 !important;
+            width: 1px !important;
+            background: linear-gradient(to bottom, var(--accent) 0%, var(--accent) 80%, transparent 100%) !important;
+        }
+        .timeline-item {
+            position: relative !important;
+            padding-left: 36px !important;
+            margin-bottom: 56px !important;
+            display: block !important;
+            grid-template-columns: unset !important;
+            border-bottom: none !important;
+            padding-bottom: 0 !important;
+        }
+        .timeline-item:last-of-type { margin-bottom: 0; }
+        .timeline-item::before {
+            content: '' !important;
+            display: block !important;
+            position: absolute !important;
+            left: -6px !important;
+            top: 9px !important;
+            width: 11px !important;
+            height: 11px !important;
+            border-radius: 50% !important;
+            background: var(--accent) !important;
+            box-shadow: 0 0 0 4px var(--accent-dim, rgba(196,144,58,0.15)) !important;
+        }
+        /* Responsive: tighten on smaller screens */
+        @media (max-width: 960px) {
+            .timeline { padding-left: 24px !important; }
+            .timeline-item { padding-left: 28px !important; }
+            .timeline-item::before { left: -5px !important; width: 9px !important; height: 9px !important; }
+        }
+        @media (max-width: 600px) {
+            .timeline { padding-left: 20px !important; }
+            .timeline-item { padding-left: 24px !important; margin-bottom: 40px !important; }
+            .timeline-item::before { left: -4px !important; width: 8px !important; height: 8px !important; }
+        }
+
     </style>
 </head>
 <body>
@@ -2303,6 +2354,26 @@
         <h2 class="section-title">Work <em>Experience</em></h2>
     </div>
     <div class="timeline">
+        <div class="timeline-item reveal">
+            <div class="timeline-meta">
+                <span class="timeline-role">Independent Product Design Consultant</span>
+                <span class="timeline-company">Self-Employed</span>
+                <span class="timeline-period">Jan 2026 &#8211; Present</span>
+            </div>
+            <span class="timeline-loc">Navi Mumbai, Maharashtra, India &#183; Remote</span>
+            <p class="timeline-desc">Independent Product Design Consultant specialising in Enterprise SaaS, BFSI, Compliance, and AI-enabled products. Lead UX strategy, product discovery, and experience design initiatives. Design scalable workflows, dashboards, and enterprise applications. Facilitate stakeholder workshops and requirements gathering sessions. Partner with Product Managers and Engineering teams to deliver user-centric solutions. Conduct UX audits, heuristic evaluations, and usability improvements.</p>
+            <div class="timeline-tags">
+                <span class="timeline-tag">Enterprise SaaS</span>
+                <span class="timeline-tag">BFSI</span>
+                <span class="timeline-tag">AI-Enabled Products</span>
+                <span class="timeline-tag">UX Strategy</span>
+                <span class="timeline-tag">Product Discovery</span>
+                <span class="timeline-tag">Design Systems</span>
+                <span class="timeline-tag">UX Audits</span>
+                <span class="timeline-tag">Stakeholder Workshops</span>
+                <span class="timeline-tag">Consulting</span>
+            </div>
+        </div>
         <div class="timeline-item reveal">
             <div class="timeline-meta">
                 <span class="timeline-role">Product Designer</span>
