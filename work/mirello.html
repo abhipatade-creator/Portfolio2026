@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mirello — Designing a Fit-First Hiring Platform (POC) · Abhishek Patade</title>
+<meta name="description" content="Case study (proof of concept, built with Claude AI): product strategy, design system foundations and a fully built, accessible marketing site for Mirello, a fit-first hiring platform.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0F0A55; --violet:#9173FF; --action:#6B47E6; --action-hover:#5638cc;
+    --tint:#F5F2FF; --tint-2:#EFEBFF; --ink:#1B1738; --ink-2:#4a476b; --ink-3:#8a87a3;
+    --line:#E6E6E6; --line-2:#ece9f7; --success:#136A4B; --white:#fff;
+    --on-dark:#E9E5FF; --on-dark-2:#B9B2E6;
+    --display:'Montserrat',system-ui,sans-serif; --body:'Lato',system-ui,sans-serif;
+    --r-md:10px; --r-lg:16px; --r-xl:24px; --r-full:999px;
+    --nav-h:72px; --pad-x:clamp(20px,5vw,72px); --max:1200px; --read:760px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--body);color:var(--ink);background:var(--white);line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad-x)}
+  h1,h2,h3,h4{font-family:var(--display);letter-spacing:-0.02em;line-height:1.15;color:var(--navy)}
+  p{color:var(--ink-2)}
+  .rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+  .rv.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+  /* nav */
+  .nav{position:fixed;inset:0 0 auto 0;height:var(--nav-h);z-index:60;display:flex;align-items:center;transition:background .3s,border-color .3s}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;width:100%}
+    .nav{background:rgba(255,255,255,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line-2);color:var(--ink)}
+  .logo{font-family:var(--display);font-weight:800;font-size:17px;white-space:nowrap;text-decoration:none;display:flex;align-items:center;gap:10px}
+  .logo .dot{width:10px;height:10px;border-radius:50%;background:var(--violet);box-shadow:0 0 0 4px rgba(145,115,255,.25)}
+  .nav-links{display:flex;gap:28px;list-style:none}
+  .nav-links a{text-decoration:none;font-size:14px;font-weight:700;opacity:.85;transition:opacity .2s,color .2s}
+  .nav-links a:hover{opacity:1;color:var(--violet)}
+  .nav .nav-links a:hover{color:var(--action)}
+  .nav-cta{display:inline-flex;align-items:center;white-space:nowrap;padding:10px 18px;border-radius:var(--r-full);background:var(--action);color:#fff!important;font-weight:700;font-size:14px;text-decoration:none;opacity:1!important}
+  .nav-cta:hover{background:var(--action-hover);color:#fff!important}
+  .burger{display:none;background:none;border:0;cursor:pointer;width:44px;height:44px;border-radius:var(--r-sm);color:inherit}
+  .burger span{display:block;width:22px;height:2px;background:currentColor;margin:5px auto;transition:.25s}
+  .mobile-menu{position:fixed;top:var(--nav-h);left:0;right:0;background:#fff;border-bottom:1px solid var(--line-2);z-index:59;padding:12px var(--pad-x) 20px;flex-direction:column;gap:4px}
+  .mobile-menu a{padding:12px 4px;text-decoration:none;font-weight:700;font-size:16px;border-bottom:1px solid var(--line-2)}
+
+  /* nav interactions */
+  .nav-links a{position:relative;padding:6px 0;opacity:1;color:inherit}
+  .nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:var(--violet);transform:scaleX(0);transform-origin:left;transition:transform .25s cubic-bezier(.4,0,.2,1)}
+  .nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}
+  .nav-links a:hover{color:var(--violet)}
+  .nav-links a.active{color:#fff}
+  .nav .nav-links a{color:var(--ink-2)}
+  .nav .nav-links a:hover{color:var(--action)}
+  .nav .nav-links a.active{color:var(--navy)}
+  .nav .nav-links a::after{background:var(--action)}
+  .nav-links a:focus-visible,.nav-cta:focus-visible,.logo:focus-visible,.burger:focus-visible{outline:2px solid var(--violet);outline-offset:4px;border-radius:4px}
+  .nav-cta{transition:background .2s,transform .15s,box-shadow .2s}
+  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(107,71,230,.35)}
+  .nav-cta:active{transform:translateY(0) scale(.97);box-shadow:none}
+  .logo{transition:opacity .2s}.logo:hover{opacity:.8}
+  .logo .dot{transition:transform .3s}.logo:hover .dot{transform:scale(1.25)}
+  .nav.hidden{transform:translateY(-100%)}
+  .nav{transition:background .3s,border-color .3s,transform .35s ease,color .3s}
+  .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .burger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+  .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .mobile-menu{transform:translateY(-8px);opacity:0;pointer-events:none;transition:transform .25s,opacity .25s;display:flex}
+  .mobile-menu.open{transform:none;opacity:1;pointer-events:auto}
+  .mobile-menu a{transition:color .2s,padding-left .2s}
+  .mobile-menu a:hover,.mobile-menu a.active{color:var(--action);padding-left:10px}
+  @media (min-width:681px){.mobile-menu{display:none}}
+  .btn:active{transform:translateY(0) scale(.97)}
+  .btn:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+
+  @media (max-width:680px){.nav-links,.nav .nav-cta{display:none}.burger{display:block}}
+
+  /* header */
+  .head{padding:calc(var(--nav-h) + 64px) 0 40px}
+  .crumb{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:700;color:var(--ink-3);text-decoration:none;margin-bottom:22px}
+  .crumb:hover{color:var(--action)}
+  .poc{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--action);background:var(--tint);border:1px solid #d9d0ff;padding:7px 12px;border-radius:var(--r-full);margin-bottom:18px}
+  .poc::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--violet)}
+  .head h1{font-size:clamp(32px,4.4vw,56px);font-weight:700;max-width:900px}
+  .head p.sub{font-size:clamp(17px,1.4vw,20px);max-width:760px;margin-top:18px}
+
+  .hero-visual{position:relative;border-radius:var(--r-xl);overflow:hidden;background:linear-gradient(135deg,#1a1276,var(--action) 60%,var(--violet));min-height:380px;aspect-ratio:16/8}
+  .hero-visual::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.16) 1px,transparent 1px);background-size:22px 22px;opacity:.5}
+  .hero-visual .desk{position:absolute;left:8%;right:22%;top:12%;border-radius:14px;box-shadow:0 30px 80px rgba(0,0,0,.35);overflow:hidden}
+  .hero-visual .mob{position:absolute;right:8%;bottom:-2%;width:19%;border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.4);overflow:hidden;background:#fff;aspect-ratio:9/17.5}
+  .hero-visual .mob img{width:100%;height:100%;object-fit:cover;object-position:top}
+  @media (max-width:680px){.hero-visual{aspect-ratio:4/3}.hero-visual .desk{left:5%;right:5%;top:10%}.hero-visual .mob{display:none}}
+
+  /* sections */
+  section{padding:64px 0}
+  .sec-title{font-size:clamp(26px,3vw,38px);font-weight:700;margin-bottom:12px}
+  .lead{font-size:17px;max-width:var(--read)}
+  .two{display:grid;grid-template-columns:1.4fr .8fr;gap:56px;margin-top:40px}
+  .two h3,.meta h3{font-size:19px;font-weight:700;margin-bottom:12px}
+  .two .block+.block,.meta .block+.block{margin-top:40px}
+  .meta p{font-size:15px}
+  .meta ul{list-style:none;display:grid;gap:8px;font-size:15px;color:var(--ink-2)}
+  .meta li{padding-left:18px;position:relative}
+  .meta li::before{content:"";position:absolute;left:0;top:11px;width:6px;height:6px;background:var(--violet)}
+  .meta a{color:var(--action);font-weight:700}
+  .note{background:var(--tint);border-left:3px solid var(--violet);padding:14px 18px;border-radius:0 var(--r-md) var(--r-md) 0;font-size:14.5px;color:var(--ink-2);margin-top:16px}
+  .note b{color:var(--navy)}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:36px}
+  .stat b{display:block;font-family:var(--display);font-size:clamp(24px,2.2vw,30px);white-space:nowrap;font-weight:700;color:var(--navy);line-height:1}
+  .stat span{display:block;margin-top:8px;font-size:14px;color:var(--ink-2)}
+
+  hr.rule{border:0;border-top:1px solid var(--line-2);margin:0}
+
+  .steps{display:grid;gap:0;margin-top:36px;max-width:900px}
+  .step{display:grid;grid-template-columns:64px 1fr;gap:20px;padding:26px 0;border-top:1px solid var(--line-2)}
+  .step .n{font-family:var(--display);font-weight:700;color:var(--violet);font-size:14px;letter-spacing:.1em;padding-top:4px}
+  .step h3{font-size:19px;margin-bottom:8px}
+  .step p{font-size:15.5px;max-width:var(--read)}
+
+  .sub-h{font-size:22px;font-weight:700;margin:48px 0 12px}
+  .prose p{max-width:var(--read);font-size:16px}
+  .prose p+p{margin-top:14px}
+  figure{margin:32px 0 8px}
+  figure .img{background:var(--tint);border-radius:var(--r-xl);padding:clamp(16px,3vw,40px);border:1px solid var(--line-2)}
+  figure .img.dark{background:var(--navy)}
+  figure .img img{border-radius:var(--r-md);margin:0 auto;box-shadow:0 12px 40px rgba(15,10,85,.12)}
+  figcaption{font-size:13.5px;color:var(--ink-3);text-align:center;margin-top:14px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .grid2 figure{margin:0}
+  .grid2 .img{height:100%;display:flex;align-items:center}
+
+  .principles{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:24px;max-width:900px}
+  .principles li{background:var(--tint);border-radius:var(--r-lg);padding:20px 22px;font-size:15px;color:var(--ink-2)}
+  .principles li b{display:block;color:var(--navy);font-family:var(--display);font-size:15.5px;margin-bottom:6px}
+
+  .decisions{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:32px}
+  .dec{border:1px solid var(--line-2);border-radius:var(--r-xl);padding:26px}
+  .dec small{display:block;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--action);margin-bottom:10px}
+  .dec h3{font-size:18px;margin-bottom:8px}
+  .dec p{font-size:15px}
+
+  table{width:100%;border-collapse:collapse;font-size:14.5px;margin-top:24px;max-width:900px}
+  th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line-2);vertical-align:top}
+  th{font-family:var(--display);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+  td:first-child{color:var(--navy);font-weight:700}
+  .tbl{overflow-x:auto}
+
+  .comp{margin-top:24px;max-width:900px}
+  .comp .row{display:grid;grid-template-columns:150px 1fr;gap:20px;padding:16px 0;border-top:1px solid var(--line-2);font-size:15px}
+  .comp .row b{color:var(--navy)}
+  .comp .row span{color:var(--ink-2)}
+
+  /* research / personas / flows */
+  .rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px}
+  .rcard{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-xl);padding:24px}
+  .rcard small{display:block;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--action);margin-bottom:8px}
+  .rcard h3{font-size:17px;margin-bottom:8px}
+  .rcard p{font-size:14.5px}
+  .insights{list-style:none;display:grid;gap:10px;margin-top:28px;max-width:900px}
+  .insights li{display:grid;grid-template-columns:36px 1fr;gap:14px;padding:16px 18px;background:#fff;border:1px solid var(--line-2);border-radius:var(--r-lg);font-size:15px;color:var(--ink-2)}
+  .insights li b{font-family:var(--display);color:var(--violet);font-size:14px;letter-spacing:.08em;padding-top:2px}
+  .insights li strong{color:var(--navy)}
+  .personas{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px}
+  .persona{border:1px solid var(--line-2);border-radius:var(--r-xl);overflow:hidden;background:#fff;display:flex;flex-direction:column}
+  .persona .ph{background:var(--navy);color:#fff;padding:22px 24px;display:flex;gap:14px;align-items:center}
+  .persona .ph .av{flex:none;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:16px;background:linear-gradient(135deg,var(--action),var(--violet))}
+  .persona .ph h3{color:#fff;font-size:17px;line-height:1.2}
+  .persona .ph span{display:block;font-size:13px;color:var(--on-dark-2);margin-top:3px}
+  .persona .pb{padding:20px 24px 24px;display:grid;gap:14px;font-size:14.5px}
+  .persona .pb h4{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--action);margin-bottom:6px;font-family:var(--body);font-weight:700}
+  .persona .pb ul{list-style:none;display:grid;gap:4px;color:var(--ink-2)}
+  .persona .pb li{padding-left:14px;position:relative}
+  .persona .pb li::before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;background:var(--violet)}
+  .persona .quote{font-style:italic;color:var(--navy);border-left:3px solid var(--violet);padding-left:12px;font-size:14.5px}
+  .persona .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border-radius:var(--r-full);background:var(--tint);color:var(--action)}
+  .flow{margin-top:32px;background:#fff;border:1px solid var(--line-2);border-radius:var(--r-xl);padding:clamp(16px,3vw,32px)}
+  .flow h3{font-size:18px;margin-bottom:4px}
+  .flow p.fd{font-size:14.5px;margin-bottom:18px}
+  .flow .sv{overflow-x:auto}
+  .flow svg{display:block;min-width:820px;width:100%;height:auto}
+  .flow .lg{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:12.5px;color:var(--ink-3)}
+  .flow .lg span{display:inline-flex;align-items:center;gap:6px}
+  .flow .lg i{width:12px;height:12px;border-radius:3px}
+  @media (max-width:900px){.rgrid,.personas{grid-template-columns:1fr}}
+
+  /* next / contact */
+  .cta{background:var(--tint);padding:72px 0}
+  .cta-card{background:var(--navy);color:var(--on-dark);border-radius:28px;padding:clamp(36px,5vw,60px);display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap}
+  .cta-card h2{color:#fff;font-size:clamp(26px,3vw,38px)}
+  .cta-card p{color:var(--on-dark-2);margin-top:8px}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:var(--r-full);font-weight:700;font-size:15px;text-decoration:none;transition:transform .2s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-light{background:#fff;color:var(--navy)}
+  .btn-ghost{border:1.5px solid rgba(233,229,255,.35);color:#fff}
+  footer{padding:28px 0;font-size:13px;color:var(--ink-3)}
+  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  footer a{color:var(--ink-2);text-decoration:none;font-weight:700}
+
+  @media (max-width:900px){.two{grid-template-columns:1fr;gap:40px}.stats{grid-template-columns:1fr 1fr}.grid2,.principles,.decisions{grid-template-columns:1fr}.comp .row{grid-template-columns:1fr;gap:4px}}
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a href="../index.html" class="logo"><span class="dot"></span>Abhishek Patade</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#work" class="active">Work</a></li>
+      <li><a href="../index.html#experience">Experience</a></li>
+      <li><a href="../index.html#skills">Skills</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+    <a href="../assets/documents/Abhishek_Patade_Resume_2026.pdf" class="nav-cta" download>Download Resume</a>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#work" class="active">Work</a><a href="../index.html#experience">Experience</a><a href="../index.html#skills">Skills</a><a href="../index.html#contact">Contact</a>
+  <a href="../assets/documents/Abhishek_Patade_Resume_2026.pdf" download style="color:var(--action);border:0">Download Resume ↓</a>
+</nav>
+
+<main>
+  <div class="head">
+    <div class="wrap">
+      <a href="../index.html#work" class="crumb">← Back to work</a><br>
+      <span class="poc">Proof of concept · 2026</span>
+      <h1>Designing Mirello, a fit-first hiring platform, from brand deck to live demo.</h1>
+      <p class="sub">A proof-of-concept engagement: how a startup with two decks and an idea became a positioned product story, a design-system foundation, and a fully built, accessible marketing site with a working demo — in one focused sprint.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="hero-visual rv">
+      <div class="desk"><img src="../assets/work/mirello/img00.jpg" alt="Mirello homepage hero: 'Hire from the people who actually fit' beside a match card showing a 96% strong match"></div>
+      <div class="mob"><img src="../assets/work/mirello/img10.jpg" alt="Mirello homepage on mobile"></div>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <section id="summary">
+    <div class="wrap">
+      <h2 class="sec-title rv">Summary</h2>
+      <div class="two">
+        <div>
+          <div class="block rv">
+            <h3>Mission</h3>
+            <p>Mirello's founders had a clear thesis: most hiring platforms sell volume, and recruiters drown in it. Mirello would gate and match candidates <em>before</em> they apply, explain every score, and charge only for the candidates a recruiter chooses to unlock. What they had was a brand deck, a sales deck and an AI-generated landing page — three artefacts with three different visual identities. What they didn't have was a product story a recruiter could understand in five seconds, or a foundation a team could build on.</p>
+          </div>
+          <div class="block rv">
+            <h3>My contributions</h3>
+            <p>I ran this as a proof of concept, end to end and solo — with Claude AI as my working partner throughout: platform strategy and a competitive map of eight Indian hiring platforms; a design-system audit and architecture; UX strategy, information architecture and wireframes for a 16-section homepage; the high-fidelity desktop build and responsive adaptation; and an accessibility audit before shipping a public demo the founders could share the same day. Every stage produced a decision the next one depended on — strategy first, pixels last.</p>
+          </div>
+          <div class="block rv">
+            <h3>Impact</h3>
+            <p>Because this is a POC and not a live commercial product, there are no traffic or revenue numbers to report — and I'd rather not invent any. What the sprint did produce is measurable in its own terms:</p>
+            <div class="stats">
+              <div class="stat"><b>16</b><span>homepage sections, each tied to one recruiter doubt</span></div>
+              <div class="stat"><b>0</b><span>WCAG 2.2 AA violations (axe-core, desktop and mobile)</span></div>
+              <div class="stat"><b>3.44 → 5.72</b><span>contrast ratio on primary buttons after the action-colour decision</span></div>
+              <div class="stat"><b>1 sprint</b><span>from two decks to a deployed, shareable demo</span></div>
+            </div>
+          </div>
+        </div>
+        <aside class="meta rv">
+          <div class="block">
+            <h3>Client</h3>
+            <p>Mirello — early-stage hiring platform, India</p>
+            <div class="note"><b>Proof of concept.</b> This engagement produced a positioned product story, design-system foundations and a working demo site. It is not a shipped commercial product, and the metrics on this page describe the design work, not market results.</div>
+          </div>
+          <div class="block">
+            <h3>Skills</h3>
+            <ul><li>Product &amp; platform strategy</li><li>Competitive research</li><li>Design-system audit &amp; architecture</li><li>UX strategy, IA &amp; wireframes</li><li>UI design &amp; front-end build</li><li>Accessibility audit (WCAG 2.2 AA)</li><li>AI-assisted workflow (Claude)</li></ul>
+          </div>
+          <div class="block">
+            <h3>My role</h3>
+            <p>Principal Product Designer — strategy, UX, UI, design system and build.</p>
+          </div>
+          <div class="block">
+            <h3>Tools</h3>
+            <p>Claude (Anthropic) via Cowork &amp; MCP · HTML/CSS · axe-core · Figma</p>
+          </div>
+          <div class="block">
+            <h3>Timeline</h3>
+            <p>One sprint, September 2026</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap"><hr class="rule"></div>
+
+  <!-- PROCESS -->
+  <section id="process">
+    <div class="wrap">
+      <h2 class="sec-title rv">Strategy first, pixels last.</h2>
+      <p class="lead rv">I resisted the urge to open Figma. Each stage produced a decision the next one depended on.</p>
+      <div class="steps">
+        <div class="step rv"><span class="n">01</span><div><h3>Platform strategy and competitive map</h3><p>Read the decks for what they committed the product to: pre-apply gating, semantic matching with an explainable breakdown, pay-per-unlock, referrals. Mapped the landscape in four tiers — volume incumbents, curated tech platforms, ATS tools that would absorb "AI matching" as a feature, and the agencies whose 8–20% fees the ₹199 unlock quietly undercuts. Key insight: matching would become a commodity. The defensible layer was marketplace behaviour and the pricing model.</p></div></div>
+        <div class="step rv"><span class="n">02</span><div><h3>Design-system audit</h3><p>Inventoried all four sources across 16 element categories. The sales deck ran on an unrelated teal-and-coral palette. The AI landing page was a retinted template with 14 hardcoded hex values, no form labels and no focus states. The finding that mattered: white text on the brand violet #9173FF measured 3.44:1, failing WCAG AA on every primary button in every source.</p></div></div>
+        <div class="step rv"><span class="n">03</span><div><h3>UX strategy, IA and wireframe</h3><p>Built the page around one principle — signal over volume — and a trust ladder: is this just another job board? does the matching actually work? what does it cost to find out? Sixteen sections answer those three doubts in that order. Every heading was written before any layout, so the page still makes sense to someone who reads only headlines.</p></div></div>
+        <div class="step rv"><span class="n">04</span><div><h3>High-fidelity build, then responsive</h3><p>Built the desktop page directly in HTML and CSS on the token foundation, iterated on the sections that carried the most weight, then adapted for 768 and 390 without shrinking the desktop layout.</p></div></div>
+        <div class="step rv"><span class="n">05</span><div><h3>Audit, harden, ship</h3><p>Ran axe-core at desktop and mobile widths, keyboard-walked the page, fixed what came up, added SEO structure, and deployed to a public bucket so the founders could share it the same day.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section id="research" style="background:var(--tint)">
+    <div class="wrap">
+      <h2 class="sec-title rv">Eight Indian platforms, one gap.</h2>
+      <p class="lead rv">I didn't want Mirello to be another Naukri or LinkedIn clone. So before designing anything I looked at what each platform actually sells recruiters, and where Mirello could be meaningfully different rather than marginally better.</p>
+      <div class="comp rv">
+        <div class="row"><b>Naukri / Resdex</b><span>Massive database. Don't compete on size — compete on quality before access and transparent fit.</span></div>
+        <div class="row"><b>LinkedIn Recruiter</b><span>Network plus sourcing. Compete on job-specific fit evidence, not networking.</span></div>
+        <div class="row"><b>Instahyre</b><span>The closest benchmark. Go further: pre-application gating, explainable scoring, pay per relevant contact.</span></div>
+        <div class="row"><b>Cutshort</b><span>Sourcing marketplace. Offer a structured fit model, score transparency and hiring intelligence.</span></div>
+        <div class="row"><b>Foundit · Apna · Shine · Hirist</b><span>Volume portals and vertical players. Own professional-hiring quality, explainable semantic matching, and fit-first hiring beyond tech.</span></div>
+      </div>
+      <div class="prose rv" style="margin-top:32px">
+        <p><strong style="color:var(--navy)">What the landscape told me.</strong> Every platform optimises for more: more applications, more profiles, bigger databases, more filters. Nobody tells the candidate why they didn't fit, and nobody shows the recruiter the evidence behind a score. That became the positioning I recommended over "another AI recruitment platform": <em>the hiring platform that shows you who is actually worth interviewing.</em> Or shorter — hire from signal, not volume.</p>
+      </div>
+      <h3 class="sub-h rv">Five product principles that came out of it</h3>
+      <ul class="principles">
+        <li class="rv"><b>Don't show recruiters 500 candidates.</b> Show "12 candidates worth your time." The first screen answers "who should I interview and why?"</li>
+        <li class="rv"><b>Make the score explainable.</b> Skills, experience, recency, trajectory, location — each visible, plus a plain-language "why this candidate".</li>
+        <li class="rv"><b>Let the recruiter define fit.</b> Must-have, strong preference, nice-to-have, deal-breakers, and a strictness slider from flexible to strict.</li>
+        <li class="rv"><b>Candidate evidence, not candidate cards.</b> Matched criteria, gaps, a quoted proof point, availability, expected compensation, fit confidence.</li>
+        <li class="rv"><b>Design around decisions, not features.</b> JD → match → evidence → decision, without ten screens in between.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- RESEARCH & PERSONAS -->
+  <section id="personas">
+    <div class="wrap">
+      <h2 class="sec-title rv">Who we were designing for.</h2>
+      <p class="lead rv">There was no budget or time for primary interviews in a one-sprint POC, so I built proto-personas from three sources and treated them as hypotheses to validate, not facts. They were still enough to settle every argument about what goes above the fold.</p>
+      <div class="rgrid">
+        <div class="rcard rv"><small>Source 01</small><h3>The founders' decks</h3><p>Sales and brand decks encode who the founders had already spoken to: TA leads drowning in volume, and the ₹199 unlock priced against agency fees. I read them as field notes.</p></div>
+        <div class="rcard rv"><small>Source 02</small><h3>Eight competitor teardowns</h3><p>What each platform sells, what its reviews complain about, and which recruiter jobs-to-be-done nobody serves — the "why didn't I fit?" question on the candidate side above all.</p></div>
+        <div class="rcard rv"><small>Source 03</small><h3>Domain experience</h3><p>Eighteen years inside BFSI and enterprise SaaS teams, on both sides of hiring, plus the recruiters I've sat next to through PI planning. Not a substitute for research; a good place to start it.</p></div>
+      </div>
+      <ul class="insights">
+        <li class="rv"><b>01</b><span><strong>Volume is the problem, not a feature.</strong> Every incumbent sells "more candidates". A TA lead's real question is "who should I interview today?"</span></li>
+        <li class="rv"><b>02</b><span><strong>Scores without reasons don't earn trust.</strong> Recruiters have been burned by keyword matching. A number they can't explain to a hiring manager is worthless.</span></li>
+        <li class="rv"><b>03</b><span><strong>Candidates want feedback more than reach.</strong> Applying into silence is the single most-cited complaint in candidate reviews across the platforms studied.</span></li>
+        <li class="rv"><b>04</b><span><strong>Pricing has to feel like buying evidence, not a subscription.</strong> Pay only when you unlock someone worth talking to — the model the decks committed to, and the one that undercuts agencies.</span></li>
+      </ul>
+
+      <h3 class="sub-h rv">Three proto-personas</h3>
+      <div class="personas">
+        <div class="persona rv">
+          <div class="ph"><span class="av">RK</span><div><h3>Rhea — TA Lead, mid-size SaaS</h3><span>Primary · hires 6–10 roles a quarter, no dedicated sourcer</span></div></div>
+          <div class="pb">
+            <div><h4>Goals</h4><ul><li>Fill roles without screening 300 CVs each</li><li>Defend a shortlist to a hiring manager in one line</li><li>Cut agency spend</li></ul></div>
+            <div><h4>Pains</h4><ul><li>Naukri inbox is 80% irrelevant</li><li>"AI match" scores she can't explain</li><li>Pays for database access she barely uses</li></ul></div>
+            <p class="quote">"Don't show me 500 people. Show me the 12 and tell me why."</p>
+            <span class="tag">Designed the homepage for her</span>
+          </div>
+        </div>
+        <div class="persona rv">
+          <div class="ph"><span class="av">AM</span><div><h3>Arjun — Hiring manager, engineering</h3><span>Secondary · approves shortlists, never logs into the ATS</span></div></div>
+          <div class="pb">
+            <div><h4>Goals</h4><ul><li>Spend interview time only on real fits</li><li>See evidence, not adjectives</li><li>Set must-haves once and trust the gate</li></ul></div>
+            <div><h4>Pains</h4><ul><li>Gets candidates who miss the one non-negotiable</li><li>Recruiters can't tell him <em>why</em> someone was picked</li></ul></div>
+            <p class="quote">"If it says 94%, I want to see the four things that made it 94."</p>
+            <span class="tag">Drove the evidence view</span>
+          </div>
+        </div>
+        <div class="persona rv">
+          <div class="ph"><span class="av">PS</span><div><h3>Priya — Senior product designer, job-seeking</h3><span>Candidate · 8 yrs, insurtech, applies selectively</span></div></div>
+          <div class="pb">
+            <div><h4>Goals</h4><ul><li>Apply only where she has a real shot</li><li>Know why she didn't fit, and what to fix</li><li>Not be judged on keywords</li></ul></div>
+            <div><h4>Pains</h4><ul><li>Applications vanish into silence</li><li>"Lead cloud migration" doesn't match "AWS" on keyword platforms</li><li>Career break auto-rejected by filters</li></ul></div>
+            <p class="quote">"Tell me no before I spend an hour on the form."</p>
+            <span class="tag">Shaped the pre-apply fit check</span>
+          </div>
+        </div>
+      </div>
+      <p class="rv" style="font-size:13.5px;color:var(--ink-3);margin-top:16px;max-width:760px">Priya is the candidate shown in the homepage hero — the persona and the product screen were designed together so the demo tells one consistent story.</p>
+    </div>
+  </section>
+
+  <!-- USER FLOWS -->
+  <section id="flows" style="background:var(--tint)">
+    <div class="wrap">
+      <h2 class="sec-title rv">Three flows, one gate.</h2>
+      <p class="lead rv">The whole product turns on one moment: fit is checked <em>before</em> a candidate lands in a recruiter's inbox. Every flow passes through that gate, which is why the homepage could explain the product in a single diagram.</p>
+      <div class="flow rv">
+        <h3>Recruiter — from job post to hiring decision</h3>
+        <p class="fd">Define fit once, let the system gate and score, review only the strong matches, pay per unlock. The loop back lets a recruiter loosen or tighten strictness without re-posting.</p>
+        <div class="sv"><svg viewBox="0 0 1000 300" font-family="Lato,system-ui,sans-serif" role="img" aria-label="Recruiter flow from job post to hiring decision"><defs><marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#9A9AA3"/></marker></defs><rect x="20" y="40" width="100" height="44" rx="999" fill="#2B2B33" stroke="#2B2B33" stroke-width="1.5"/><text x="70.0" y="67.0" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Start</text><rect x="150" y="30" width="120" height="64" rx="10" fill="#fff" stroke="#8A8A94" stroke-width="1.5"/><text x="210.0" y="58.0" text-anchor="middle" font-size="13" font-weight="700" fill="#3A3A44">Post job</text><text x="210.0" y="75.0" text-anchor="middle" font-size="11" fill="#55555F">JD in plain text</text><rect x="300" y="30" width="120" height="64" rx="10" fill="#fff" stroke="#8A8A94" stroke-width="1.5"/><text x="360.0" y="58.0" text-anchor="middle" font-size="13" font-weight="700" fill="#3A3A44">Define fit</text><text x="360.0" y="75.0" text-anchor="middle" font-size="11" fill="#55555F">must-haves · gate strictness</text><rect x="450" y="30" width="120" height="64" rx="10" fill="#3A3A44" stroke="#3A3A44" stroke-width="1.5"/><text x="510.0" y="58.0" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Auto-gate + match</text><text x="510.0" y="75.0" text-anchor="middle" font-size="11" fill="#C8C8CF">semantic scoring</text><rect x="600" y="30" width="120" height="64" rx="10" fill="#fff" stroke="#8A8A94" stroke-width="1.5"/><text x="660.0" y="58.0" text-anchor="middle" font-size="13" font-weight="700" fill="#3A3A44">Review shortlist</text><text x="660.0" y="75.0" text-anchor="middle" font-size="11" fill="#55555F">"12 worth your time"</text><rect x="750" y="30" width="110" height="64" rx="10" fill="#fff" stroke="#8A8A94" stroke-width="1.5"/><text x="805.0" y="58.0" text-anchor="middle" font-size="13" font-weight="700" fill="#3A3A44">Open evidence</text><text x="805.0" y="75.0" text-anchor="middle" font-size="11" fill="#55555F">why · gaps · proof</text><rect x="880" y="30" width="100" height="64" rx="10" fill="#F3F3F5" stroke="#2B2B33" stroke-width="1.5" stroke-dasharray="5 4"/><text x="930.0" y="67.0" text-anchor="middle" font-size="13" font-weight="700" fill="#3A3A44">Worth it?</text><path d="M120 62 L150 62" stroke="#9A9AA3" stroke-width="1.5" fill="none" marker-end="url(#ah)"/><path d="M270 62 L300 62" stroke="#9A9AA3" stroke-width="1.5" fill="none" marker-end="url(#ah)"/><path d="M420 62 L450 62" stroke="#9A9AA3" stroke-width="1.5" fill="none" marker-end="url(#ah)"/><path d="M570 62 L600 62" stroke="#9A9AA3" stroke-width="1.5" fill="none" marker-end="url(#ah)"/><path d="M720 62 L750 62" stroke="#9A9AA3" stroke-width="1.5" fill="none" marker-end="url(#ah)"/><path d="M860 62 L880 62" stroke="#9A9AA3" stroke-width="1.5" fill="none" marker-end="url(#ah)"/><path d="M930 94 L930 180 L890 180" stroke="#9A9AA3" stroke-width="1.5" fill="none" marker-end="url(#ah)"/><text x="938" y="141.0" font-size="11" fill="#2B2B33" font-weight="700">yes</text><rect x="760" y="158" width="130" height="44" rx="10" fill="#3A3A44" stroke="#3A3A44" stroke-width="1.5"/><text x="825.0" y="185.0" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Unlock · ₹199</text><path d="M760 180 L720 180" stroke="#9A9AA3" stroke-width="1.5" fill="none" marker-end="url(#ah)"/><rect x="560" y="158" width="160" height="44" rx="10" fill="#fff" stroke="#8A8A94" stroke-width="1.5"/><text x="640.0" y="185.0" text-anchor="middle" font-size="13" font-weight="700" fill="#3A3A44">Contact · schedule</text><path d="M560 180 L480 180" stroke="#9A9AA3" stroke-width="1.5" fill="none" marker-end="url(#ah)"/><rect x="360" y="158" width="120" height="44" rx="999" fill="#E4E4E8" stroke="#3A3A44" stroke-width="1.5"/><text x="420.0" y="185.0" text-anchor="middle" font-size="13" font-weight="700" fill="#3A3A44">Hire decision</text><path d="M970 94 L970 240 L905 240" stroke="#9A9AA3" stroke-width="1.5" fill="none" marker-end="url(#ah)"/><rect x="760" y="218" width="145" height="44" rx="10" fill="#fff" stroke="#8A8A94" stroke-width="1.5"/><text x="832.5" y="245.0" text-anchor="middle" font-size="13" font-weight="700" fill="#3A3A44">Skip · adjust gate</text><path d="M760 240 L360 240 L360 94" stroke="#9A9AA3" stroke-width="1.5" fill="none" stroke-dasharray="4 4" marker-end="url(#ah)"/><text x="560" y="232" text-anchor="middle" font-size="11" fill="#2B2B33" font-weight="700">no — tighten or loosen strictness, re-run</text></svg></div>
+        <div class="lg"><span><i style="background:#2B2B33"></i>Start</span><span><i style="background:#fff;border:1.5px solid #8A8A94"></i>Recruiter action</span><span><i style="background:#3A3A44"></i>System / Mirello</span><span><i style="background:#F3F3F5;border:1.5px dashed #2B2B33"></i>Decision</span><span><i style="background:#E4E4E8;border:1.5px solid #3A3A44"></i>Outcome</span></div>
+      </div>
+      <div class="flow rv">
+        <h3>Candidate — fit check before the form</h3>
+        <p class="fd">A candidate sees whether they clear the gate before investing in an application. A miss returns a reason and what would change it, which is the feedback the incumbents never give.</p>
+        <div class="sv"><svg viewBox="0 0 1000 250" font-family="Lato,system-ui,sans-serif" role="img" aria-label="Candidate flow with fit check before applying"><defs><marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#9A9AA3"/></marker></defs><rect x="20" y="40" width="100" height="44" rx="999" fill="#2B2B33" stroke="#2B2B33" stroke-width="1.5"/><text x="70.0" y="67.0" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Start</text><rect x="150" y="30" width="130" height="64" rx="10" fill="#fff" stroke="#8A8A94" stroke-width="1.5"/><text x="215.0" y="58.0" text-anchor="middle" font-size="13" font-weight="700" fill="#3A3A44">Discover job</text><text x="215.0" y="75.0" text-anchor="middle" font-size="11" fill="#55555F">search · referral link</text><rect x="310" y="30" width="130" height="64" rx="10" fill="#3A3A44" stroke="#3A3A44" stroke-width="1.5"/><text x="375.0" y="58.0" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Fit check</text><text x="375.0" y="75.0" text-anchor="middle" font-size="11" fill="#C8C8CF">profile vs. requirements</text><rect x="470" y="30" width="120" height="64" rx="10" fill="#F3F3F5" stroke="#2B2B33" stroke-width="1.5" stroke-dasharray="5 4"/><text x="530.0" y="67.0" text-anchor="middle" font-size="13" font-weight="700" fill="#3A3A44">Meets gate?</text><rect x="620" y="30" width="130" height="64" rx="10" fill="#fff" stroke="#8A8A94" stroke-width="1.5"/><text x="685.0" y="58.0" text-anchor="middle" font-size="13" font-weight="700" fill="#3A3A44">Apply · 1 click</text><text x="685.0" y="75.0" text-anchor="middle" font-size="11" fill="#55555F">profile already scored</text><rect x="780" y="30" width="200" height="64" rx="999" fill="#E4E4E8" stroke="#3A3A44" stroke-width="1.5"/><text x="880.0" y="58.0" text-anchor="middle" font-size="13" font-weight="700" fill="#3A3A44">In shortlist</text><text x="880.0" y="75.0" text-anchor="middle" font-size="11" fill="#55555F">with evidence attached</text><path d="M120 62 L150 62" stroke="#9A9AA3" stroke-width="1.5" fill="none" marker-end="url(#ah)"/><path d="M280 62 L310 62" stroke="#9A9AA3" stroke-width="1.5" fill="none" marker-end="url(#ah)"/><path d="M440 62 L470 62" stroke="#9A9AA3" stroke-width="1.5" fill="none" marker-end="url(#ah)"/><path d="M590 62 L620 62" stroke="#9A9AA3" stroke-width="1.5" fill="none" marker-end="url(#ah)"/><path d="M750 62 L780 62" stroke="#9A9AA3" stroke-width="1.5" fill="none" marker-end="url(#ah)"/><path d="M530 94 L530 180 L590 180" stroke="#9A9AA3" stroke-width="1.5" fill="none" marker-end="url(#ah)"/><text x="538" y="141.0" font-size="11" fill="#2B2B33" font-weight="700">no</text><rect x="590" y="158" width="200" height="44" rx="10" fill="#fff" stroke="#8A8A94" stroke-width="1.5"/><text x="690.0" y="185.0" text-anchor="middle" font-size="13" font-weight="700" fill="#3A3A44">See why · improve</text><path d="M790 180 L830 180" stroke="#9A9AA3" stroke-width="1.5" fill="none" marker-end="url(#ah)"/><rect x="830" y="158" width="150" height="44" rx="999" fill="#E4E4E8" stroke="#3A3A44" stroke-width="1.5"/><text x="905.0" y="185.0" text-anchor="middle" font-size="13" font-weight="700" fill="#3A3A44">Save · get alerts</text><text x="470" y="228" font-size="12" fill="#55555F">Candidates never apply into a black hole: a miss returns a reason, not silence.</text></svg></div>
+      </div>
+      <div class="flow rv">
+        <h3>Referral — the same gate, with a bounty</h3>
+        <p class="fd">Referrals don't bypass fit. A referred candidate goes through the identical check, so the shortlist stays clean and the referrer is paid only on a hire.</p>
+        <div class="sv"><svg viewBox="0 0 1000 190" font-family="Lato,system-ui,sans-serif" role="img" aria-label="Referral flow"><defs><marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#9A9AA3"/></marker></defs><rect x="20" y="40" width="100" height="44" rx="999" fill="#2B2B33" stroke="#2B2B33" stroke-width="1.5"/><text x="70.0" y="67.0" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Start</text><rect x="150" y="30" width="150" height="64" rx="10" fill="#fff" stroke="#8A8A94" stroke-width="1.5"/><text x="225.0" y="58.0" text-anchor="middle" font-size="13" font-weight="700" fill="#3A3A44">Open referrals</text><text x="225.0" y="75.0" text-anchor="middle" font-size="11" fill="#55555F">on a hard-to-fill role</text><rect x="330" y="30" width="140" height="64" rx="10" fill="#fff" stroke="#8A8A94" stroke-width="1.5"/><text x="400.0" y="58.0" text-anchor="middle" font-size="13" font-weight="700" fill="#3A3A44">Shares link</text><text x="400.0" y="75.0" text-anchor="middle" font-size="11" fill="#55555F">with bounty shown</text><rect x="500" y="30" width="130" height="64" rx="10" fill="#3A3A44" stroke="#3A3A44" stroke-width="1.5"/><text x="565.0" y="58.0" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Fit check</text><text x="565.0" y="75.0" text-anchor="middle" font-size="11" fill="#C8C8CF">same gate applies</text><rect x="660" y="30" width="120" height="64" rx="10" fill="#F3F3F5" stroke="#2B2B33" stroke-width="1.5" stroke-dasharray="5 4"/><text x="720.0" y="67.0" text-anchor="middle" font-size="13" font-weight="700" fill="#3A3A44">Passes?</text><rect x="810" y="30" width="170" height="64" rx="999" fill="#E4E4E8" stroke="#3A3A44" stroke-width="1.5"/><text x="895.0" y="58.0" text-anchor="middle" font-size="13" font-weight="700" fill="#3A3A44">Referrer paid</text><text x="895.0" y="75.0" text-anchor="middle" font-size="11" fill="#55555F">bounty released</text><path d="M120 62 L150 62" stroke="#9A9AA3" stroke-width="1.5" fill="none" marker-end="url(#ah)"/><path d="M300 62 L330 62" stroke="#9A9AA3" stroke-width="1.5" fill="none" marker-end="url(#ah)"/><path d="M470 62 L500 62" stroke="#9A9AA3" stroke-width="1.5" fill="none" marker-end="url(#ah)"/><path d="M630 62 L660 62" stroke="#9A9AA3" stroke-width="1.5" fill="none" marker-end="url(#ah)"/><path d="M780 62 L810 62" stroke="#9A9AA3" stroke-width="1.5" fill="none" marker-end="url(#ah)"/><path d="M720 94 L720 150 L780 150" stroke="#9A9AA3" stroke-width="1.5" fill="none" marker-end="url(#ah)"/><text x="728" y="126.0" font-size="11" fill="#2B2B33" font-weight="700">no</text><rect x="780" y="128" width="200" height="44" rx="10" fill="#fff" stroke="#8A8A94" stroke-width="1.5"/><text x="880.0" y="155.0" text-anchor="middle" font-size="13" font-weight="700" fill="#3A3A44">Not shortlisted</text></svg></div>
+      </div>
+      <div class="prose rv" style="margin-top:32px">
+        <p><strong style="color:var(--navy)">What the flows decided.</strong> Because every path converges on the gate, the homepage's "How Mirello works" section shows exactly three screens — Post &amp; Define Fit, Auto-Gate &amp; Match, Review &amp; Unlock — and the pricing appears inside the third one. The flows are also why "Define fit" got the strictness slider: it's the only control a recruiter needs to change outcomes without starting over.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARTEFACTS -->
+  <section id="artefacts">
+    <div class="wrap">
+      <h2 class="sec-title rv">Two documents the team can keep using.</h2>
+      <div class="grid2" style="margin-top:32px">
+        <figure class="rv"><div class="img"><img src="../assets/work/mirello/img01.jpg" alt="Design system audit document"></div><figcaption>Design System, Phase 1 — audit, inconsistency register, eight-layer architecture and naming conventions, written before a single token existed.</figcaption></figure>
+        <figure class="rv"><div class="img"><img src="../assets/work/mirello/img02.jpg" alt="Homepage strategy document"></div><figcaption>Homepage strategy and wireframe — IA, content hierarchy, a greyscale wireframe per section with rationale, conversion map and responsive plan.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- DECISIONS -->
+  <section id="decisions" style="background:var(--tint)">
+    <div class="wrap">
+      <h2 class="sec-title rv">Where the design earned its keep.</h2>
+      <div class="decisions">
+        <div class="dec rv"><small>Colour</small><h3>Keep the brand violet, add an action violet</h3><p>Rather than abandon #9173FF or switch buttons to navy, I introduced #6B47E6 for actions, links and focus rings. One hex value, brand intact, every button passes AA at 5.72:1.</p></div>
+        <div class="dec rv"><small>Hero</small><h3>The product is the proof</h3><p>No generic HR stock photo. The hero shows a real match view — 146 applications → 27 qualified → 12 strong — with the top candidate's score breakdown. "Less screening, more relevant" without an adjective.</p></div>
+        <div class="dec rv"><small>Trust</small><h3>Show why, not just a score</h3><p>The match-intelligence section became the largest product module on the page: five-dimension breakdown, matched evidence in the recruiter's own words, gaps, and a fit-confidence label. It exists to kill the black-box objection.</p></div>
+        <div class="dec rv"><small>Honesty</small><h3>No fake proof</h3><p>No customer logos, no testimonials, no "70% fewer applications" until sourced. Placeholders are labelled as placeholders — the same rule this case study follows.</p></div>
+        <div class="dec rv"><small>Type</small><h3>Montserrat above 16px, Lato at and below</h3><p>Montserrat is wide and eats horizontal space in tables and forms. So it carries display and headings only; buttons, table cells and body sit in Lato.</p></div>
+        <div class="dec rv"><small>Light only</small><h3>No dark bands</h3><p>The founders asked for light backgrounds throughout. Navy became type and two small emphasised surfaces; sections alternate between off-white and a pale violet tint.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE PAGE -->
+  <section id="page">
+    <div class="wrap">
+      <h2 class="sec-title rv">Sixteen sections, one question.</h2>
+      <p class="lead rv">Every section answers a specific recruiter doubt. A few of the ones that carried the most weight:</p>
+      <figure class="rv"><div class="img"><img src="../assets/work/mirello/img03.jpg" alt="Problem section"></div><figcaption>The problem, drawn rather than photographed. Five violet dots in a grid of 300 are the candidates worth a recruiter's time.</figcaption></figure>
+      <figure class="rv"><div class="img"><img src="../assets/work/mirello/img05.jpg" alt="How Mirello works — three product screens"></div><figcaption>Three real screens, not three icons. The unlock price appears inside the UI so pricing is never a surprise later.</figcaption></figure>
+      <figure class="rv"><div class="img"><img src="../assets/work/mirello/img06.jpg" alt="Match intelligence section"></div><figcaption>"Don't just show a score. Show why." The section a sceptical TA lead screenshots for their boss.</figcaption></figure>
+      <figure class="rv"><div class="img"><img src="../assets/work/mirello/img07.jpg" alt="Why Mirello — noise to signal"></div><figcaption>Noise → engine → signal. The competitor comparison rebuilt as a left-to-right story instead of a table.</figcaption></figure>
+      <div class="grid2">
+        <figure class="rv"><div class="img"><img src="../assets/work/mirello/img08.jpg" alt="Product walkthrough"></div><figcaption>An interactive six-step walkthrough built as an accessible tabs pattern. Steps restyled as chips after feedback that they didn't read as clickable.</figcaption></figure>
+        <figure class="rv"><div class="img"><img src="../assets/work/mirello/img09.jpg" alt="Recruiter productivity"></div><figcaption>Productivity, second iteration. The first version was two lists that looked identical; the founders sketched this and it was right.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- AI WORKFLOW -->
+  <section id="ai" style="background:var(--tint)">
+    <div class="wrap">
+      <h2 class="sec-title rv">How I used Claude on this project.</h2>
+      <p class="lead rv">This sprint was my first end-to-end build with Claude as a working partner rather than a chat window. I set the direction, made the calls and reviewed everything; Claude did the heavy lifting between decisions. The rule I kept: AI drafts, I decide.</p>
+      <div class="steps">
+        <div class="step rv"><span class="n">01</span><div><h3>Strategy and research, faster</h3><p>I fed Claude the brand deck and sales deck and had it pull out every commitment the product had already made — gating, explainable matching, pay-per-unlock. Then I used it to map eight Indian hiring platforms against those commitments. I checked each claim, cut what was wrong, and wrote the positioning myself. Days of desk research became an afternoon.</p></div></div>
+        <div class="step rv"><span class="n">02</span><div><h3>The design-system audit and register</h3><p>Claude inventoried the four sources across sixteen element categories and ran the WCAG contrast maths on nine colour pairs — which is how the 3.44:1 failure on the brand violet surfaced early instead of after the first build. The inconsistency register, layer architecture and naming conventions were drafted with Claude and edited by me, so the founders got a document, not a slide.</p></div></div>
+        <div class="step rv"><span class="n">03</span><div><h3>From wireframe to hi-fi in code, not Figma</h3><p>I wrote the sixteen section headings and the rationale for each; Claude built the greyscale wireframe as HTML, then the high-fidelity desktop page on the token foundation, then the 768 and 390 adaptations. Every iteration was a conversation — "the productivity section reads as two identical lists, try the founders' sketch" — and the change came back in minutes. That's why the deliverable is a live demo, not a static mockup.</p></div></div>
+        <div class="step rv"><span class="n">04</span><div><h3>Audit, harden, ship</h3><p>Claude scripted the axe-core runs at both viewports, the keyboard walk and the target-size check, and fixed the two real issues it found in the same session. It also generated the SEO structure, the og-image and the deployment — the founders had a shareable link the same day.</p></div></div>
+        <div class="step rv"><span class="n">05</span><div><h3>An assistant inside the product</h3><p>The demo site carries an "Ask Mirello" panel — a Claude-powered assistant grounded only in the page's own product facts, with an FAQ fallback when no AI runtime is available. It lets a sceptical recruiter ask "what does this cost?" and get the pricing answer without hunting for it — and it let the founders see what an AI-native feature could feel like in their product.</p></div></div>
+      </div>
+      <figure class="rv"><div class="img" style="display:flex;justify-content:center"><img src="../assets/work/mirello/img11.jpg" alt="Ask Mirello assistant panel answering a question about pricing" style="max-width:640px"></div><figcaption>"Ask Mirello" — a Claude-powered assistant on the demo site, grounded in the page's product facts.</figcaption></figure>
+      <div class="prose rv" style="margin-top:32px">
+        <p><strong style="color:var(--navy)">What it changed.</strong> The strategy, the audit, the build and the accessibility pass usually happen in four separate handoffs with four separate tools. With Claude in the loop they happened in one sprint, in one place, with the decisions documented as they were made. What it didn't change: someone still has to know what good looks like, spot the wrong call, and say no. That was my job.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="wrap">
+      <div class="cta-card rv">
+        <div>
+          <h2>Have a product that needs this kind of thinking?</h2>
+          <p>Strategy, design system and a shippable build — in one sprint.</p>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a href="https://wa.me/919967453818?text=Hi%20Abhishek%2C%20I%20saw%20the%20Mirello%20case%20study%20and%20would%20like%20to%20talk." target="_blank" rel="noopener" class="btn btn-light">Let's talk</a>
+          <a href="../index.html#work" class="btn btn-ghost">More work</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr"></span> Abhishek Patade · Navi Mumbai, India</span>
+    <span><a href="https://www.linkedin.com/in/abhipatade/" target="_blank" rel="noopener">LinkedIn</a> · <a href="../index.html">Home</a></span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent=new Date().getFullYear();
+  const nav=document.getElementById('nav'),burger=document.getElementById('burger'),menu=document.getElementById('mobileMenu');
+  burger.addEventListener('click',()=>{const o=menu.classList.toggle('open');burger.classList.toggle('open',o);burger.setAttribute('aria-expanded',o)});
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{menu.classList.remove('open');burger.classList.remove('open')}));
+  addEventListener('keydown',e=>{if(e.key==='Escape'){menu.classList.remove('open');burger.classList.remove('open')}});
+  let lastY=0;addEventListener('scroll',()=>{const y=window.scrollY;if(!menu.classList.contains('open'))nav.classList.toggle('hidden',y>lastY&&y>300);lastY=y},{passive:true});
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+  setTimeout(()=>document.querySelectorAll('.rv').forEach(el=>el.classList.add('in')),4000);
+</script>
+</body>
+</html>
