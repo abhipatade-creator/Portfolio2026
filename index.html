@@ -36,19 +36,47 @@
   .nav .wrap{display:flex;align-items:center;justify-content:space-between;width:100%}
   .nav.on-dark{color:var(--on-dark)}
   .nav.scrolled{background:rgba(255,255,255,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line-2);color:var(--ink)}
-  .logo{font-family:var(--display);font-weight:800;font-size:17px;text-decoration:none;display:flex;align-items:center;gap:10px}
+  .logo{font-family:var(--display);font-weight:800;font-size:17px;white-space:nowrap;text-decoration:none;display:flex;align-items:center;gap:10px}
   .logo .dot{width:10px;height:10px;border-radius:50%;background:var(--violet);box-shadow:0 0 0 4px rgba(145,115,255,.25)}
   .nav-links{display:flex;gap:28px;list-style:none}
   .nav-links a{text-decoration:none;font-size:14px;font-weight:700;opacity:.85;transition:opacity .2s,color .2s}
   .nav-links a:hover{opacity:1;color:var(--violet)}
   .nav.scrolled .nav-links a:hover{color:var(--action)}
-  .nav-cta{display:inline-flex;align-items:center;padding:10px 18px;border-radius:var(--r-full);background:var(--action);color:#fff!important;font-weight:700;font-size:14px;text-decoration:none;opacity:1!important}
+  .nav-cta{display:inline-flex;align-items:center;white-space:nowrap;padding:10px 18px;border-radius:var(--r-full);background:var(--action);color:#fff!important;font-weight:700;font-size:14px;text-decoration:none;opacity:1!important}
   .nav-cta:hover{background:var(--action-hover);color:#fff!important}
   .burger{display:none;background:none;border:0;cursor:pointer;width:44px;height:44px;border-radius:var(--r-sm);color:inherit}
   .burger span{display:block;width:22px;height:2px;background:currentColor;margin:5px auto;transition:.25s}
-  .mobile-menu{display:none;position:fixed;top:var(--nav-h);left:0;right:0;background:#fff;border-bottom:1px solid var(--line-2);z-index:59;padding:12px var(--pad-x) 20px;flex-direction:column;gap:4px}
+  .mobile-menu{position:fixed;top:var(--nav-h);left:0;right:0;background:#fff;border-bottom:1px solid var(--line-2);z-index:59;padding:12px var(--pad-x) 20px;flex-direction:column;gap:4px}
   .mobile-menu a{padding:12px 4px;text-decoration:none;font-weight:700;font-size:16px;border-bottom:1px solid var(--line-2)}
-  .mobile-menu.open{display:flex}
+
+  /* nav interactions */
+  .nav-links a{position:relative;padding:6px 0;opacity:1;color:inherit}
+  .nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:var(--violet);transform:scaleX(0);transform-origin:left;transition:transform .25s cubic-bezier(.4,0,.2,1)}
+  .nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}
+  .nav-links a:hover{color:var(--violet)}
+  .nav-links a.active{color:#fff}
+  .nav.scrolled .nav-links a{color:var(--ink-2)}
+  .nav.scrolled .nav-links a:hover{color:var(--action)}
+  .nav.scrolled .nav-links a.active{color:var(--navy)}
+  .nav.scrolled .nav-links a::after{background:var(--action)}
+  .nav-links a:focus-visible,.nav-cta:focus-visible,.logo:focus-visible,.burger:focus-visible{outline:2px solid var(--violet);outline-offset:4px;border-radius:4px}
+  .nav-cta{transition:background .2s,transform .15s,box-shadow .2s}
+  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(107,71,230,.35)}
+  .nav-cta:active{transform:translateY(0) scale(.97);box-shadow:none}
+  .logo{transition:opacity .2s}.logo:hover{opacity:.8}
+  .logo .dot{transition:transform .3s}.logo:hover .dot{transform:scale(1.25)}
+  .nav.hidden{transform:translateY(-100%)}
+  .nav{transition:background .3s,border-color .3s,transform .35s ease,color .3s}
+  .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .burger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+  .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .mobile-menu{transform:translateY(-8px);opacity:0;pointer-events:none;transition:transform .25s,opacity .25s;display:flex}
+  .mobile-menu.open{transform:none;opacity:1;pointer-events:auto}
+  .mobile-menu a{transition:color .2s,padding-left .2s}
+  .mobile-menu a:hover,.mobile-menu a.active{color:var(--action);padding-left:10px}
+  @media (min-width:681px){.mobile-menu{display:none}}
+  .btn:active{transform:translateY(0) scale(.97)}
+  .btn:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
 
   /* hero */
   .hero{position:relative;background:var(--navy);color:var(--on-dark);padding:calc(var(--nav-h) + 72px) 0 88px;overflow:hidden;isolation:isolate}
@@ -319,7 +347,7 @@
             <div class="desk"><img src="assets/work/mirello/img00.jpg" alt="Mirello homepage hero"></div>
             <div class="mob"><img src="assets/work/mirello/img10.jpg" alt="Mirello on mobile"></div>
           </div>
-          <div class="ft"><div><h3>Mirello — Fit-First Hiring Platform</h3><p>Product strategy, design-system foundations and an accessible marketing site with a live demo — a POC built in one sprint</p></div><span class="arr">↗</span></div>
+          <div class="ft"><div><h3>Mirello — Fit-First Hiring Platform</h3><p>Product strategy, design-system foundations and an accessible marketing site with a live demo — a POC built in one sprint with Claude AI</p></div><span class="arr">↗</span></div>
         </a>
       </div>
     </div>
@@ -488,8 +516,19 @@
   const onScroll=()=>{nav.classList.toggle('scrolled',window.scrollY>40)};
   onScroll();addEventListener('scroll',onScroll,{passive:true});
   const burger=document.getElementById('burger'),menu=document.getElementById('mobileMenu');
-  burger.addEventListener('click',()=>{const o=menu.classList.toggle('open');burger.setAttribute('aria-expanded',o);nav.classList.toggle('scrolled',o||window.scrollY>40)});
-  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>menu.classList.remove('open')));
+  burger.addEventListener('click',()=>{const o=menu.classList.toggle('open');burger.classList.toggle('open',o);burger.setAttribute('aria-expanded',o);nav.classList.toggle('scrolled',o||window.scrollY>40)});
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{menu.classList.remove('open');burger.classList.remove('open');burger.setAttribute('aria-expanded','false')}));
+  // scroll-spy: highlight the section in view
+  const spyLinks=[...document.querySelectorAll('.nav-links a[href^="#"], .mobile-menu a[href^="#"]')];
+  const spySections=spyLinks.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const spy=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const id='#'+e.target.id;spyLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===id))}})},{rootMargin:'-40% 0px -55% 0px'});
+  spySections.forEach(s=>spy.observe(s));
+  // hide nav on scroll down, show on scroll up
+  let lastY=0;
+  addEventListener('scroll',()=>{const y=window.scrollY;if(!menu.classList.contains('open')){nav.classList.toggle('hidden',y>lastY&&y>300)}lastY=y},{passive:true});
+  // close mobile menu on Escape
+  addEventListener('keydown',e=>{if(e.key==='Escape'&&menu.classList.contains('open')){menu.classList.remove('open');burger.classList.remove('open');burger.setAttribute('aria-expanded','false')}});
+
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
   document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 </script>
