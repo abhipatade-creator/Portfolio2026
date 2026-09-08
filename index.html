@@ -147,9 +147,10 @@
 
 
   /* featured */
-  .feat-grid{display:grid;grid-template-columns:1fr;gap:32px}
+  .feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+  @media (max-width:820px){.feat-grid{grid-template-columns:1fr}}
   .feat{text-decoration:none;color:inherit;display:block}
-  .feat .fv{position:relative;border-radius:var(--r-xl);overflow:hidden;aspect-ratio:16/8;background:linear-gradient(135deg,#1a1276,var(--action) 60%,var(--violet));transition:transform .3s,box-shadow .3s}
+  .feat .fv{position:relative;border-radius:var(--r-xl);overflow:hidden;aspect-ratio:16/11;background:linear-gradient(135deg,#1a1276,var(--action) 60%,var(--violet));transition:transform .3s,box-shadow .3s}
   .feat:hover .fv{transform:translateY(-6px);box-shadow:0 30px 70px rgba(15,10,85,.18)}
   .feat .fv::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.16) 1px,transparent 1px);background-size:22px 22px;opacity:.5}
   .feat .desk{position:absolute;left:8%;right:22%;top:12%;border-radius:12px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.35)}
@@ -338,7 +339,7 @@
     <div class="wrap">
       <div class="sec-head rv">
         <div><span class="num">01 — FEATURED WORK</span><h2>Products, platforms and systems I've shaped.</h2></div>
-        <p>Enterprise SaaS, insurance suites, analytics and design systems. More case studies are on the way — the first one is live below.</p>
+        <p>Enterprise SaaS, insurance suites, analytics and design systems. Two case studies are live; more are being written up.</p>
       </div>
       <div class="feat-grid">
         <a class="feat rv" href="work/mirello.html">
@@ -348,6 +349,13 @@
             <div class="mob"><img src="assets/work/mirello/img10.jpg" alt="Mirello on mobile"></div>
           </div>
           <div class="ft"><div><h3>Mirello — Fit-First Hiring Platform</h3><p>Product strategy, design-system foundations and an accessible marketing site with a live demo — a POC built in one sprint with Claude AI</p></div><span class="arr">↗</span></div>
+        </a>
+        <a class="feat rv" href="work/phishing-simulation.html">
+          <div class="fv">
+            <span class="poc-badge">Enterprise SaaS · LRN Catalyst</span>
+            <div class="desk" style="left:8%;right:8%;top:12%"><img src="assets/work/phishing/prod-create.jpg" alt="Phishing Simulation — create campaign screen"></div>
+          </div>
+          <div class="ft"><div><h3>Phishing Simulation — LRN Catalyst</h3><p>0 → 1 enterprise product: campaign creation workflow, a 50+ template library, and behaviour analytics for security and compliance admins</p></div><span class="arr">↗</span></div>
         </a>
       </div>
     </div>
