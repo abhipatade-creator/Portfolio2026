@@ -265,6 +265,8 @@
   .contact-list a small{font-weight:400;color:var(--on-dark-2);font-size:13px;display:block}
   .contact-list a .arr{color:var(--violet)}
 
+  .copied{display:inline-block;margin-left:14px;font-size:13px;font-weight:700;color:#c8f5dd;opacity:0;transform:translateY(4px);transition:opacity .25s,transform .25s;vertical-align:middle}
+  .copied.show{opacity:1;transform:none}
   footer{padding:28px 0;font-size:13px;color:var(--ink-3)}
   footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   footer a{color:var(--ink-2);text-decoration:none;font-weight:700}
@@ -532,10 +534,11 @@
           <span class="eyebrow">Get in touch</span>
           <h2 style="margin-top:18px">Have a complex product? <em>Let's make it clear.</em></h2>
           <p>Open to principal / lead design roles and consulting engagements — remote, hybrid or in India. Happy to talk through a problem before there's a brief.</p>
-          <a href="mailto:abhipatade@gmail.com" class="btn btn-light">Email me →</a>
+          <a href="mailto:abhipatade@gmail.com?subject=Hi%20Abhishek%20%E2%80%94%20from%20your%20portfolio" class="btn btn-light js-mail">Email me →</a>
+          <span class="copied" id="copied" aria-live="polite">Copied abhipatade@gmail.com ✓</span>
         </div>
         <ul class="contact-list">
-          <li><a href="mailto:abhipatade@gmail.com"><span>abhipatade@gmail.com<small>Email</small></span><span class="arr">↗</span></a></li>
+          <li><a href="mailto:abhipatade@gmail.com?subject=Hi%20Abhishek%20%E2%80%94%20from%20your%20portfolio" class="js-mail"><span>abhipatade@gmail.com<small>Email · click to open or copy</small></span><span class="arr">↗</span></a></li>
           <li><a href="https://wa.me/919967453818?text=Hi%20Abhishek%2C%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20talk." target="_blank" rel="noopener"><span>+91 99674 53818<small>WhatsApp — opens a chat</small></span><span class="arr">↗</span></a></li>
           <li><a href="tel:+919967453818"><span>+91 99674 53818<small>Call</small></span><span class="arr">↗</span></a></li>
           <li><a href="https://www.linkedin.com/in/abhipatade/" target="_blank" rel="noopener"><span>linkedin.com/in/abhipatade<small>LinkedIn</small></span><span class="arr">↗</span></a></li>
@@ -556,6 +559,11 @@
 
 <script>
   document.getElementById('yr').textContent=new Date().getFullYear();
+  // Email: open the mail app if there is one, and always copy the address as a fallback
+  document.querySelectorAll('.js-mail').forEach(a=>a.addEventListener('click',()=>{
+    const t=document.getElementById('copied');
+    try{navigator.clipboard.writeText('abhipatade@gmail.com').then(()=>{t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)})}catch(e){}
+  }));
   const nav=document.getElementById('nav');
   const onScroll=()=>{nav.classList.toggle('scrolled',window.scrollY>40)};
   onScroll();addEventListener('scroll',onScroll,{passive:true});
