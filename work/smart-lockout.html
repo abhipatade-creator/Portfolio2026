@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Do Pahiye — Two-wheeler discovery &amp; test-ride platform · Abhishek Patade</title>
-<meta name="description" content="Case study: Do Pahiye, a two-wheeler discovery, comparison and test-ride booking platform for India — mega-menu navigation, location-aware pricing, and a three-step test-ride flow with dealer confirmation.">
+<title>Smart Lockout 2.0 — Lockout / Tagout &amp; Work Permit Portal · Abhishek Patade</title>
+<meta name="description" content="Case study: designing Smart Lockout 2.0, a web portal for lockout / tagout and work-permit management across Work Permit Issuer, Work Permit Receiver and Admin roles.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Lato:wght@400;700&display=swap" rel="stylesheet">
@@ -243,9 +243,36 @@
   .journey p{font-size:13.5px}
   @media (max-width:900px){.shots3{grid-template-columns:1fr}.tall,.journey{grid-template-columns:1fr 1fr}}
   @media (max-width:560px){.tall,.journey{grid-template-columns:1fr}}
+
+  .wfgrid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px;align-items:start}
+  .wfgrid figure{margin:0;display:grid;grid-template-rows:subgrid;grid-row:span 2;gap:0}
+  .wfgrid figcaption{order:-1;text-align:left;font-weight:700;color:var(--ink-2);margin:0 0 10px;align-self:end}
+  .wfgrid .img{padding:0;overflow:hidden;background:#fff;max-height:640px;position:relative;align-self:start;border:1px solid var(--line-2)}
+  
+  .wfgrid .img img{border-radius:0;box-shadow:none;width:100%}
+  .wfgrid{grid-template-rows:auto auto}
+  @media (max-width:900px){.wfgrid{grid-template-columns:1fr}}
+  .roles{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px}
+  .role{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-xl);padding:24px}
+  .role small{display:block;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--action);margin-bottom:8px}
+  .role h3{font-size:18px;margin-bottom:8px}
+  .role p{font-size:14.5px;margin-bottom:10px}
+  .role ul{list-style:none;display:grid;gap:4px;font-size:13.5px;color:var(--ink-2)}
+  .role li{padding-left:12px;position:relative}.role li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;background:var(--violet)}
+  .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:28px}
+  .steps div{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-lg);padding:16px 16px 18px;position:relative}
+  .steps b{display:block;font-family:var(--display);color:var(--violet);font-size:12px;letter-spacing:.1em;margin-bottom:6px}
+  .steps h3{font-size:15px;margin-bottom:4px}
+  .steps p{font-size:13px}
+  .wfgrid.ui .img{max-height:none;background:#F1F2F4;border-color:var(--line)}
+  .wfgrid.ui figure.pop .img{background:#F1F2F4;padding:24px;display:flex;justify-content:center}
+  .wfgrid.ui figure.pop img{width:auto;max-width:100%;max-height:520px;border-radius:12px;box-shadow:0 20px 50px rgba(15,10,85,.18)}
+  @media (max-width:900px){.roles{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}}
+  @media (max-width:560px){.steps{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
+
 
 <header class="nav" id="nav">
   <div class="wrap">
@@ -269,14 +296,14 @@
   <div class="head">
     <div class="wrap">
       <a href="../index.html#work" class="crumb">← Back to work</a><br>
-      <span class="poc">E-commerce · Two-wheelers · Web · Outsourced · 2024</span>
-      <h1>Do Pahiye — from "which bike?" to a booked test ride, without leaving the site.</h1>
-      <p class="sub">A two-wheeler discovery and test-ride platform for India. Browse by brand, category, fuel type or budget, compare models with real ex-showroom prices for your city, and book a dealer test ride in three steps — with documents, payment and dealer confirmation handled in one flow.</p>
+      <span class="poc">Enterprise web portal · Industrial safety · 2025</span>
+      <h1>Smart Lockout 2.0 — a lockout / tagout portal that makes every padlock, permit and hand-over accountable.</h1>
+      <p class="sub">A web application for plants that run lockout / tagout (LOTO) with smart padlock cabinets: a Work Permit Issuer isolates equipment and issues permits, a Work Permit Receiver signs on to do the work, and an administrator keeps users, equipment and cabinets in order. I designed the full portal — three role-based journeys, 40+ screens and the component set behind them.</p>
     </div>
   </div>
 
   <div class="wrap">
-    <div class="hero-visual rv" style="background:none;min-height:0;aspect-ratio:auto"><img src="../assets/work/dopahiye/thumbnail.jpg" alt="Do Pahiye — listing, product, checkout and test-ride status screens" style="width:100%;border-radius:var(--r-xl)"></div>
+    <div class="hero-visual rv" style="background:none;min-height:0;aspect-ratio:auto"><img src="../assets/work/smart-lockout/thumbnail.jpg" alt="Smart Lockout 2.0 dashboard and create-lockout screens" style="width:100%;border-radius:var(--r-xl)"></div>
   </div>
 
   <!-- SUMMARY -->
@@ -287,35 +314,29 @@
         <div>
           <div class="block rv">
             <h3>Mission</h3>
-            <p>Buying a two-wheeler in India is still mostly a showroom job: prices change by city, every brand has its own site, and a test ride means a phone call and a visit. Do Pahiye ("two wheels" in Hindi) was designed to move the whole front half of that journey online — discover, compare, test ride — and hand the buyer to a dealer only when they're ready to sign. The site had to work for a first-time scooter buyer and a Pulsar enthusiast comparing variants, on the same navigation.</p>
+            <p>Lockout / tagout is how a plant stops a boiler, panel or conveyor from being switched on while someone is working on it. In practice it runs on physical padlocks, paper permits and shift hand-overs — and every gap between those is a safety risk. Smart Lockout 2.0 connects the physical padlocks (iFobs held in smart cabinets) to a portal that tracks who isolated what, who holds which lock, which permits are open, and what happens when a shift ends or a permit expires. The product had to be usable by people in high-vis on a plant floor, not just by an admin at a desk.</p>
           </div>
           <div class="block rv">
             <h3>My contributions</h3>
-            <p>I designed the web experience end to end: information architecture and the four-way mega menu (brands, categories, fuel type, budget), the location-aware pricing model, the homepage and brand listing pages, product detail with specs and gallery, sign-in / sign-up with phone-number login and OTP, and the test-ride booking flow — from the login gate through vehicle selection, document upload, scheduling, payment and a post-booking status timeline the buyer and dealer both see.</p>
+            <p>I mapped the three roles and their end-to-end journeys first — Work Permit Issuer, Work Permit Receiver and System Administrator — then designed every screen along them: sign-in, role dashboards, the create-lockout flow with live cabinet status, lockout and permit listings, sign-on / sign-off, adding WPRs and locks to an existing lockout, returning keys, transfers between shifts and task executors, expired-permit transfer, reports, and the admin side for user accounts and equipment. Along the way I built the dialog, table, status and card patterns the whole portal reuses.</p>
           </div>
           <div class="block rv">
             <h3>Impact</h3>
-            <p>The result is a single, consistent path from browsing to a confirmed ride, with the dealer relationship kept intact.</p>
-            <div class="stats">
-              <div class="stat"><b>4 ways in</b><span>brand · category · fuel type · budget — one mega menu</span></div>
-              <div class="stat"><b>3 steps</b><span>to book a test ride: vehicle → documents → schedule</span></div>
-              <div class="stat"><b>City-aware</b><span>ex-showroom pricing by city and pincode</span></div>
-              <div class="stat"><b>5 stages</b><span>tracked after booking, from payment to feedback</span></div>
-            </div>
+            <p>Delivered as a complete high-fidelity Figma design — three role journeys, 40+ screens and 30+ dialog states — ready for development, with the same dashboard, table, dialog and status language across every role so a user who learns one flow can predict the rest.</p>
           </div>
         </div>
         <aside class="meta rv">
           <div class="block">
             <h3>Client</h3>
-            <p>V2S Tech Solutions — outsourced design engagement for their client Do Pahiye, a two-wheeler discovery, comparison and test-ride booking platform in India.</p>
+            <p>Loto Smart — Smart Lockout 2.0, a lockout / tagout and work-permit management portal for industrial plants.</p>
           </div>
           <div class="block">
             <h3>What I did</h3>
-            <ul><li>Information architecture &amp; mega-menu navigation</li><li>Homepage, brand &amp; product pages</li><li>Location &amp; pricing model</li><li>Sign-in / sign-up with OTP</li><li>Test-ride booking &amp; payment flow</li><li>Booking status &amp; dealer hand-off</li><li>Visual design &amp; UI</li></ul>
+            <ul><li>Role &amp; journey mapping (WPI / WPR / Admin)</li><li>Information architecture &amp; dashboards</li><li>Create Lockout with live cabinet status</li><li>Lockout &amp; permit listings</li><li>Sign-on / sign-off &amp; key return</li><li>Shift, task-executor &amp; expired-permit transfers</li><li>Admin: users, equipment, alerts</li><li>Reports &amp; component patterns</li></ul>
           </div>
           <div class="block">
             <h3>My role</h3>
-            <p>Product Designer — UX and UI end to end, working through V2S Tech Solutions with the product and engineering teams.</p>
+            <p>Product / UX Designer — sole designer, working with the product owner and engineering team.</p>
           </div>
           <div class="block">
             <h3>Tools</h3>
@@ -323,7 +344,7 @@
           </div>
           <div class="block">
             <h3>Timeline</h3>
-            <p>2024</p>
+            <p>2025</p>
           </div>
         </aside>
       </div>
@@ -332,96 +353,95 @@
 
   <div class="wrap"><hr class="rule"></div>
 
-  <!-- JOURNEY -->
-  <section id="journey" style="background:var(--tint)">
+  <!-- ROLES -->
+  <section id="roles" style="background:var(--tint);--sec-bg:var(--tint)">
     <div class="wrap">
-      <h2 class="sec-title rv">One journey, four stages.</h2>
-      <p class="lead rv">The homepage promises it in plain words — Discover, Select, Test, Delivered — and every screen on the site belongs to one of those four stages.</p>
-      <div class="journey">
-        <div class="rv"><b>01</b><h3>Discover</h3><p>Mega menu, categories, fuel filter, offers. Find the shortlist fast.</p></div>
-        <div class="rv"><b>02</b><h3>Select</h3><p>Brand listing and product pages with city price, colours, finance partners, specs and reviews.</p></div>
-        <div class="rv"><b>03</b><h3>Test</h3><p>Book a dealer test ride in three steps; pay a small booking amount; track status.</p></div>
-        <div class="rv"><b>04</b><h3>Delivered</h3><p>Buy through the dealer and get the vehicle delivered — the site steps back once the ride is done.</p></div>
+      <h2 class="sec-title rv">Three roles, one system of record.</h2>
+      <p class="lead rv">The first job was to be precise about who does what. LOTO has a strict chain of responsibility, and the portal had to mirror it rather than flatten everyone into "user". Each role gets its own dashboard, with only the actions it is allowed to take.</p>
+      <div class="roles">
+        <div class="role rv"><small>Role 01</small><h3>Work Permit Issuer (WPI)</h3><p>Owns the isolation. Creates lockouts, picks the padlocks, issues permits, adds receivers and locks, signs off, and handles every kind of transfer.</p><ul><li>Create / change / sign off lockout</li><li>Create permit, work-permit list</li><li>Add WPR or lock to a lockout</li><li>Return lock / key, clear status</li><li>Transfer lockout, task executor, shift, expired permit</li><li>Reports</li></ul></div>
+        <div class="role rv"><small>Role 02</small><h3>Work Permit Receiver (WPR)</h3><p>Does the work. Signs on to a lockout, adds their own lock if allowed, signs on and off the permit, and hands over at shift change.</p><ul><li>View lockouts</li><li>Sign on / sign off lockout</li><li>Add lock to lockout</li><li>Sign on / sign off work permit</li><li>Transfer between shifts</li><li>Return lock / key</li></ul></div>
+        <div class="role rv"><small>Role 03</small><h3>System Administrator</h3><p>Keeps the setup healthy: people, equipment and cabinets. Sees cabinet and iFob errors first.</p><ul><li>Important alerts (cabinet / iFob / key errors)</li><li>Create &amp; update user accounts</li><li>User account list</li><li>Add equipment, equipment list</li><li>Reports</li></ul></div>
       </div>
-      <figure class="rv" style="margin-top:36px"><div class="img" style="padding:0;overflow:hidden;max-height:900px;position:relative"><img src="../assets/work/dopahiye/homepage.jpg" alt="Do Pahiye homepage" style="border-radius:0;box-shadow:none"><div style="position:absolute;left:0;right:0;bottom:0;height:140px;background:linear-gradient(transparent,var(--tint))"></div></div><figcaption>Homepage — hero, category tiles with a petrol / electric / CNG filter, offers, gear, the four-stage journey and FAQs.</figcaption></figure>
-    </div>
-  </section>
-
-  <!-- DISCOVER -->
-  <section id="discover">
-    <div class="wrap">
-      <h2 class="sec-title rv">Discover — a mega menu that thinks like a buyer.</h2>
-      <p class="lead rv">People don't shop for bikes one way. Some know the brand, some know the budget, some just want "a scooter under a lakh". The Explore Bikes menu opens with all four routes side by side, and the right-hand panel previews the model before you click through.</p>
-      <div class="shots3">
-        <figure class="rv"><figcaption>By brand — Hero, Bajaj, TVS, Royal Enfield, KTM… → model family → model, with a live preview, price, colours and three actions.</figcaption><div class="img"><img src="../assets/work/dopahiye/megamenu-brands.jpg" alt="Explore Bikes mega menu by brand with model preview"></div></figure>
-        <figure class="rv"><figcaption>By bike family — the same panel when you already know you want a Pulsar.</figcaption><div class="img"><img src="../assets/work/dopahiye/megamenu-bikes.jpg" alt="Explore Bikes mega menu by bike family"></div></figure>
-        <figure class="rv"><figcaption>Grid view — every variant in a family at a glance, for the buyer comparing NS400z against RS250.</figcaption><div class="img"><img src="../assets/work/dopahiye/megamenu-models.jpg" alt="Explore Bikes mega menu grid of Pulsar models"></div></figure>
+      <div class="wfgrid ui">
+        <figure class="rv"><figcaption>WPI dashboard — Lockout Management, Work Permit Management and Reporting as three groups of plain-language actions.</figcaption><div class="img"><img src="../assets/work/smart-lockout/wpi-dashboard.png" alt="Work Permit Issuer dashboard"></div></figure>
+        <figure class="rv"><figcaption>WPR dashboard — the same layout, a shorter list: only what a receiver is allowed to do.</figcaption><div class="img"><img src="../assets/work/smart-lockout/wpr-dashboard.png" alt="Work Permit Receiver dashboard"></div></figure>
+        <figure class="rv"><figcaption>Admin dashboard — Important Alerts sit above the setup actions, because a cabinet error matters more than a new account.</figcaption><div class="img"><img src="../assets/work/smart-lockout/admin-dashboard.png" alt="System Administrator dashboard with alerts"></div></figure>
+        <figure class="rv"><figcaption>Sign in — one entry point; the role comes from the account and drives which dashboard opens.</figcaption><div class="img"><img src="../assets/work/smart-lockout/signin.png" alt="Sign in screen"></div></figure>
       </div>
       <div class="decisions">
-        <div class="dec rv"><small>Decision</small><h3>Preview before you commit</h3><p>Hovering a model shows price, colours, "Add to compare", "Book a test ride" and "View virtual showroom" inside the menu. A buyer can shortlist three bikes without loading three pages.</p></div>
-        <div class="dec rv"><small>Decision</small><h3>Price follows the city</h3><p>Ex-showroom prices in India vary by state. The location picker — city plus pincode, metro cities as photo tiles, other cities as chips — sits in the header so every price on the site is already the right one.</p></div>
-      </div>
-      <figure class="rv"><div class="img" style="padding:0;overflow:hidden"><img src="../assets/work/dopahiye/location-picker.jpg" alt="Location picker with metro cities and pincode" style="border-radius:0;box-shadow:none"></div><figcaption>Location picker — Hyderabad selected; the header pill turns orange to show the price context has changed.</figcaption></figure>
-    </div>
-  </section>
-
-  <!-- SELECT -->
-  <section id="select" style="background:var(--tint)">
-    <div class="wrap">
-      <h2 class="sec-title rv">Select — listing pages built for comparison.</h2>
-      <p class="lead rv">A brand page is grouped by model family — Freedom, Pulsar, Dominar, Avenger, Platina, CT — each with a launch banner and cards that carry the four things buyers compare first: starting price, colours, finance partners, and a direct "Book Now".</p>
-      <div class="tall">
-        <figure class="rv"><div class="img"><img src="../assets/work/dopahiye/brand-listing.jpg" alt="Bajaj brand listing page"></div><figcaption>Bajaj listing — filters on the left, families with "Newly launched" and "Best seller" tags, finance-partner icons on every card.</figcaption></figure>
-        <div>
-          <div class="decisions" style="grid-template-columns:1fr;margin-top:0">
-            <div class="dec rv"><small>Decision</small><h3>Family first, then variant</h3><p>Grouping by family matches how people talk about bikes — "a Pulsar" before "an NS200". Each family gets its own banner and a "View all 12 Pulsar" link so the page stays scannable.</p></div>
-            <div class="dec rv"><small>Decision</small><h3>Finance on the card</h3><p>Most two-wheelers in India are financed. Showing the partner logos on the card answers "can I get a loan on this?" before the buyer opens the product page.</p></div>
-            <div class="dec rv"><small>Decision</small><h3>Product page as a spec sheet</h3><p>Overview tiles for performance and design, then features and a full specifications table, then gallery and reviews — with "Book a Test Ride" and "Buy Now" pinned at the top.</p></div>
-          </div>
-        </div>
+        <div class="dec rv"><small>Decision</small><h3>Actions as tiles, not menus</h3><p>Every dashboard is a grid of large icon tiles with the action written out — "Sign Off Lockout", "Return Lock / Key". On a tablet at a cabinet, that beats a nested navigation.</p></div>
+        <div class="dec rv"><small>Decision</small><h3>Say who you're signed in as</h3><p>The role is printed in the header and repeated in the page bar ("Signed in as Work Permit Issuer"). In a safety system, nobody should have to guess whose permissions they're using.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- ACCOUNT -->
-  <section id="account">
+  <!-- CREATE LOCKOUT -->
+  <section id="lockout">
     <div class="wrap">
-      <h2 class="sec-title rv">Sign in with your phone, not another password to forget.</h2>
-      <p class="lead rv">The phone number is the login ID. Sign-up verifies it by OTP inline, checks the password rules as you type, and offers Google and Apple for people who'd rather not.</p>
-      <div class="tall">
-        <figure class="rv"><div class="img" style="max-height:none"><img src="../assets/work/dopahiye/signin.jpg" alt="Sign in"></div><figcaption>Sign in — username and password or Google / Apple, on the brand purple.</figcaption></figure>
-        <figure class="rv"><div class="img" style="max-height:none"><img src="../assets/work/dopahiye/signup.jpg" alt="Sign up with OTP and password rules"></div><figcaption>Sign up — phone as login ID, OTP with a resend timer, password rules shown as a tooltip on the field that failed.</figcaption></figure>
+      <h2 class="sec-title rv">Creating a lockout, with the cabinet in view.</h2>
+      <p class="lead rv">The core flow. The issuer describes the equipment and the isolation reason on the left, and picks physical padlocks from the smart cabinet on the right — with a live count of what's available, in use and selected. The form can't be saved until iFobs are chosen, and the banner says what has to happen next: return the fobs to the cabinet before a receiver can be added.</p>
+      <div class="steps">
+        <div class="rv"><b>01</b><h3>Describe</h3><p>Lockout ID is generated; equipment and isolation reason are required.</p></div>
+        <div class="rv"><b>02</b><h3>Pick padlocks</h3><p>Choose iFobs from the cabinet grid, grouped ten at a time.</p></div>
+        <div class="rv"><b>03</b><h3>Authenticate</h3><p>Card scan or password confirms the issuer; fobs go back to the cabinet.</p></div>
+        <div class="rv"><b>04</b><h3>Add WPR</h3><p>Assign receivers and issue the work permit.</p></div>
+        <div class="rv"><b>05</b><h3>Sign off</h3><p>Locks returned, status cleared, lockout complete.</p></div>
       </div>
-    </div>
-  </section>
-
-  <!-- TEST RIDE -->
-  <section id="testride" style="background:var(--tint)">
-    <div class="wrap">
-      <h2 class="sec-title rv">Test — book a dealer ride in three steps.</h2>
-      <p class="lead rv">The test ride is where the site earns its keep, so it lives in a side panel over the product page rather than a separate journey. Three steps, a small booking payment to cut no-shows, and a status timeline that keeps the buyer informed while the dealer does their part.</p>
-      <div class="shots3" style="grid-template-columns:1fr 1fr">
-        <figure class="rv"><figcaption>Gate — "Please login to start booking". Signed-out visitors can browse everything; the ride needs an account.</figcaption><div class="img"><img src="../assets/work/dopahiye/testride-login-gate.jpg" alt="Login gate before booking a test ride"></div></figure>
-        <figure class="rv"><figcaption>Step 2 of 3 — vehicle and variant confirmed, then driving licence and Aadhaar upload, then date and time. Back and Next always visible.</figcaption><div class="img"><img src="../assets/work/dopahiye/testride-step2.jpg" alt="Book a test ride step 2: documents and schedule"></div></figure>
-        <figure class="rv"><figcaption>Payment successful — the booking is placed, an email goes out, and status is shown as "Pending — awaiting dealer approval" so expectations are set immediately.</figcaption><div class="img"><img src="../assets/work/dopahiye/payment-success.jpg" alt="Payment successful with pending dealer approval"></div></figure>
-        <figure class="rv"><figcaption>Status timeline — payment, dealer confirmation with a named contact, ride completed, photos from the ride, feedback. The buyer never has to call to ask "what's happening?"</figcaption><div class="img"><img src="../assets/work/dopahiye/testride-status.jpg" alt="Test ride status timeline"></div></figure>
+      <div class="wfgrid ui" style="--sec-bg:#fff">
+        <figure class="rv"><figcaption>Create Lockout — form on the left, cabinet A-123 on the right with Available / In Use / Selected counts.</figcaption><div class="img"><img src="../assets/work/smart-lockout/wpi-create-lockout.png" alt="Create lockout screen with padlock cabinet grid"></div></figure>
+        <figure class="rv"><figcaption>View Lockouts — success banner, search, sortable table with Active / Pending / Complete status pills, permit count and row actions.</figcaption><div class="img"><img src="../assets/work/smart-lockout/wpi-lockout-list.png" alt="Lockout listing table"></div></figure>
+        <figure class="rv pop"><figcaption>Authentication Required — before a lockout is confirmed, the issuer proves it's them: RFID / NFC card scan or password. The same dialog frame carries every confirmation in the portal.</figcaption><div class="img"><img src="../assets/work/smart-lockout/popup-create-lockout.png" alt="Authentication required dialog with card scan or password"></div></figure>
+        <figure class="rv pop"><figcaption>Select Shifts — Morning / Day / Night as three big targets, with the current shift marked, before a hand-over.</figcaption><div class="img"><img src="../assets/work/smart-lockout/popup-select-shifts.png" alt="Select shifts dialog"></div></figure>
       </div>
       <div class="decisions">
-        <div class="dec rv"><small>Decision</small><h3>Documents up front</h3><p>Dealers need a licence and ID before they hand over a bike. Collecting them at booking — not at the showroom — is what lets the ride actually happen on the scheduled slot.</p></div>
-        <div class="dec rv"><small>Decision</small><h3>Honest about "pending"</h3><p>The dealer has to accept the slot. Rather than pretend the booking is confirmed, the success screen says so plainly and the timeline updates when it is.</p></div>
+        <div class="dec rv"><small>Decision</small><h3>The cabinet is a picker, not a dropdown</h3><p>Padlocks are shown as a grid that mirrors the physical cabinet, with a coloured dot for availability. Picking LO-006 on screen should feel like reaching for it on the wall.</p></div>
+        <div class="dec rv"><small>Decision</small><h3>Rules live in banners, not in error messages</h3><p>"A WPR can only be added once all iFobs are returned" is shown before the user tries, in an info banner — so the sequence is taught, not enforced by failure.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERMITS & TRANSFERS -->
+  <section id="permits" style="background:var(--tint);--sec-bg:var(--tint)">
+    <div class="wrap">
+      <h2 class="sec-title rv">Permits, hand-overs and the messy middle.</h2>
+      <p class="lead rv">Real plants don't finish work in one shift. The hardest screens were the transfers: moving a permit to a new task executor, handing a lockout between shifts, and dealing with a permit that expired while locks are still on. Each one is a listing with a Proceed action, a confirmation dialog, and a clear statement of what changes hands.</p>
+      <div class="wfgrid ui">
+        <figure class="rv"><figcaption>Work Permit List — permit number, WPI, WPR, task executor, Active / Expired / Closed status, linked lockout, expiry and shift in one row.</figcaption><div class="img"><img src="../assets/work/smart-lockout/wpi-permit-list.png" alt="Work permit listing"></div></figure>
+        <figure class="rv"><figcaption>Transfer Task Executor — find the permit, see who currently holds it, Proceed to hand the work to someone else without touching the lockout.</figcaption><div class="img"><img src="../assets/work/smart-lockout/wpi-task-executor-transfer.png" alt="Transfer task executor screen"></div></figure>
+        <figure class="rv"><figcaption>WPR — View Lockouts. The receiver sees the lockouts they're on and signs on or off from the row.</figcaption><div class="img"><img src="../assets/work/smart-lockout/wpr-lockout-list.png" alt="Receiver lockout list"></div></figure>
+        <figure class="rv"><figcaption>WPR — Transfer Work Permit Receiver, including the empty state: "No Pending Tasks" is a full screen, not a blank table.</figcaption><div class="img"><img src="../assets/work/smart-lockout/wpr-transfer.png" alt="Transfer work permit receiver screen with empty state"></div></figure>
+      </div>
+      <div class="decisions">
+        <div class="dec rv"><small>Decision</small><h3>One table pattern everywhere</h3><p>Lockouts, permits and transfers all use the same table: search on top, status pills, a sortable date column, view and overflow actions on the right, pagination below. Four journeys, one thing to learn.</p></div>
+        <div class="dec rv"><small>Decision</small><h3>Transfers are a step, not a form</h3><p>Every transfer starts from a listing and a single Proceed, then confirms in a dialog. The user picks a real row first — nobody types a permit number from memory.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADMIN & REPORTS -->
+  <section id="admin">
+    <div class="wrap">
+      <h2 class="sec-title rv">Admin and reporting.</h2>
+      <p class="lead rv">The administrator's side is deliberately plain: create and update accounts with a role, register equipment, and keep the cabinets and iFobs healthy. Reports roll lockouts up into Created / Active / Expired / Pending counts with a downloadable detail table for each.</p>
+      <div class="wfgrid ui" style="--sec-bg:#fff">
+        <figure class="rv"><figcaption>Reports (WPI) — headline counts, a filter by status, and the full lockout table ready to download.</figcaption><div class="img"><img src="../assets/work/smart-lockout/wpi-reports.png" alt="Reports screen with lockout counts"></div></figure>
+        <figure class="rv"><figcaption>Create User Account — name, email, employee ID and role as a row; "Add multiple users" adds rows instead of opening another form.</figcaption><div class="img"><img src="../assets/work/smart-lockout/admin-create-user.png" alt="Create user account form"></div></figure>
+        <figure class="rv"><figcaption>Equipment list — every iFob and padlock registered in the system, with make, ID and type, and an Add Equipment action.</figcaption><div class="img"><img src="../assets/work/smart-lockout/admin-equipment-list.png" alt="Equipment list"></div></figure>
+        <figure class="rv"><figcaption>Admin reports — the same report frame as the issuer's view, scoped to the whole system.</figcaption><div class="img"><img src="../assets/work/smart-lockout/admin-reports.png" alt="Admin reports screen"></div></figure>
       </div>
     </div>
   </section>
 
   <!-- LEARNED -->
-  <section id="learned">
+  <section id="learned" style="background:var(--tint)">
     <div class="wrap">
-      <h2 class="sec-title rv">What I'd carry into the next one.</h2>
+      <h2 class="sec-title rv">What I'd carry into the next safety-critical product.</h2>
       <ul class="principles">
-        <li class="rv"><b>Navigation is the product.</b> On a catalogue site, the mega menu does more selling than the homepage. Giving it four entry points and a live preview was the single biggest usability win.</li>
-        <li class="rv"><b>Context first, then content.</b> Asking for the city before showing prices avoids the worst e-commerce moment: falling for a number that turns out to be wrong for you.</li>
-        <li class="rv"><b>Design the hand-off.</b> The site couldn't replace the dealer, so the goal became a clean hand-off — documents collected, slot paid for, status visible — instead of pretending the dealer wasn't there.</li>
-        <li class="rv"><b>Side panels keep momentum.</b> Booking in a drawer over the product page means the buyer never loses the bike they were looking at.</li>
+        <li class="rv"><b>Map the roles before the screens.</b> Getting WPI, WPR and Admin right — who can do what, in what order — made forty screens fall out of three journeys instead of forty separate decisions.</li>
+        <li class="rv"><b>Mirror the physical world.</b> The padlock grid looks like the cabinet, the status colours match the dots on the fobs. When software describes a physical process, the mapping is the usability.</li>
+        <li class="rv"><b>Teach the rule before the error.</b> Info banners that explain sequencing up front removed a whole class of "why can't I save?" moments.</li>
+        <li class="rv"><b>Design the exceptions.</b> Expired permits, shift changes, a receiver who leaves mid-job — the edge cases are where a safety system earns its keep, so they got full flows, not a footnote.</li>
       </ul>
     </div>
   </section>
@@ -431,11 +451,11 @@
     <div class="wrap">
       <div class="cta-card rv">
         <div>
-          <h2>Building a marketplace or booking flow?</h2>
-          <p>Happy to walk through the navigation and hand-off decisions in detail.</p>
+          <h2>Designing an operations or safety platform?</h2>
+          <p>Happy to talk through role-based journeys and how the transfers were kept simple.</p>
         </div>
         <div style="display:flex;gap:12px;flex-wrap:wrap">
-          <a href="https://wa.me/919967453818?text=Hi%20Abhishek%2C%20I%20saw%20the%20Do%20Pahiye%20case%20study%20and%20would%20like%20to%20talk." target="_blank" rel="noopener" class="btn btn-light">Let's talk</a>
+          <a href="https://wa.me/919967453818?text=Hi%20Abhishek%2C%20I%20saw%20the%20Smart%20Lockout%20case%20study%20and%20would%20like%20to%20talk." target="_blank" rel="noopener" class="btn btn-light">Let's talk</a>
           <a href="../index.html#work" class="btn btn-ghost">More work</a>
         </div>
       </div>
