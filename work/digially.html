@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Indiedimension — Sign-up, sign-in &amp; onboarding for a PWA · Abhishek Patade</title>
-<meta name="description" content="Upwork case study: sign-up, sign-in and onboarding flows and wireframes for Indiedimension, a progressive web app for ebook readers, families, authors and publishers.">
+<title>DigiAlly — SME reliability-scoring SaaS · Abhishek Patade</title>
+<meta name="description" content="Case study: DigiAlly, a SaaS platform that scores the reliability of Indian SMEs for investors — portfolio dashboard, drill-down treemaps, company lists with score badges, and a multi-section company report. Wireframes to hi-fi UI.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Lato:wght@400;700&display=swap" rel="stylesheet">
@@ -225,27 +225,33 @@
   @media (max-width:900px){.stages{grid-template-columns:1fr 1fr}.shots{grid-template-columns:1fr}.feat-list{grid-template-columns:1fr}}
   @media (max-width:600px){.stages{grid-template-columns:1fr}}
 
-  .phones{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:28px}
-  .phones figure{margin:0}
-  .phones .img{padding:14px;background:var(--tint)}
-  .phones .img img{border-radius:18px;box-shadow:0 10px 30px rgba(15,10,85,.15)}
-  .phones{align-items:start;grid-template-rows:auto auto}
-  .phones figure{display:grid;grid-template-rows:subgrid;grid-row:span 2;gap:0}
-  .phones figcaption{order:-1;font-size:13.5px;text-align:left;margin:0 0 12px;color:var(--ink-2);font-weight:700;align-self:end}
-  @supports not (grid-template-rows:subgrid){.phones figure{display:flex;flex-direction:column}.phones figcaption{min-height:66px;align-self:auto}}
-  .wide .img{padding:0;overflow:hidden}
-  .wide .img img{border-radius:0;box-shadow:none;width:100%}
-  .types{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:28px}
-  .type{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-xl);padding:22px}
-  .type h3{font-size:17px;margin-bottom:6px}
-  .type small{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--action);font-weight:700;margin-bottom:10px}
-  .type ul{list-style:none;font-size:13.5px;color:var(--ink-2);display:grid;gap:4px}
-  .type li{padding-left:12px;position:relative}.type li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;background:var(--violet)}
-  .fig-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-  .fig-links a{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:var(--r-full);border:1.5px solid var(--action);color:var(--action);font-weight:700;font-size:14px;text-decoration:none;transition:background .2s,color .2s}
-  .fig-links a:hover{background:var(--action);color:#fff}
-  @media (max-width:900px){.phones,.types{grid-template-columns:1fr 1fr}}
-  @media (max-width:560px){.phones,.types{grid-template-columns:1fr}}
+  .shots3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:28px}
+  .shots3 figure{margin:0;display:grid;grid-template-rows:subgrid;grid-row:span 2;gap:0}
+  .shots3 figcaption{order:-1;text-align:left;font-weight:700;color:var(--ink-2);margin:0 0 10px;align-self:end}
+  .shots3 .img{padding:0;overflow:hidden;background:var(--navy)}
+  .shots3 .img img{border-radius:0;box-shadow:none;width:100%}
+  .shots3{grid-template-rows:auto auto;align-items:start}
+  .tall{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px;align-items:start}
+  .tall figure{margin:0}
+  .tall .img{padding:0;overflow:hidden;max-height:720px;position:relative}
+  .tall .img::after{content:"";position:absolute;left:0;right:0;bottom:0;height:120px;background:linear-gradient(transparent,var(--tint))}
+  .tall .img img{border-radius:0;box-shadow:none;width:100%}
+  .journey{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px}
+  .journey div{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-lg);padding:18px}
+  .journey b{display:block;font-family:var(--display);color:var(--violet);font-size:12px;letter-spacing:.1em;margin-bottom:6px}
+  .journey h3{font-size:16px;margin-bottom:4px}
+  .journey p{font-size:13.5px}
+  @media (max-width:900px){.shots3{grid-template-columns:1fr}.tall,.journey{grid-template-columns:1fr 1fr}}
+  @media (max-width:560px){.tall,.journey{grid-template-columns:1fr}}
+
+  .wfgrid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px;align-items:start}
+  .wfgrid figure{margin:0;display:grid;grid-template-rows:subgrid;grid-row:span 2;gap:0}
+  .wfgrid figcaption{order:-1;text-align:left;font-weight:700;color:var(--ink-2);margin:0 0 10px;align-self:end}
+  .wfgrid .img{padding:0;overflow:hidden;background:#fff;max-height:640px;position:relative;align-self:start;border:1px solid var(--line-2)}
+  
+  .wfgrid .img img{border-radius:0;box-shadow:none;width:100%}
+  .wfgrid{grid-template-rows:auto auto}
+  @media (max-width:900px){.wfgrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -272,14 +278,14 @@
   <div class="head">
     <div class="wrap">
       <a href="../index.html#work" class="crumb">← Back to work</a><br>
-      <span class="poc">Upwork · Freelance · 2023 – 2024 · ★ 5.0 client rating</span>
-      <h1>Indiedimension — sign-up, sign-in and onboarding for a PWA ebook platform.</h1>
-      <p class="sub">A US startup building a progressive web app for ebook "worlds" needed one onboarding experience that worked for four very different customers — readers, families, authors and publishers. I turned a spreadsheet of account rules into a complete flow and 39 wireframed screens.</p>
+      <span class="poc">SaaS platform · Fintech · Outsourced · 2023</span>
+      <h1>DigiAlly — a reliability score for every SME, and a way to find the ones worth backing.</h1>
+      <p class="sub">A SaaS platform that rates Indian small and mid-size companies on a 0–1000 reliability score across ten dimensions, then lets investors and lenders drill from a national portfolio view down to a single company's report. I designed it from greyscale wireframes to the shipped interface, as an outsourced engagement through V2S Tech Solutions.</p>
     </div>
   </div>
 
   <div class="wrap">
-    <div class="hero-visual rv" style="background:none;min-height:0;aspect-ratio:auto"><img src="../assets/work/indiedimension/thumbnail.jpg" alt="Indiedimension sign-up flow chart and three wireframe screens" style="width:100%;border-radius:var(--r-xl)"></div>
+    <div class="hero-visual rv" style="background:none;min-height:0;aspect-ratio:auto"><img src="../assets/work/digially/thumbnail.jpg" alt="DigiAlly reliability report and executive summary screens" style="width:100%;border-radius:var(--r-xl)"></div>
   </div>
 
   <!-- SUMMARY -->
@@ -290,47 +296,43 @@
         <div>
           <div class="block rv">
             <h3>Mission</h3>
-            <p>Indiedimension was preparing a progressive web application where readers subscribe to ebook worlds, families share one account, and authors and publishers publish directly. The brief on Upwork was specific: design a visually appealing, user-friendly login and sign-up experience — wireframes, mockups and prototypes — that the development team could build from, optimised across devices and following PWA standards.</p>
+            <p>India has hundreds of thousands of registered SMEs and almost no comparable data on which of them are reliable partners, borrowers or investments. DigiAlly's answer is a score: every company rated out of 1000 across promoters, investors, associations, risk, social impact, employees, digitisation, cybersecurity, green index and suppliers, then badged Bronze, Silver, Gold or Platinum. The product had to make that score usable — to let someone managing a portfolio of hundreds of companies see where they stand, find the next ones, and read a full report on any of them without leaving the platform.</p>
           </div>
           <div class="block rv">
             <h3>My contributions</h3>
-            <p>I worked directly with the founder over two milestones. First, I translated the account-creation spec and the checkout / account-management notes into an end-to-end sign-up and sign-in flow chart, covering manual and social login, OTP and authenticator verification, subscription choice, and the extra registration steps for family, author and publisher accounts. Once the flow was agreed, I wireframed every screen — 39 mobile screens across five groups — so the client could review the whole journey before any visual design.</p>
+            <p>I designed the web application end to end. First the information architecture: a portfolio dashboard on top, a geography → sector → industry drill-down underneath, company lists at every level, and a seven-section company report. Then greyscale wireframes for every screen so the client could agree structure and data before colour. Then the visual system — DigiAlly blue, score cards, badge tiers, the reliability gauge and dimension bars — and the high-fidelity screens that shipped, including a master-detail search view and the multi-section report.</p>
           </div>
           <div class="block rv">
             <h3>Impact</h3>
-            <p>The client got a single, agreed map of the entire onboarding journey and a screen-by-screen wireframe set ready for UI design and build. The contract closed with a 5.0 rating.</p>
+            <p>The platform went live at digiallyglobal.com with the search, listing and report screens designed here. The drill-down structure meant a national view of 500,000+ companies stays navigable in three clicks.</p>
             <div class="stats">
-              <div class="stat"><b>4</b><span>account types in one flow: individual, family, author, publisher</span></div>
-              <div class="stat"><b>39</b><span>wireframed mobile screens across 5 groups</span></div>
-              <div class="stat"><b>2</b><span>milestones: flow chart, then wireframes</span></div>
-              <div class="stat"><b>★ 5.0</b><span>client rating on Upwork, fixed-price contract</span></div>
+              <div class="stat"><b>0 – 1000</b><span>reliability score across 10 dimensions, 4 badge tiers</span></div>
+              <div class="stat"><b>3 clicks</b><span>from national portfolio to a single company</span></div>
+              <div class="stat"><b>7 sections</b><span>in every company report</span></div>
+              <div class="stat"><b>Wireframe → UI</b><span>every screen approved in greyscale first</span></div>
             </div>
           </div>
         </div>
         <aside class="meta rv">
           <div class="block">
             <h3>Client</h3>
-            <p>Indiedimension — early-stage ebook platform, United States. Engaged through Upwork on a fixed-price contract.</p>
+            <p>V2S Tech Solutions — outsourced design engagement for their client DigiAlly, an SME reliability-scoring and reporting SaaS in India.</p>
           </div>
           <div class="block">
             <h3>What I did</h3>
-            <ul><li>Requirements analysis from client specs</li><li>End-to-end sign-up / sign-in flow chart</li><li>Onboarding wireframes (39 screens)</li><li>Account-type &amp; subscription logic</li><li>Payment &amp; family-member flows</li></ul>
+            <ul><li>Information architecture &amp; drill-down model</li><li>Greyscale wireframes (all screens)</li><li>Visual system &amp; data components</li><li>Portfolio dashboard &amp; treemaps</li><li>Company lists, cards &amp; badges</li><li>Search master-detail view</li><li>Company report (7 sections)</li></ul>
           </div>
           <div class="block">
             <h3>My role</h3>
-            <p>Freelance UX designer — sole designer on the engagement, working directly with the founder, project manager, business stakeholders, and the development and testing engineering teams.</p>
+            <p>UX / UI Designer — sole designer on the engagement, working through V2S Tech Solutions with the product and engineering teams.</p>
           </div>
           <div class="block">
             <h3>Tools</h3>
-            <p>FigJam (flow charts) · Figma (wireframes) · iOS-first mobile frames</p>
+            <p>Figma · FigJam</p>
           </div>
           <div class="block">
             <h3>Timeline</h3>
-            <p>Jul 14, 2023 – Sep 21, 2024 · flow chart and wireframes V1.0 delivered July 2023</p>
-          </div>
-          <div class="block">
-            <h3>Client feedback</h3>
-            <div class="note" style="margin-top:0"><b>★★★★★ 5.0</b><br>Fixed-price contract, both milestones approved, completed with a five-star rating on Upwork.</div>
+            <p>2023</p>
           </div>
         </aside>
       </div>
@@ -339,77 +341,73 @@
 
   <div class="wrap"><hr class="rule"></div>
 
-  <!-- INPUTS -->
-  <section id="inputs" style="background:var(--tint)">
+  <!-- IA -->
+  <section id="ia" style="background:var(--tint);--sec-bg:var(--tint)">
     <div class="wrap">
-      <h2 class="sec-title rv">Four customers, one front door.</h2>
-      <p class="lead rv">The client's spec was a table of rules per account type. The design problem was making all four feel like one product while still collecting what each one legally and commercially needed.</p>
-      <div class="types">
-        <div class="type rv"><small>Reader</small><h3>Individual</h3><ul><li>Email, name, date of birth, password (12+ chars)</li><li>Or Google / Facebook / Apple / Microsoft</li><li>2FA by phone or authenticator</li><li>Explore Free or Library Member subscription</li><li>Content filters; auto-restrict for 13–18</li></ul></div>
-        <div class="type rv"><small>Household</small><h3>Family</h3><ul><li>Up to 5 members including the owner</li><li>Roles: co-owner, adult, child</li><li>Purchase approval for members and under-13s</li><li>Parental controls and per-member filters</li><li>Credit card required</li></ul></div>
-        <div class="type rv"><small>Creator</small><h3>Author</h3><ul><li>Must be US-based</li><li>Business entity or individual (SSN / Tax ID)</li><li>Business type, address, state of incorporation</li><li>List of published properties</li><li>How to accept payment</li></ul></div>
-        <div class="type rv"><small>Business</small><h3>Publisher</h3><ul><li>Same registration as author</li><li>Publish ebooks, create worlds for authors</li><li>Content-management and plagiarism consent</li><li>ISBN and copyright checks</li><li>Payment setup</li></ul></div>
+      <h2 class="sec-title rv">From 500,000 companies to one, in three clicks.</h2>
+      <p class="lead rv">The core design problem was scale. A treemap does the heavy lifting: the dashboard shows fund allocation by state, a state opens into sectors, a sector opens into industries, and every level carries its own top-rated, rising-star, newly-listed and at-risk lists so there's always something to act on.</p>
+      <div class="wfgrid">
+        <figure class="rv"><figcaption>Dashboard — portfolio value, companies above / as per / below expectation, recommended companies, and the fund-allocation treemap by state.</figcaption><div class="img"><img src="../assets/work/digially/wf-dashboard.jpg" alt="Dashboard wireframe with treemap"></div></figure>
+        <figure class="rv"><figcaption>State → sectors — Maharashtra opens into Service, FMCG, Healthcare, Financial Services and the rest, sized by company count.</figcaption><div class="img"><img src="../assets/work/digially/wf-treemap-state.jpg" alt="State-level treemap wireframe"></div></figure>
+        <figure class="rv"><figcaption>Sector — Service breaks into top-rated BPO, Hospitality and Consulting rails, rising stars, newly listed and risk companies.</figcaption><div class="img"><img src="../assets/work/digially/wf-sector.jpg" alt="Sector page wireframe"></div></figure>
+        <figure class="rv"><figcaption>Industry — BPO as a list: CIN, location, registration date, reliability score, badge, and "View Full Report" on every row.</figcaption><div class="img"><img src="../assets/work/digially/wf-industry-list.jpg" alt="Industry list wireframe"></div></figure>
       </div>
-    </div>
-  </section>
-
-  <!-- FLOW -->
-  <section id="flow">
-    <div class="wrap">
-      <h2 class="sec-title rv">Milestone 1 — the flow chart.</h2>
-      <p class="lead rv">Before any screens, one board that the founder and the developers could agree on. Sign up and sign in run in parallel, both pass through OTP or authenticator verification, then converge on "choose subscription" — which is where the four account types split and rejoin at the home screen.</p>
-      <figure class="rv wide"><div class="img"><img src="../assets/work/indiedimension/flowchart.jpg" alt="Indiedimension sign-up / sign-in flow chart V1.0"></div><figcaption>Sign Up / Sign In flow, V1.0 (July 2023). Green = success, red = failed, purple = decision; the loops at the bottom are the periodic re-verification and "already signed in" sessions.</figcaption></figure>
-      <figure class="rv wide"><div class="img"><img src="../assets/work/indiedimension/flow-board.jpg" alt="Indiedimension sign-up / sign-in FigJam working board"></div><figcaption>The working board — the earlier, messier version where the rules were still being argued out with the client.</figcaption></figure>
       <div class="decisions">
-        <div class="dec rv"><small>Decision</small><h3>Social login first, manual second</h3><p>Google, Facebook, Apple and Microsoft sit above the manual form. A social sign-up skips the password rules and pre-fills name, email and birth date into a "verify your details" step instead.</p></div>
-        <div class="dec rv"><small>Decision</small><h3>Verify before you choose</h3><p>Phone OTP (or an authenticator app) happens before subscription choice, so a family owner or author never gets deep into registration on an unverified account.</p></div>
-        <div class="dec rv"><small>Decision</small><h3>One convergence point</h3><p>Every account type meets again at "registration completion" — address, card, phone permission — so the payment and family screens are shared, not duplicated four times.</p></div>
-        <div class="dec rv"><small>Decision</small><h3>Age gate in the data, not a wall</h3><p>Birth date is captured once at sign-up and drives filters and purchase approval later, instead of a separate "are you over 13?" interruption.</p></div>
+        <div class="dec rv"><small>Decision</small><h3>Breadcrumb as the map</h3><p>India › Maharashtra › Service › BPO sits above every drill-down page with a dropdown on the last crumb, so switching to a sibling never means going back up.</p></div>
+        <div class="dec rv"><small>Decision</small><h3>Same lists at every level</h3><p>Top Rated, Rising Stars, Newly Listed and Risk Companies appear nationally, per state, per sector and per industry. Users learn the pattern once.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- WIREFRAMES -->
-  <section id="wireframes" style="background:var(--tint)">
+  <!-- SCORE -->
+  <section id="score">
     <div class="wrap">
-      <h2 class="sec-title rv">Milestone 2 — the wireframes.</h2>
-      <p class="lead rv">Thirty-nine mobile screens in five groups: sign in / sign up, choose membership, payment, add family member, and author / publisher registration. Greyscale on purpose — the client was reviewing structure and copy, not colour.</p>
-      <figure class="rv wide"><div class="img" style="background:#2b2b33"><img src="../assets/work/indiedimension/wireframes-all.jpg" alt="All 39 Indiedimension onboarding wireframes on one board"></div><figcaption>Onboarding wireframes V1.0 — the full board, 28 July 2023.</figcaption></figure>
-
-      <h3 class="sub-h rv">Sign in, sign up and verification</h3>
-      <div class="phones">
-        <figure class="rv"><div class="img"><img src="../assets/work/indiedimension/s01-signin.jpg" alt="Sign in / sign up screen"></div><figcaption>Sign in / sign up — four social options above the manual form.</figcaption></figure>
-        <figure class="rv"><div class="img"><img src="../assets/work/indiedimension/s02-google-account.jpg" alt="Choose a Google account"></div><figcaption>Native account picker for social sign-in.</figcaption></figure>
-        <figure class="rv"><div class="img"><img src="../assets/work/indiedimension/s06-phone.jpg" alt="Phone number verification"></div><figcaption>Phone number for OTP, with country code.</figcaption></figure>
-        <figure class="rv"><div class="img"><img src="../assets/work/indiedimension/s03-otp.jpg" alt="Enter OTP"></div><figcaption>Six-digit OTP with a retry timer.</figcaption></figure>
+      <h2 class="sec-title rv">Making a number trustworthy.</h2>
+      <p class="lead rv">A score out of 1000 is only useful if you believe it. The report page shows where it comes from: a gauge with the Bronze / Silver / Gold / Platinum bands, then all ten dimensions with their model weight and a graded bar, then the financial and business-model analysis behind them.</p>
+      <div class="wfgrid" style="--sec-bg:#fff">
+        <figure class="rv"><figcaption>Reliability Report — gauge, legend, and the ten-dimension table with weight and grade.</figcaption><div class="img" style="background:#fff;max-height:none"><img src="../assets/work/digially/ui-reliability-report.jpg" alt="Reliability report with gauge and dimension table"></div></figure>
+        <figure class="rv"><figcaption>Executive Summary — company identity, score and badge, key facts, and the services and technologies it offers; six more sections in the left rail.</figcaption><div class="img" style="background:#fff;max-height:none"><img src="../assets/work/digially/ui-exec-summary.jpg" alt="Executive summary of a company report"></div></figure>
       </div>
-
-      <h3 class="sub-h rv">Details, subscription and payment</h3>
-      <div class="phones">
-        <figure class="rv"><div class="img"><img src="../assets/work/indiedimension/s04-verify.jpg" alt="Verify your details"></div><figcaption>Verify details — pre-filled from the social account, editable where allowed.</figcaption></figure>
-        <figure class="rv"><div class="img"><img src="../assets/work/indiedimension/s07-subscription.jpg" alt="Choose your subscription"></div><figcaption>Choose subscription — the point where the four account types split.</figcaption></figure>
-        <figure class="rv"><div class="img"><img src="../assets/work/indiedimension/s10-personal-info.jpg" alt="Personal information step"></div><figcaption>Registration completion, step 1 of 3 — personal info and text-alert permission.</figcaption></figure>
-        <figure class="rv"><div class="img"><img src="../assets/work/indiedimension/s11-payment.jpg" alt="Set up payment"></div><figcaption>Payment — card on file plus Zelle, Venmo, Apple Pay, Google Pay and PayPal, as the client specified.</figcaption></figure>
+      <div class="decisions">
+        <div class="dec rv"><small>Decision</small><h3>Badge and score travel together</h3><p>The blue score card — number, "/1000", badge — is the same component on cards, list rows, the search panel and the report header, so a company is recognisable anywhere.</p></div>
+        <div class="dec rv"><small>Decision</small><h3>Show the weight, not just the grade</h3><p>Each dimension's model weight (Low → Extremely High) sits beside its grade, so a low score on a low-weight dimension doesn't read as a red flag.</p></div>
       </div>
+    </div>
+  </section>
 
-      <h3 class="sub-h rv">Family accounts</h3>
-      <div class="phones" style="grid-template-columns:repeat(2,1fr);max-width:620px">
-        <figure class="rv"><div class="img"><img src="../assets/work/indiedimension/s08-family.jpg" alt="My family members — four members"></div><figcaption>Family members with roles — organiser, adult, child — and edit controls.</figcaption></figure>
-        <figure class="rv"><div class="img"><img src="../assets/work/indiedimension/s09-family5.jpg" alt="My family members — five members"></div><figcaption>The five-member cap includes the owner; the copy was corrected after the first review.</figcaption></figure>
+  <!-- SEARCH -->
+  <section id="search" style="background:var(--tint);--sec-bg:var(--tint)">
+    <div class="wrap">
+      <h2 class="sec-title rv">Search as a master-detail view.</h2>
+      <p class="lead rv">Results on the left, the selected company's growth metrics on the right — revenue, profit, net margin and gross margin across quarters — with "View Full Report" one click away. Nothing selected yet? The panel says so instead of showing an empty chart.</p>
+      <div class="wfgrid">
+        <figure class="rv"><figcaption>Search results with a company selected — Growth / DeGrowth / Stock Correlation key metrics.</figcaption><div class="img" style="max-height:none"><img src="../assets/work/digially/ui-search-metrics.jpg" alt="Search master-detail with growth metrics"></div></figure>
+        <figure class="rv"><figcaption>Empty detail state — "Select any company to view details".</figcaption><div class="img" style="max-height:none"><img src="../assets/work/digially/ui-search-empty.jpg" alt="Search results with empty detail panel"></div></figure>
       </div>
+    </div>
+  </section>
 
+  <!-- MORE WIREFRAMES -->
+  <section id="wires">
+    <div class="wrap">
+      <h2 class="sec-title rv">More of the greyscale layer.</h2>
+      <p class="lead rv">Structure was agreed in wireframes before any blue was applied — the treemap dashboard, the national top-rated view with emerging industries, and score-change tables that show old and new score side by side.</p>
+      <div class="wfgrid" style="--sec-bg:#fff">
+        <figure class="rv"><figcaption>Dashboard without the recommended rail — the leaner variant.</figcaption><div class="img"><img src="../assets/work/digially/wf-dashboard-alt.jpg" alt="Dashboard wireframe variant"></div></figure>
+        <figure class="rv"><figcaption>National view — Top Rated, Emerging Industries chips, Rising Stars, and Newly Listed / Risk tables with old vs new score and badge.</figcaption><div class="img"><img src="../assets/work/digially/wf-top-rated.jpg" alt="Top rated and rising stars wireframe"></div></figure>
+      </div>
     </div>
   </section>
 
   <!-- LEARNED -->
-  <section id="learned">
+  <section id="learned" style="background:var(--tint)">
     <div class="wrap">
-      <h2 class="sec-title rv">What this project taught me about freelance work.</h2>
+      <h2 class="sec-title rv">What I'd carry into the next data product.</h2>
       <ul class="principles">
-        <li class="rv"><b>Agree the flow before drawing a screen.</b> Splitting the contract into "flow chart" then "wireframes" meant every screen debate had already been settled on the board. The second milestone went faster than the first.</li>
-        <li class="rv"><b>A spec table is a research artefact.</b> The client's account-creation matrix told me more about their business model than any interview would have — who pays, who needs approval, who must be US-based.</li>
-        <li class="rv"><b>Greyscale keeps the review honest.</b> Reviewing 39 screens in wireframe kept the founder's feedback on structure and copy, not button colours.</li>
-        <li class="rv"><b>Shared screens beat duplicated ones.</b> Four account types could have meant four onboarding flows. Finding the convergence points kept it to one, with branches only where the data differed.</li>
+        <li class="rv"><b>Pick one navigation metaphor and repeat it.</b> Treemap → treemap → list, with the same four lists at every level, meant nobody needed a tutorial.</li>
+        <li class="rv"><b>A score needs its receipts.</b> The gauge is pretty; the dimension table with weights is what makes an analyst trust it.</li>
+        <li class="rv"><b>Make the key object a component.</b> The score card appears in five places and never looks different — that consistency is what makes the product feel like one thing.</li>
+        <li class="rv"><b>Wireframe the data, not just the layout.</b> Agreeing which columns, which numbers and which states appear on each screen in greyscale saved every argument about it later.</li>
       </ul>
     </div>
   </section>
@@ -419,11 +417,11 @@
     <div class="wrap">
       <div class="cta-card rv">
         <div>
-          <h2>Need onboarding that handles more than one kind of customer?</h2>
-          <p>Flows first, screens second — happy to talk through how I'd approach yours.</p>
+          <h2>Building a data-heavy SaaS product?</h2>
+          <p>Happy to talk through the drill-down model and how the score was made legible.</p>
         </div>
         <div style="display:flex;gap:12px;flex-wrap:wrap">
-          <a href="https://wa.me/919967453818?text=Hi%20Abhishek%2C%20I%20saw%20the%20Indiedimension%20case%20study%20and%20would%20like%20to%20talk." target="_blank" rel="noopener" class="btn btn-light">Let's talk</a>
+          <a href="https://wa.me/919967453818?text=Hi%20Abhishek%2C%20I%20saw%20the%20DigiAlly%20case%20study%20and%20would%20like%20to%20talk." target="_blank" rel="noopener" class="btn btn-light">Let's talk</a>
           <a href="../index.html#work" class="btn btn-ghost">More work</a>
         </div>
       </div>

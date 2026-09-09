@@ -165,6 +165,10 @@
   .feat .ft p{color:var(--ink-2);font-size:15px;margin-top:6px}
   .feat .arr{flex:none;width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;color:var(--navy);font-size:18px;transition:background .2s,color .2s,transform .3s}
   .feat:hover .arr{background:var(--action);color:#fff;border-color:var(--action);transform:translate(3px,-3px)}
+  .feat.wip{cursor:default}
+  .feat.wip .fv::after{content:"";position:absolute;inset:0;background:rgba(15,10,85,.35)}
+  .feat.wip:hover .fv{transform:none;box-shadow:none}
+  .soon-tag{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2;font-family:var(--display);font-weight:800;font-size:clamp(18px,1.8vw,24px);letter-spacing:.06em;text-transform:uppercase;color:#fff;background:rgba(15,10,85,.75);border:1.5px solid rgba(255,255,255,.4);padding:14px 26px;border-radius:var(--r-full);backdrop-filter:blur(6px);white-space:nowrap}
   .more-h{font-family:var(--display);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:700;margin-bottom:24px}
   @media (max-width:680px){.feat .fv{aspect-ratio:4/3}.feat .desk{left:5%;right:5%;top:10%}.feat .mob{display:none}}
 
@@ -348,10 +352,10 @@
         <p>Enterprise platforms, consumer marketplaces, mobile apps and design systems — a mix of shipped products, client work and proofs of concept. New case studies are added as they're written up.</p>
       </div>
       <div class="feat-grid">
-        <a class="feat rv" href="work/acharya-gautam.html">
-          <div class="fv"><img src="assets/work/acharya-gautam/thumbnail.jpg" alt="Acharya Gautam — work in progress" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span class="poc-badge">In progress · Brand &amp; Web</span></div>
-          <div class="ft"><div><h3>Acharya Gautam — Astrovaidya</h3><p>Personal brand, website and a festival-led Reels &amp; Shorts content plan for an astrologer and Vastu consultant — currently underway</p></div><span class="arr">↗</span></div>
-        </a>
+        <div class="feat rv wip">
+          <div class="fv"><img src="assets/work/acharya-gautam/thumbnail.jpg" alt="Acharya Gautam — coming soon" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.85)"><span class="poc-badge">In progress · Brand &amp; Web</span><span class="soon-tag">Coming soon</span></div>
+          <div class="ft"><div><h3>Acharya Gautam — Astrovaidya</h3><p>Personal brand, website and a festival-led Reels &amp; Shorts content plan for an astrologer and Vastu consultant — currently underway</p></div></div>
+        </div>
         <a class="feat rv" href="work/mirello.html">
           <div class="fv">
             <span class="poc-badge">Proof of concept</span>
@@ -363,6 +367,10 @@
         <a class="feat rv" href="work/phishing-simulation.html">
           <div class="fv"><img src="assets/work/phishing/thumbnail.jpg" alt="Phishing Simulation — create campaign and user-level tracking screens" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span class="poc-badge">Enterprise SaaS · LRN Catalyst</span></div>
           <div class="ft"><div><h3>Phishing Simulation — LRN Catalyst</h3><p>0 → 1 enterprise product: campaign creation workflow, a 50+ template library, and behaviour analytics for security and compliance admins</p></div><span class="arr">↗</span></div>
+        </a>
+        <a class="feat rv" href="work/digially.html">
+          <div class="fv"><img src="assets/work/digially/thumbnail.jpg" alt="DigiAlly reliability report screens" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span class="poc-badge">SaaS · Fintech · via V2S Tech Solutions</span></div>
+          <div class="ft"><div><h3>DigiAlly — SME Reliability Scoring</h3><p>SaaS platform that scores Indian SMEs out of 1000: portfolio dashboard, treemap drill-down, badge-rated company lists and a seven-section report — wireframes to shipped UI</p></div><span class="arr">↗</span></div>
         </a>
         <a class="feat rv" href="work/indiedimension.html">
           <div class="fv"><img src="assets/work/indiedimension/thumbnail.jpg" alt="Indiedimension — sign-up flow and wireframes" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span class="poc-badge">Upwork · ★ 5.0</span></div>
