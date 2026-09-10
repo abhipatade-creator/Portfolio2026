@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edumentr — Study-Abroad Mobile App · Abhishek Patade</title>
+<meta name="description" content="Case study: designing Edumentr, a mobile app that helps students discover courses and universities abroad, check eligibility, and apply — from explore to submitted application.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0F0A55; --violet:#9173FF; --action:#6B47E6; --action-hover:#5638cc;
+    --tint:#F5F2FF; --tint-2:#EFEBFF; --ink:#1B1738; --ink-2:#4a476b; --ink-3:#8a87a3;
+    --line:#E6E6E6; --line-2:#ece9f7; --success:#136A4B; --white:#fff;
+    --on-dark:#E9E5FF; --on-dark-2:#B9B2E6;
+    --display:'Montserrat',system-ui,sans-serif; --body:'Lato',system-ui,sans-serif;
+    --r-md:10px; --r-lg:16px; --r-xl:24px; --r-full:999px;
+    --nav-h:72px; --pad-x:clamp(20px,5vw,72px); --max:1200px; --read:760px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--body);color:var(--ink);background:var(--white);line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad-x)}
+  h1,h2,h3,h4{font-family:var(--display);letter-spacing:-0.02em;line-height:1.15;color:var(--navy)}
+  p{color:var(--ink-2)}
+  .rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+  .rv.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+  /* nav */
+  .nav{position:fixed;inset:0 0 auto 0;height:var(--nav-h);z-index:60;display:flex;align-items:center;transition:background .3s,border-color .3s}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;width:100%}
+    .nav{background:rgba(255,255,255,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line-2);color:var(--ink)}
+  .logo{font-family:var(--display);font-weight:800;font-size:17px;white-space:nowrap;text-decoration:none;display:flex;align-items:center;gap:10px}
+  .logo .dot{width:10px;height:10px;border-radius:50%;background:var(--violet);box-shadow:0 0 0 4px rgba(145,115,255,.25)}
+  .nav-links{display:flex;gap:28px;list-style:none}
+  .nav-links a{text-decoration:none;font-size:14px;font-weight:700;opacity:.85;transition:opacity .2s,color .2s}
+  .nav-links a:hover{opacity:1;color:var(--violet)}
+  .nav .nav-links a:hover{color:var(--action)}
+  .nav-cta{display:inline-flex;align-items:center;white-space:nowrap;padding:10px 18px;border-radius:var(--r-full);background:var(--action);color:#fff!important;font-weight:700;font-size:14px;text-decoration:none;opacity:1!important}
+  .nav-cta:hover{background:var(--action-hover);color:#fff!important}
+  .burger{display:none;background:none;border:0;cursor:pointer;width:44px;height:44px;border-radius:var(--r-sm);color:inherit}
+  .burger span{display:block;width:22px;height:2px;background:currentColor;margin:5px auto;transition:.25s}
+  .mobile-menu{position:fixed;top:var(--nav-h);left:0;right:0;background:#fff;border-bottom:1px solid var(--line-2);z-index:59;padding:12px var(--pad-x) 20px;flex-direction:column;gap:4px}
+  .mobile-menu a{padding:12px 4px;text-decoration:none;font-weight:700;font-size:16px;border-bottom:1px solid var(--line-2)}
+
+  /* nav interactions */
+  .nav-links a{position:relative;padding:6px 0;opacity:1;color:inherit}
+  .nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:var(--violet);transform:scaleX(0);transform-origin:left;transition:transform .25s cubic-bezier(.4,0,.2,1)}
+  .nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}
+  .nav-links a:hover{color:var(--violet)}
+  .nav-links a.active{color:#fff}
+  .nav .nav-links a{color:var(--ink-2)}
+  .nav .nav-links a:hover{color:var(--action)}
+  .nav .nav-links a.active{color:var(--navy)}
+  .nav .nav-links a::after{background:var(--action)}
+  .nav-links a:focus-visible,.nav-cta:focus-visible,.logo:focus-visible,.burger:focus-visible{outline:2px solid var(--violet);outline-offset:4px;border-radius:4px}
+  .nav-cta{transition:background .2s,transform .15s,box-shadow .2s}
+  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(107,71,230,.35)}
+  .nav-cta:active{transform:translateY(0) scale(.97);box-shadow:none}
+  .logo{transition:opacity .2s}.logo:hover{opacity:.8}
+  .logo .dot{transition:transform .3s}.logo:hover .dot{transform:scale(1.25)}
+  .nav.hidden{transform:translateY(-100%)}
+  .nav{transition:background .3s,border-color .3s,transform .35s ease,color .3s}
+  .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .burger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+  .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .mobile-menu{transform:translateY(-8px);opacity:0;pointer-events:none;transition:transform .25s,opacity .25s;display:flex}
+  .mobile-menu.open{transform:none;opacity:1;pointer-events:auto}
+  .mobile-menu a{transition:color .2s,padding-left .2s}
+  .mobile-menu a:hover,.mobile-menu a.active{color:var(--action);padding-left:10px}
+  @media (min-width:681px){.mobile-menu{display:none}}
+  .btn:active{transform:translateY(0) scale(.97)}
+  .btn:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+
+  @media (max-width:680px){.nav-links,.nav .nav-cta{display:none}.burger{display:block}}
+
+  /* header */
+  .head{padding:calc(var(--nav-h) + 64px) 0 40px}
+  .crumb{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:700;color:var(--ink-3);text-decoration:none;margin-bottom:22px}
+  .crumb:hover{color:var(--action)}
+  .poc{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--action);background:var(--tint);border:1px solid #d9d0ff;padding:7px 12px;border-radius:var(--r-full);margin-bottom:18px}
+  .poc::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--violet)}
+  .head h1{font-size:clamp(32px,4.4vw,56px);font-weight:700;max-width:900px}
+  .head p.sub{font-size:clamp(17px,1.4vw,20px);max-width:760px;margin-top:18px}
+
+  .hero-visual{position:relative;border-radius:var(--r-xl);overflow:hidden;background:linear-gradient(135deg,#1a1276,var(--action) 60%,var(--violet));min-height:380px;aspect-ratio:16/8}
+  .hero-visual::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.16) 1px,transparent 1px);background-size:22px 22px;opacity:.5}
+  .hero-visual .desk{position:absolute;left:8%;right:22%;top:12%;border-radius:14px;box-shadow:0 30px 80px rgba(0,0,0,.35);overflow:hidden}
+  .hero-visual .mob{position:absolute;right:8%;bottom:-2%;width:19%;border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.4);overflow:hidden;background:#fff;aspect-ratio:9/17.5}
+  .hero-visual .mob img{width:100%;height:100%;object-fit:cover;object-position:top}
+  @media (max-width:680px){.hero-visual{aspect-ratio:4/3}.hero-visual .desk{left:5%;right:5%;top:10%}.hero-visual .mob{display:none}}
+
+  /* sections */
+  section{padding:64px 0}
+  .sec-title{font-size:clamp(26px,3vw,38px);font-weight:700;margin-bottom:12px}
+  .lead{font-size:17px;max-width:var(--read)}
+  .two{display:grid;grid-template-columns:1.4fr .8fr;gap:56px;margin-top:40px}
+  .two h3,.meta h3{font-size:19px;font-weight:700;margin-bottom:12px}
+  .two .block+.block,.meta .block+.block{margin-top:40px}
+  .meta p{font-size:15px}
+  .meta ul{list-style:none;display:grid;gap:8px;font-size:15px;color:var(--ink-2)}
+  .meta li{padding-left:18px;position:relative}
+  .meta li::before{content:"";position:absolute;left:0;top:11px;width:6px;height:6px;background:var(--violet)}
+  .meta a{color:var(--action);font-weight:700}
+  .note{background:var(--tint);border-left:3px solid var(--violet);padding:14px 18px;border-radius:0 var(--r-md) var(--r-md) 0;font-size:14.5px;color:var(--ink-2);margin-top:16px}
+  .note b{color:var(--navy)}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:36px}
+  .stat b{display:block;font-family:var(--display);font-size:clamp(24px,2.2vw,30px);white-space:nowrap;font-weight:700;color:var(--navy);line-height:1}
+  .stat span{display:block;margin-top:8px;font-size:14px;color:var(--ink-2)}
+
+  hr.rule{border:0;border-top:1px solid var(--line-2);margin:0}
+
+  .steps{display:grid;gap:0;margin-top:36px;max-width:900px}
+  .step{display:grid;grid-template-columns:64px 1fr;gap:20px;padding:26px 0;border-top:1px solid var(--line-2)}
+  .step .n{font-family:var(--display);font-weight:700;color:var(--violet);font-size:14px;letter-spacing:.1em;padding-top:4px}
+  .step h3{font-size:19px;margin-bottom:8px}
+  .step p{font-size:15.5px;max-width:var(--read)}
+
+  .sub-h{font-size:22px;font-weight:700;margin:48px 0 12px}
+  .prose p{max-width:var(--read);font-size:16px}
+  .prose p+p{margin-top:14px}
+  figure{margin:32px 0 8px}
+  figure .img{background:var(--tint);border-radius:var(--r-xl);padding:clamp(16px,3vw,40px);border:1px solid var(--line-2)}
+  figure .img.dark{background:var(--navy)}
+  figure .img img{border-radius:var(--r-md);margin:0 auto;box-shadow:0 12px 40px rgba(15,10,85,.12)}
+  figcaption{font-size:13.5px;color:var(--ink-3);text-align:center;margin-top:14px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .grid2 figure{margin:0}
+  .grid2 .img{height:100%;display:flex;align-items:center}
+
+  .principles{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:24px;max-width:900px}
+  .principles li{background:var(--tint);border-radius:var(--r-lg);padding:20px 22px;font-size:15px;color:var(--ink-2)}
+  .principles li b{display:block;color:var(--navy);font-family:var(--display);font-size:15.5px;margin-bottom:6px}
+
+  .decisions{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:32px}
+  .dec{border:1px solid var(--line-2);border-radius:var(--r-xl);padding:26px}
+  .dec small{display:block;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--action);margin-bottom:10px}
+  .dec h3{font-size:18px;margin-bottom:8px}
+  .dec p{font-size:15px}
+
+  table{width:100%;border-collapse:collapse;font-size:14.5px;margin-top:24px;max-width:900px}
+  th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line-2);vertical-align:top}
+  th{font-family:var(--display);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+  td:first-child{color:var(--navy);font-weight:700}
+  .tbl{overflow-x:auto}
+
+  .comp{margin-top:24px;max-width:900px}
+  .comp .row{display:grid;grid-template-columns:150px 1fr;gap:20px;padding:16px 0;border-top:1px solid var(--line-2);font-size:15px}
+  .comp .row b{color:var(--navy)}
+  .comp .row span{color:var(--ink-2)}
+
+  /* research / personas / flows */
+  .rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px}
+  .rcard{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-xl);padding:24px}
+  .rcard small{display:block;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--action);margin-bottom:8px}
+  .rcard h3{font-size:17px;margin-bottom:8px}
+  .rcard p{font-size:14.5px}
+  .insights{list-style:none;display:grid;gap:10px;margin-top:28px;max-width:900px}
+  .insights li{display:grid;grid-template-columns:36px 1fr;gap:14px;padding:16px 18px;background:#fff;border:1px solid var(--line-2);border-radius:var(--r-lg);font-size:15px;color:var(--ink-2)}
+  .insights li b{font-family:var(--display);color:var(--violet);font-size:14px;letter-spacing:.08em;padding-top:2px}
+  .insights li strong{color:var(--navy)}
+  .personas{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px}
+  .persona{border:1px solid var(--line-2);border-radius:var(--r-xl);overflow:hidden;background:#fff;display:flex;flex-direction:column}
+  .persona .ph{background:var(--navy);color:#fff;padding:22px 24px;display:flex;gap:14px;align-items:center}
+  .persona .ph .av{flex:none;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:16px;background:linear-gradient(135deg,var(--action),var(--violet))}
+  .persona .ph h3{color:#fff;font-size:17px;line-height:1.2}
+  .persona .ph span{display:block;font-size:13px;color:var(--on-dark-2);margin-top:3px}
+  .persona .pb{padding:20px 24px 24px;display:grid;gap:14px;font-size:14.5px}
+  .persona .pb h4{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--action);margin-bottom:6px;font-family:var(--body);font-weight:700}
+  .persona .pb ul{list-style:none;display:grid;gap:4px;color:var(--ink-2)}
+  .persona .pb li{padding-left:14px;position:relative}
+  .persona .pb li::before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;background:var(--violet)}
+  .persona .quote{font-style:italic;color:var(--navy);border-left:3px solid var(--violet);padding-left:12px;font-size:14.5px}
+  .persona .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border-radius:var(--r-full);background:var(--tint);color:var(--action)}
+  .flow{margin-top:32px;background:#fff;border:1px solid var(--line-2);border-radius:var(--r-xl);padding:clamp(16px,3vw,32px)}
+  .flow h3{font-size:18px;margin-bottom:4px}
+  .flow p.fd{font-size:14.5px;margin-bottom:18px}
+  .flow .sv{overflow-x:auto}
+  .flow svg{display:block;min-width:820px;width:100%;height:auto}
+  .flow .lg{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:12.5px;color:var(--ink-3)}
+  .flow .lg span{display:inline-flex;align-items:center;gap:6px}
+  .flow .lg i{width:12px;height:12px;border-radius:3px}
+  @media (max-width:900px){.rgrid,.personas{grid-template-columns:1fr}}
+
+  /* next / contact */
+  .cta{background:var(--tint);padding:72px 0}
+  .cta-card{background:var(--navy);color:var(--on-dark);border-radius:28px;padding:clamp(36px,5vw,60px);display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap}
+  .cta-card h2{color:#fff;font-size:clamp(26px,3vw,38px)}
+  .cta-card p{color:var(--on-dark-2);margin-top:8px}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:var(--r-full);font-weight:700;font-size:15px;text-decoration:none;transition:transform .2s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-light{background:#fff;color:var(--navy)}
+  .btn-ghost{border:1.5px solid rgba(233,229,255,.35);color:#fff}
+  footer{padding:28px 0;font-size:13px;color:var(--ink-3)}
+  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  footer a{color:var(--ink-2);text-decoration:none;font-weight:700}
+
+  @media (max-width:900px){.two{grid-template-columns:1fr;gap:40px}.stats{grid-template-columns:1fr 1fr}.grid2,.principles,.decisions{grid-template-columns:1fr}.comp .row{grid-template-columns:1fr;gap:4px}}
+
+  .hero-visual .shot{position:absolute;left:6%;right:6%;top:8%;bottom:-6%}
+  .hero-visual .shot img{width:100%;height:100%;object-fit:cover;object-position:top;border-radius:14px}
+  .persona .ph .av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+  .persona .ph .av{overflow:hidden;background:#fff}
+  .stages{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:28px}
+  .stage{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-xl);padding:22px}
+  .stage b{display:block;font-family:var(--display);color:var(--violet);font-size:13px;letter-spacing:.1em;margin-bottom:8px}
+  .stage h3{font-size:17px;margin-bottom:8px}
+  .stage p{font-size:14px}
+  .stage ul{list-style:none;margin-top:8px;font-size:13.5px;color:var(--ink-2);display:grid;gap:3px}
+  .stage li{padding-left:12px;position:relative}.stage li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;background:var(--violet)}
+  .shots{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px}
+  .shots figure{margin:0}
+  .shots .img{padding:0;overflow:hidden;background:var(--navy)}
+  .shots .img img{border-radius:0;box-shadow:none;width:100%}
+  .feat-list{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+  .feat-list li{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-lg);padding:14px 16px;font-size:14.5px;color:var(--ink);font-weight:700;display:flex;gap:10px;align-items:center}
+  .feat-list li::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--action)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .chips span{font-size:13px;font-weight:700;padding:7px 13px;border-radius:var(--r-full);background:#fff;color:var(--navy);border:1px solid #d9d0ff;box-shadow:0 1px 2px rgba(15,10,85,.06)}
+  @media (max-width:900px){.stages{grid-template-columns:1fr 1fr}.shots{grid-template-columns:1fr}.feat-list{grid-template-columns:1fr}}
+  @media (max-width:600px){.stages{grid-template-columns:1fr}}
+
+  .shots3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:28px}
+  .shots3 figure{margin:0;display:grid;grid-template-rows:subgrid;grid-row:span 2;gap:0}
+  .shots3 figcaption{order:-1;text-align:left;font-weight:700;color:var(--ink-2);margin:0 0 10px;align-self:end}
+  .shots3 .img{padding:0;overflow:hidden;background:var(--navy)}
+  .shots3 .img img{border-radius:0;box-shadow:none;width:100%}
+  .shots3{grid-template-rows:auto auto;align-items:start}
+  .tall{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px;align-items:start}
+  .tall figure{margin:0}
+  .tall .img{padding:0;overflow:hidden;max-height:720px;position:relative}
+  .tall .img::after{content:"";position:absolute;left:0;right:0;bottom:0;height:120px;background:linear-gradient(transparent,var(--tint))}
+  .tall .img img{border-radius:0;box-shadow:none;width:100%}
+  .journey{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px}
+  .journey div{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-lg);padding:18px}
+  .journey b{display:block;font-family:var(--display);color:var(--violet);font-size:12px;letter-spacing:.1em;margin-bottom:6px}
+  .journey h3{font-size:16px;margin-bottom:4px}
+  .journey p{font-size:13.5px}
+  @media (max-width:900px){.shots3{grid-template-columns:1fr}.tall,.journey{grid-template-columns:1fr 1fr}}
+  @media (max-width:560px){.tall,.journey{grid-template-columns:1fr}}
+
+  .wfgrid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px;align-items:start}
+  .wfgrid figure{margin:0;display:grid;grid-template-rows:subgrid;grid-row:span 2;gap:0}
+  .wfgrid figcaption{order:-1;text-align:left;font-weight:700;color:var(--ink-2);margin:0 0 10px;align-self:end}
+  .wfgrid .img{padding:0;overflow:hidden;background:#fff;max-height:640px;position:relative;align-self:start;border:1px solid var(--line-2)}
+  
+  .wfgrid .img img{border-radius:0;box-shadow:none;width:100%}
+  .wfgrid{grid-template-rows:auto auto}
+  @media (max-width:900px){.wfgrid{grid-template-columns:1fr}}
+  .roles{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px}
+  .role{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-xl);padding:24px}
+  .role small{display:block;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--action);margin-bottom:8px}
+  .role h3{font-size:18px;margin-bottom:8px}
+  .role p{font-size:14.5px;margin-bottom:10px}
+  .role ul{list-style:none;display:grid;gap:4px;font-size:13.5px;color:var(--ink-2)}
+  .role li{padding-left:12px;position:relative}.role li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;background:var(--violet)}
+  .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:28px}
+  .steps div{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-lg);padding:16px 16px 18px;position:relative}
+  .steps b{display:block;font-family:var(--display);color:var(--violet);font-size:12px;letter-spacing:.1em;margin-bottom:6px}
+  .steps h3{font-size:15px;margin-bottom:4px}
+  .steps p{font-size:13px}
+  .wfgrid.ui .img{max-height:none;background:#F1F2F4;border-color:var(--line)}
+  .wfgrid.ui figure.pop .img{background:#F1F2F4;padding:24px;display:flex;justify-content:center}
+  .wfgrid.ui figure.pop img{width:auto;max-width:100%;max-height:520px;border-radius:12px;box-shadow:0 20px 50px rgba(15,10,85,.18)}
+  @media (max-width:900px){.roles{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}}
+  @media (max-width:560px){.steps{grid-template-columns:1fr}}
+  .phones{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:28px;align-items:start;grid-template-rows:auto auto}
+  .phones figure{margin:0;display:grid;grid-template-rows:subgrid;grid-row:span 2;gap:0}
+  .phones figcaption{order:-1;font-size:13.5px;text-align:left;margin:0 0 12px;color:var(--ink-2);font-weight:700;align-self:end}
+  .phones .img{padding:0;background:transparent;overflow:hidden;border-radius:26px;box-shadow:0 14px 34px rgba(15,10,85,.16);border:1px solid var(--line-2)}
+  .phones .img img{border-radius:0;box-shadow:none;width:100%}
+  .phones .img.tallcut{max-height:760px;position:relative}
+  .phones .img.tallcut::after{content:"";position:absolute;left:0;right:0;bottom:0;height:110px;background:linear-gradient(transparent,var(--sec-bg,#fff))}
+  @supports not (grid-template-rows:subgrid){.phones figure{display:flex;flex-direction:column}.phones figcaption{min-height:66px;align-self:auto}}
+  .phones5{grid-template-columns:repeat(5,1fr)}
+  .swatches{display:flex;gap:14px;flex-wrap:wrap;margin-top:22px}
+  .sw{width:132px;border:1px solid var(--line-2);border-radius:var(--r-lg);overflow:hidden;background:#fff}
+  .sw i{display:block;height:64px}
+  .sw b{display:block;font-size:12.5px;padding:8px 10px 2px;color:var(--navy)}
+  .sw span{display:block;font-size:11.5px;padding:0 10px 9px;color:var(--ink-3)}
+  @media (max-width:900px){.phones,.phones5{grid-template-columns:1fr 1fr}}
+  @media (max-width:560px){.phones,.phones5{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a href="../index.html" class="logo"><span class="dot"></span>Abhishek Patade</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#work" class="active">Work</a></li>
+      <li><a href="../index.html#experience">Experience</a></li>
+      <li><a href="../index.html#skills">Skills</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+    <a href="../assets/documents/Abhishek_Patade_Resume_2026.pdf" class="nav-cta" download>Download Resume</a>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#work" class="active">Work</a><a href="../index.html#experience">Experience</a><a href="../index.html#skills">Skills</a><a href="../index.html#contact">Contact</a>
+  <a href="../assets/documents/Abhishek_Patade_Resume_2026.pdf" download style="color:var(--action);border:0">Download Resume ↓</a>
+</nav>
+
+<main>
+  <div class="head">
+    <div class="wrap">
+      <a href="../index.html#work" class="crumb">← Back to work</a><br>
+      <span class="poc">Mobile app · EdTech · Outsourced · 2022–23</span>
+      <h1>Edumentr — a study-abroad app that takes a student from "where could I go?" to a submitted application.</h1>
+      <p class="sub">Edumentr helps students in India find courses and universities abroad, understand what each one asks for, and apply — with documents, eligibility and visa steps handled inside the app instead of across a dozen university websites. I designed the iOS / Android app end to end, as an outsourced engagement through QUBD Technologies.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="hero-visual rv" style="background:none;min-height:0;aspect-ratio:auto"><img src="../assets/work/edumentr/cover.jpg" alt="Edumentr — Study Abroad cover with home, university and course screens" style="width:100%;border-radius:var(--r-xl)"></div>
+  </div>
+
+  <!-- SUMMARY -->
+  <section id="summary">
+    <div class="wrap">
+      <h2 class="sec-title rv">Summary</h2>
+      <div class="two">
+        <div>
+          <div class="block rv">
+            <h3>Mission</h3>
+            <p>Applying to study abroad is a research project before it's a form: which countries, which universities, what the course actually covers, what score you need, which documents, what the visa process looks like, and how much it costs per semester. Most of that lives on separate websites written for someone who already knows the answers. Edumentr's job was to put the whole journey in one place, on a phone — browse, shortlist, check eligibility, upload documents once, apply, and track — so a first-time applicant never feels lost between steps.</p>
+          </div>
+          <div class="block rv">
+            <h3>My contributions</h3>
+            <p>I owned the app design from structure to final UI. First the information architecture — four tabs (Home, Explore, Applications, Profile), an explore model by course, university and location, and a course page organised as five tabs: Course, Eligibility, Application Process, Visa Procedure and University. Then the flows around it: mobile-number sign-up with OTP and social login, search with filters and honest empty states, a profile-completion form, a one-place document locker, and the application tracker with progress and status. I built the teal visual system, the hexagon brand texture, the category icon set and the component library the screens are made from.</p>
+          </div>
+          <div class="block rv">
+            <h3>Impact</h3>
+            <p>Delivered as a complete high-fidelity Figma design — 60+ screens across sign-up, explore, search, course details, documents, applications and profile — with a reusable component set and a scratchpad of explored alternatives, ready for the development team.</p>
+          </div>
+        </div>
+        <aside class="meta rv">
+          <div class="block">
+            <h3>Client</h3>
+            <p>QUBD Technologies — outsourced design engagement for their client Edumentr, a study-abroad guidance and application platform.</p>
+          </div>
+          <div class="block">
+            <h3>What I did</h3>
+            <ul><li>Information architecture &amp; navigation</li><li>Sign-up, OTP &amp; social login</li><li>Home, Explore &amp; category system</li><li>Search, filters &amp; empty states</li><li>Course details (5 tabs)</li><li>Profile &amp; document locker</li><li>Application flow &amp; tracker</li><li>Visual system &amp; components</li></ul>
+          </div>
+          <div class="block">
+            <h3>My role</h3>
+            <p>Product / UX Designer — sole designer, working through QUBD Technologies with the product and engineering teams.</p>
+          </div>
+          <div class="block">
+            <h3>Tools</h3>
+            <p>Figma · FigJam</p>
+          </div>
+          <div class="block">
+            <h3>Timeline</h3>
+            <p>2022 – 2023</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap"><hr class="rule"></div>
+
+  <!-- ENTRY -->
+  <section id="entry" style="background:var(--tint);--sec-bg:var(--tint)">
+    <div class="wrap">
+      <h2 class="sec-title rv">Get in fast, then explore.</h2>
+      <p class="lead rv">Students shouldn't have to create an account to look around. Sign-in is a mobile number and an OTP, or one tap with Google, Facebook or Apple — and "Skip for now" is right there. Home leads with the pitch, then the four things people actually browse by: top locations, trending courses, top universities and success stories.</p>
+      <div class="phones">
+        <figure class="rv"><figcaption>Splash — the Edumentr mark on the teal hexagon texture that runs through the whole app.</figcaption><div class="img"><img src="../assets/work/edumentr/splash.png" alt="Splash screen"></div></figure>
+        <figure class="rv"><figcaption>Welcome back — mobile number + OTP, social sign-in, or skip and browse.</figcaption><div class="img"><img src="../assets/work/edumentr/signup.png" alt="Sign in screen"></div></figure>
+        <figure class="rv"><figcaption>Verification confirmed — a full-screen state, not a toast, so it is clear the account is ready.</figcaption><div class="img"><img src="../assets/work/edumentr/email-verified.png" alt="Email verified screen"></div></figure>
+        <figure class="rv"><figcaption>Home — hero, top universities, an in-progress application nudge, and the tab bar.</figcaption><div class="img"><img src="../assets/work/edumentr/home.png" alt="Home screen"></div></figure>
+      </div>
+      <div class="decisions">
+        <div class="dec rv"><small>Decision</small><h3>Browse before you sign up</h3><p>Every explore and course page works logged out. The account is asked for at the moment it's needed — saving a shortlist or starting an application — not at the door.</p></div>
+        <div class="dec rv"><small>Decision</small><h3>The unfinished application follows you</h3><p>A small "Your application is incomplete… Progress 20% — Resume" card sits on Home and Explore. It's the single most useful thing to show a returning user.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPLORE -->
+  <section id="explore">
+    <div class="wrap">
+      <h2 class="sec-title rv">Three ways in: course, university, location.</h2>
+      <p class="lead rv">Some students know the subject, some know the university, some only know the country. Explore has a switch at the top for exactly that, with an illustrated category grid underneath — Business, Engineering, Arts, Science &amp; Medicine, Social Science, Environmental Studies — and search with filters for country, fees, study level, mode, language, intake and duration.</p>
+      <div class="phones phones5" style="--sec-bg:#fff">
+        <figure class="rv"><figcaption>Explore — course / university / location switch, category grid, trending courses.</figcaption><div class="img"><img src="../assets/work/edumentr/explore.png" alt="Explore screen"></div></figure>
+        <figure class="rv"><figcaption>Search — hint text explains what you can type: country, course name or university.</figcaption><div class="img"><img src="../assets/work/edumentr/search.png" alt="Search screen"></div></figure>
+        <figure class="rv"><figcaption>Filters — a two-panel sheet; fee range as a slider with min / max fields and a live result count.</figcaption><div class="img"><img src="../assets/work/edumentr/filters.png" alt="Filters screen"></div></figure>
+        <figure class="rv"><figcaption>No results — "404" made friendly, with the same three suggestions as the empty search.</figcaption><div class="img"><img src="../assets/work/edumentr/no-results.png" alt="No results screen"></div></figure>
+        <figure class="rv"><figcaption>Profile — documents, shortlist, and "Complete your profile" as the first action.</figcaption><div class="img"><img src="../assets/work/edumentr/profile.png" alt="Profile screen"></div></figure>
+      </div>
+      <div class="decisions">
+        <div class="dec rv"><small>Decision</small><h3>Icons for categories, photos for places</h3><p>Categories get a consistent illustrated icon so the grid scans in a second; locations and universities get photography, because that is what makes a student picture themselves there.</p></div>
+        <div class="dec rv"><small>Decision</small><h3>Empty states that teach the search</h3><p>Both the fresh search and the no-results state say the same thing — try a country, a course name or a university — so the user learns the search from the state, not from a tutorial.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COURSE -->
+  <section id="course" style="background:var(--tint);--sec-bg:var(--tint)">
+    <div class="wrap">
+      <h2 class="sec-title rv">One course page, five questions.</h2>
+      <p class="lead rv">A course page has to answer: what is it, can I get in, how do I apply, what about the visa, and what's the university like. That became five tabs under a fixed header, with "Get Admission" pinned at the bottom of every one — so the decision and the action are never more than a thumb apart.</p>
+      <div class="phones">
+        <figure class="rv"><figcaption>Course — duration, mode, start dates, fees and rating up top; modules and the semester-by-semester international fee table below.</figcaption><div class="img tallcut"><img src="../assets/work/edumentr/course-details.png" alt="Course details screen"></div></figure>
+        <figure class="rv"><figcaption>Eligibility — entrance test and score (IELTS 6.0, 12th 55%) as a card, then the full required-documents list.</figcaption><div class="img tallcut"><img src="../assets/work/edumentr/cd-eligibility.png" alt="Eligibility tab"></div></figure>
+        <figure class="rv"><figcaption>Application Process — ten steps from "find your best-fit course" to "arrange your pick-up and accommodation".</figcaption><div class="img tallcut"><img src="../assets/work/edumentr/cd-application.png" alt="Application process tab"></div></figure>
+        <figure class="rv"><figcaption>Visa Procedure — eight steps, written the same way, so the two checklists read as one journey.</figcaption><div class="img tallcut"><img src="../assets/work/edumentr/cd-visa.png" alt="Visa procedure tab"></div></figure>
+      </div>
+      <div class="decisions">
+        <div class="dec rv"><small>Decision</small><h3>Numbers first, prose second</h3><p>Duration, mode, start dates, fees and rating sit in a compact card above the fold. The course description comes after — most students compare on the numbers before they read.</p></div>
+        <div class="dec rv"><small>Decision</small><h3>Fees as a table, per semester</h3><p>"USD 2000/yr" is a headline; the international fee structure table shows each semester and the total, which is what a family actually budgets against.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APPLY -->
+  <section id="apply">
+    <div class="wrap">
+      <h2 class="sec-title rv">Documents once, applications many.</h2>
+      <p class="lead rv">Every application asks for the same passport copy, marksheets, IELTS scorecard and CV. So the app has a single document locker under Profile — upload each once, see it verified, reuse it in every application. The application itself is a three-step process (Personal Information → Submit Documents → Apply) with a tracker that splits in-progress from submitted.</p>
+      <div class="phones" style="--sec-bg:#fff">
+        <figure class="rv"><figcaption>Profile details — personal information, contact and education as one long, clearly sectioned form.</figcaption><div class="img tallcut"><img src="../assets/work/edumentr/profile-details.png" alt="Profile details form"></div></figure>
+        <figure class="rv"><figcaption>My Documents — one tile per document, with a completion percentage at the top.</figcaption><div class="img tallcut"><img src="../assets/work/edumentr/upload-documents.png" alt="Upload documents screen"></div></figure>
+        <figure class="rv"><figcaption>Applications — in-progress with a progress bar and Resume; submitted with date and status.</figcaption><div class="img"><img src="../assets/work/edumentr/my-applications.png" alt="My applications screen"></div></figure>
+        <figure class="rv"><figcaption>Submitted — a calm confirmation: sit back and relax, we will review and get back to you.</figcaption><div class="img"><img src="../assets/work/edumentr/submitted.png" alt="Application submitted screen"></div></figure>
+      </div>
+      <div class="decisions">
+        <div class="dec rv"><small>Decision</small><h3>Upload once, verify once</h3><p>Documents live on the profile, not on the application. A verified marksheet stays verified for the next three applications — which is the difference between applying to one course and applying to five.</p></div>
+        <div class="dec rv"><small>Decision</small><h3>Progress is a number</h3><p>"Progress 20%" appears on Home, on the application card and in the document locker. One number, three places, always in sync.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISUAL -->
+  <section id="visual" style="background:var(--tint)">
+    <div class="wrap">
+      <h2 class="sec-title rv">Visual system.</h2>
+      <p class="lead rv">A single deep teal carries the brand — headers, primary buttons, active tab, links — over white cards and a faint hexagon texture. Orange is reserved for the one thing that needs to pop: the hero card and the "Upload Documents" call to action. Illustrations are line-and-fill in the same teal so empty states feel designed, not stock.</p>
+      <div class="swatches rv">
+        <div class="sw"><i style="background:#187E89"></i><b>Teal</b><span>#187E89 · brand / primary</span></div>
+        <div class="sw"><i style="background:#215B61"></i><b>Deep teal</b><span>#215B61 · hero panels</span></div>
+        <div class="sw"><i style="background:#F1F9FA"></i><b>Mist</b><span>#F1F9FA · surfaces</span></div>
+        <div class="sw"><i style="background:#D58714"></i><b>Orange</b><span>#D58714 · hero &amp; upload CTA</span></div>
+        <div class="sw"><i style="background:#3C3C3C"></i><b>Ink</b><span>#3C3C3C · text</span></div>
+        <div class="sw"><i style="background:#FFFFFF;border-bottom:1px solid var(--line-2)"></i><b>White</b><span>#FFFFFF · cards</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEARNED -->
+  <section id="learned">
+    <div class="wrap">
+      <h2 class="sec-title rv">What I'd carry into the next consumer app.</h2>
+      <ul class="principles">
+        <li class="rv"><b>Structure the page around the user's questions.</b> Five tabs named after what a student asks — not after what the database has — made a very dense course page feel simple.</li>
+        <li class="rv"><b>Let people in before you ask for anything.</b> Skip-for-now and logged-out browsing cost nothing and remove the biggest drop-off point.</li>
+        <li class="rv"><b>Design the empty and error states as first-class screens.</b> They're where a nervous first-time user decides whether the app is on their side.</li>
+        <li class="rv"><b>Put the repeated thing in one place.</b> A document locker turned "apply to one" into "apply to many" without any extra design.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="wrap">
+      <div class="cta-card rv">
+        <div>
+          <h2>Building a consumer app with a long, multi-step journey?</h2>
+          <p>Happy to talk through how the explore model and the course page came together.</p>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a href="https://wa.me/919967453818?text=Hi%20Abhishek%2C%20I%20saw%20the%20Edumentr%20case%20study%20and%20would%20like%20to%20talk." target="_blank" rel="noopener" class="btn btn-light">Let's talk</a>
+          <a href="../index.html#work" class="btn btn-ghost">More work</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr"></span> Abhishek Patade · Navi Mumbai, India</span>
+    <span><a href="https://www.linkedin.com/in/abhipatade/" target="_blank" rel="noopener">LinkedIn</a> · <a href="../index.html">Home</a></span>
+  </div>
+</footer>
+<script>
+  document.getElementById('yr').textContent=new Date().getFullYear();
+  const nav=document.getElementById('nav'),burger=document.getElementById('burger'),menu=document.getElementById('mobileMenu');
+  burger.addEventListener('click',()=>{const o=menu.classList.toggle('open');burger.classList.toggle('open',o);burger.setAttribute('aria-expanded',o)});
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{menu.classList.remove('open');burger.classList.remove('open')}));
+  addEventListener('keydown',e=>{if(e.key==='Escape'){menu.classList.remove('open');burger.classList.remove('open')}});
+  let lastY=0;addEventListener('scroll',()=>{const y=window.scrollY;if(!menu.classList.contains('open'))nav.classList.toggle('hidden',y>lastY&&y>300);lastY=y},{passive:true});
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+  setTimeout(()=>document.querySelectorAll('.rv').forEach(el=>el.classList.add('in')),4000);
+</script>
+</body>
+</html>
