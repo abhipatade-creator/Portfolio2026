@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heritage Agent Portal — Insurance Quote &amp; Claims Portal · Abhishek Patade</title>
+<meta name="description" content="Case study: designing the Heritage Insurance agent portal at Majesco — dashboard, a five-step homeowners quote-to-issue journey, and a first-notice-of-loss claim flow, from 61 lo-fi wireframes to final UI.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0F0A55; --violet:#9173FF; --action:#6B47E6; --action-hover:#5638cc;
+    --tint:#F5F2FF; --tint-2:#EFEBFF; --ink:#1B1738; --ink-2:#4a476b; --ink-3:#8a87a3;
+    --line:#E6E6E6; --line-2:#ece9f7; --success:#136A4B; --white:#fff;
+    --on-dark:#E9E5FF; --on-dark-2:#B9B2E6;
+    --display:'Montserrat',system-ui,sans-serif; --body:'Lato',system-ui,sans-serif;
+    --r-md:10px; --r-lg:16px; --r-xl:24px; --r-full:999px;
+    --nav-h:72px; --pad-x:clamp(20px,5vw,72px); --max:1200px; --read:760px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--body);color:var(--ink);background:var(--white);line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad-x)}
+  h1,h2,h3,h4{font-family:var(--display);letter-spacing:-0.02em;line-height:1.15;color:var(--navy)}
+  p{color:var(--ink-2)}
+  .rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+  .rv.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+  /* nav */
+  .nav{position:fixed;inset:0 0 auto 0;height:var(--nav-h);z-index:60;display:flex;align-items:center;transition:background .3s,border-color .3s}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;width:100%}
+    .nav{background:rgba(255,255,255,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line-2);color:var(--ink)}
+  .logo{font-family:var(--display);font-weight:800;font-size:17px;white-space:nowrap;text-decoration:none;display:flex;align-items:center;gap:10px}
+  .logo .dot{width:10px;height:10px;border-radius:50%;background:var(--violet);box-shadow:0 0 0 4px rgba(145,115,255,.25)}
+  .nav-links{display:flex;gap:28px;list-style:none}
+  .nav-links a{text-decoration:none;font-size:14px;font-weight:700;opacity:.85;transition:opacity .2s,color .2s}
+  .nav-links a:hover{opacity:1;color:var(--violet)}
+  .nav .nav-links a:hover{color:var(--action)}
+  .nav-cta{display:inline-flex;align-items:center;white-space:nowrap;padding:10px 18px;border-radius:var(--r-full);background:var(--action);color:#fff!important;font-weight:700;font-size:14px;text-decoration:none;opacity:1!important}
+  .nav-cta:hover{background:var(--action-hover);color:#fff!important}
+  .burger{display:none;background:none;border:0;cursor:pointer;width:44px;height:44px;border-radius:var(--r-sm);color:inherit}
+  .burger span{display:block;width:22px;height:2px;background:currentColor;margin:5px auto;transition:.25s}
+  .mobile-menu{position:fixed;top:var(--nav-h);left:0;right:0;background:#fff;border-bottom:1px solid var(--line-2);z-index:59;padding:12px var(--pad-x) 20px;flex-direction:column;gap:4px}
+  .mobile-menu a{padding:12px 4px;text-decoration:none;font-weight:700;font-size:16px;border-bottom:1px solid var(--line-2)}
+
+  /* nav interactions */
+  .nav-links a{position:relative;padding:6px 0;opacity:1;color:inherit}
+  .nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:var(--violet);transform:scaleX(0);transform-origin:left;transition:transform .25s cubic-bezier(.4,0,.2,1)}
+  .nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}
+  .nav-links a:hover{color:var(--violet)}
+  .nav-links a.active{color:#fff}
+  .nav .nav-links a{color:var(--ink-2)}
+  .nav .nav-links a:hover{color:var(--action)}
+  .nav .nav-links a.active{color:var(--navy)}
+  .nav .nav-links a::after{background:var(--action)}
+  .nav-links a:focus-visible,.nav-cta:focus-visible,.logo:focus-visible,.burger:focus-visible{outline:2px solid var(--violet);outline-offset:4px;border-radius:4px}
+  .nav-cta{transition:background .2s,transform .15s,box-shadow .2s}
+  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(107,71,230,.35)}
+  .nav-cta:active{transform:translateY(0) scale(.97);box-shadow:none}
+  .logo{transition:opacity .2s}.logo:hover{opacity:.8}
+  .logo .dot{transition:transform .3s}.logo:hover .dot{transform:scale(1.25)}
+  .nav.hidden{transform:translateY(-100%)}
+  .nav{transition:background .3s,border-color .3s,transform .35s ease,color .3s}
+  .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .burger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+  .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .mobile-menu{transform:translateY(-8px);opacity:0;pointer-events:none;transition:transform .25s,opacity .25s;display:flex}
+  .mobile-menu.open{transform:none;opacity:1;pointer-events:auto}
+  .mobile-menu a{transition:color .2s,padding-left .2s}
+  .mobile-menu a:hover,.mobile-menu a.active{color:var(--action);padding-left:10px}
+  @media (min-width:681px){.mobile-menu{display:none}}
+  .btn:active{transform:translateY(0) scale(.97)}
+  .btn:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+
+  @media (max-width:680px){.nav-links,.nav .nav-cta{display:none}.burger{display:block}}
+
+  /* header */
+  .head{padding:calc(var(--nav-h) + 64px) 0 40px}
+  .crumb{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:700;color:var(--ink-3);text-decoration:none;margin-bottom:22px}
+  .crumb:hover{color:var(--action)}
+  .poc{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--action);background:var(--tint);border:1px solid #d9d0ff;padding:7px 12px;border-radius:var(--r-full);margin-bottom:18px}
+  .poc::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--violet)}
+  .head h1{font-size:clamp(32px,4.4vw,56px);font-weight:700;max-width:900px}
+  .head p.sub{font-size:clamp(17px,1.4vw,20px);max-width:760px;margin-top:18px}
+
+  .hero-visual{position:relative;border-radius:var(--r-xl);overflow:hidden;background:linear-gradient(135deg,#1a1276,var(--action) 60%,var(--violet));min-height:380px;aspect-ratio:16/8}
+  .hero-visual::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.16) 1px,transparent 1px);background-size:22px 22px;opacity:.5}
+  .hero-visual .desk{position:absolute;left:8%;right:22%;top:12%;border-radius:14px;box-shadow:0 30px 80px rgba(0,0,0,.35);overflow:hidden}
+  .hero-visual .mob{position:absolute;right:8%;bottom:-2%;width:19%;border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.4);overflow:hidden;background:#fff;aspect-ratio:9/17.5}
+  .hero-visual .mob img{width:100%;height:100%;object-fit:cover;object-position:top}
+  @media (max-width:680px){.hero-visual{aspect-ratio:4/3}.hero-visual .desk{left:5%;right:5%;top:10%}.hero-visual .mob{display:none}}
+
+  /* sections */
+  section{padding:64px 0}
+  .sec-title{font-size:clamp(26px,3vw,38px);font-weight:700;margin-bottom:12px}
+  .lead{font-size:17px;max-width:var(--read)}
+  .two{display:grid;grid-template-columns:1.4fr .8fr;gap:56px;margin-top:40px}
+  .two h3,.meta h3{font-size:19px;font-weight:700;margin-bottom:12px}
+  .two .block+.block,.meta .block+.block{margin-top:40px}
+  .meta p{font-size:15px}
+  .meta ul{list-style:none;display:grid;gap:8px;font-size:15px;color:var(--ink-2)}
+  .meta li{padding-left:18px;position:relative}
+  .meta li::before{content:"";position:absolute;left:0;top:11px;width:6px;height:6px;background:var(--violet)}
+  .meta a{color:var(--action);font-weight:700}
+  .note{background:var(--tint);border-left:3px solid var(--violet);padding:14px 18px;border-radius:0 var(--r-md) var(--r-md) 0;font-size:14.5px;color:var(--ink-2);margin-top:16px}
+  .note b{color:var(--navy)}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:36px}
+  .stat b{display:block;font-family:var(--display);font-size:clamp(24px,2.2vw,30px);white-space:nowrap;font-weight:700;color:var(--navy);line-height:1}
+  .stat span{display:block;margin-top:8px;font-size:14px;color:var(--ink-2)}
+
+  hr.rule{border:0;border-top:1px solid var(--line-2);margin:0}
+
+  .steps{display:grid;gap:0;margin-top:36px;max-width:900px}
+  .step{display:grid;grid-template-columns:64px 1fr;gap:20px;padding:26px 0;border-top:1px solid var(--line-2)}
+  .step .n{font-family:var(--display);font-weight:700;color:var(--violet);font-size:14px;letter-spacing:.1em;padding-top:4px}
+  .step h3{font-size:19px;margin-bottom:8px}
+  .step p{font-size:15.5px;max-width:var(--read)}
+
+  .sub-h{font-size:22px;font-weight:700;margin:48px 0 12px}
+  .prose p{max-width:var(--read);font-size:16px}
+  .prose p+p{margin-top:14px}
+  figure{margin:32px 0 8px}
+  figure .img{background:var(--tint);border-radius:var(--r-xl);padding:clamp(16px,3vw,40px);border:1px solid var(--line-2)}
+  figure .img.dark{background:var(--navy)}
+  figure .img img{border-radius:var(--r-md);margin:0 auto;box-shadow:0 12px 40px rgba(15,10,85,.12)}
+  figcaption{font-size:13.5px;color:var(--ink-3);text-align:center;margin-top:14px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .grid2 figure{margin:0}
+  .grid2 .img{height:100%;display:flex;align-items:center}
+
+  .principles{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:24px;max-width:900px}
+  .principles li{background:var(--tint);border-radius:var(--r-lg);padding:20px 22px;font-size:15px;color:var(--ink-2)}
+  .principles li b{display:block;color:var(--navy);font-family:var(--display);font-size:15.5px;margin-bottom:6px}
+
+  .decisions{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:32px}
+  .dec{border:1px solid var(--line-2);border-radius:var(--r-xl);padding:26px}
+  .dec small{display:block;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--action);margin-bottom:10px}
+  .dec h3{font-size:18px;margin-bottom:8px}
+  .dec p{font-size:15px}
+
+  table{width:100%;border-collapse:collapse;font-size:14.5px;margin-top:24px;max-width:900px}
+  th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line-2);vertical-align:top}
+  th{font-family:var(--display);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+  td:first-child{color:var(--navy);font-weight:700}
+  .tbl{overflow-x:auto}
+
+  .comp{margin-top:24px;max-width:900px}
+  .comp .row{display:grid;grid-template-columns:150px 1fr;gap:20px;padding:16px 0;border-top:1px solid var(--line-2);font-size:15px}
+  .comp .row b{color:var(--navy)}
+  .comp .row span{color:var(--ink-2)}
+
+  /* research / personas / flows */
+  .rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px}
+  .rcard{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-xl);padding:24px}
+  .rcard small{display:block;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--action);margin-bottom:8px}
+  .rcard h3{font-size:17px;margin-bottom:8px}
+  .rcard p{font-size:14.5px}
+  .insights{list-style:none;display:grid;gap:10px;margin-top:28px;max-width:900px}
+  .insights li{display:grid;grid-template-columns:36px 1fr;gap:14px;padding:16px 18px;background:#fff;border:1px solid var(--line-2);border-radius:var(--r-lg);font-size:15px;color:var(--ink-2)}
+  .insights li b{font-family:var(--display);color:var(--violet);font-size:14px;letter-spacing:.08em;padding-top:2px}
+  .insights li strong{color:var(--navy)}
+  .personas{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px}
+  .persona{border:1px solid var(--line-2);border-radius:var(--r-xl);overflow:hidden;background:#fff;display:flex;flex-direction:column}
+  .persona .ph{background:var(--navy);color:#fff;padding:22px 24px;display:flex;gap:14px;align-items:center}
+  .persona .ph .av{flex:none;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:16px;background:linear-gradient(135deg,var(--action),var(--violet))}
+  .persona .ph h3{color:#fff;font-size:17px;line-height:1.2}
+  .persona .ph span{display:block;font-size:13px;color:var(--on-dark-2);margin-top:3px}
+  .persona .pb{padding:20px 24px 24px;display:grid;gap:14px;font-size:14.5px}
+  .persona .pb h4{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--action);margin-bottom:6px;font-family:var(--body);font-weight:700}
+  .persona .pb ul{list-style:none;display:grid;gap:4px;color:var(--ink-2)}
+  .persona .pb li{padding-left:14px;position:relative}
+  .persona .pb li::before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;background:var(--violet)}
+  .persona .quote{font-style:italic;color:var(--navy);border-left:3px solid var(--violet);padding-left:12px;font-size:14.5px}
+  .persona .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border-radius:var(--r-full);background:var(--tint);color:var(--action)}
+  .flow{margin-top:32px;background:#fff;border:1px solid var(--line-2);border-radius:var(--r-xl);padding:clamp(16px,3vw,32px)}
+  .flow h3{font-size:18px;margin-bottom:4px}
+  .flow p.fd{font-size:14.5px;margin-bottom:18px}
+  .flow .sv{overflow-x:auto}
+  .flow svg{display:block;min-width:820px;width:100%;height:auto}
+  .flow .lg{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:12.5px;color:var(--ink-3)}
+  .flow .lg span{display:inline-flex;align-items:center;gap:6px}
+  .flow .lg i{width:12px;height:12px;border-radius:3px}
+  @media (max-width:900px){.rgrid,.personas{grid-template-columns:1fr}}
+
+  /* next / contact */
+  .cta{background:var(--tint);padding:72px 0}
+  .cta-card{background:var(--navy);color:var(--on-dark);border-radius:28px;padding:clamp(36px,5vw,60px);display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap}
+  .cta-card h2{color:#fff;font-size:clamp(26px,3vw,38px)}
+  .cta-card p{color:var(--on-dark-2);margin-top:8px}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:var(--r-full);font-weight:700;font-size:15px;text-decoration:none;transition:transform .2s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-light{background:#fff;color:var(--navy)}
+  .btn-ghost{border:1.5px solid rgba(233,229,255,.35);color:#fff}
+  footer{padding:28px 0;font-size:13px;color:var(--ink-3)}
+  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  footer a{color:var(--ink-2);text-decoration:none;font-weight:700}
+
+  @media (max-width:900px){.two{grid-template-columns:1fr;gap:40px}.stats{grid-template-columns:1fr 1fr}.grid2,.principles,.decisions{grid-template-columns:1fr}.comp .row{grid-template-columns:1fr;gap:4px}}
+
+  .hero-visual .shot{position:absolute;left:6%;right:6%;top:8%;bottom:-6%}
+  .hero-visual .shot img{width:100%;height:100%;object-fit:cover;object-position:top;border-radius:14px}
+  .persona .ph .av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+  .persona .ph .av{overflow:hidden;background:#fff}
+  .stages{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:28px}
+  .stage{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-xl);padding:22px}
+  .stage b{display:block;font-family:var(--display);color:var(--violet);font-size:13px;letter-spacing:.1em;margin-bottom:8px}
+  .stage h3{font-size:17px;margin-bottom:8px}
+  .stage p{font-size:14px}
+  .stage ul{list-style:none;margin-top:8px;font-size:13.5px;color:var(--ink-2);display:grid;gap:3px}
+  .stage li{padding-left:12px;position:relative}.stage li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;background:var(--violet)}
+  .shots{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px}
+  .shots figure{margin:0}
+  .shots .img{padding:0;overflow:hidden;background:var(--navy)}
+  .shots .img img{border-radius:0;box-shadow:none;width:100%}
+  .feat-list{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+  .feat-list li{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-lg);padding:14px 16px;font-size:14.5px;color:var(--ink);font-weight:700;display:flex;gap:10px;align-items:center}
+  .feat-list li::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--action)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .chips span{font-size:13px;font-weight:700;padding:7px 13px;border-radius:var(--r-full);background:#fff;color:var(--navy);border:1px solid #d9d0ff;box-shadow:0 1px 2px rgba(15,10,85,.06)}
+  @media (max-width:900px){.stages{grid-template-columns:1fr 1fr}.shots{grid-template-columns:1fr}.feat-list{grid-template-columns:1fr}}
+  @media (max-width:600px){.stages{grid-template-columns:1fr}}
+
+  .shots3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:28px}
+  .shots3 figure{margin:0;display:grid;grid-template-rows:subgrid;grid-row:span 2;gap:0}
+  .shots3 figcaption{order:-1;text-align:left;font-weight:700;color:var(--ink-2);margin:0 0 10px;align-self:end}
+  .shots3 .img{padding:0;overflow:hidden;background:var(--navy)}
+  .shots3 .img img{border-radius:0;box-shadow:none;width:100%}
+  .shots3{grid-template-rows:auto auto;align-items:start}
+  .tall{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px;align-items:start}
+  .tall figure{margin:0}
+  .tall .img{padding:0;overflow:hidden;max-height:720px;position:relative}
+  .tall .img::after{content:"";position:absolute;left:0;right:0;bottom:0;height:120px;background:linear-gradient(transparent,var(--tint))}
+  .tall .img img{border-radius:0;box-shadow:none;width:100%}
+  .journey{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px}
+  .journey div{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-lg);padding:18px}
+  .journey b{display:block;font-family:var(--display);color:var(--violet);font-size:12px;letter-spacing:.1em;margin-bottom:6px}
+  .journey h3{font-size:16px;margin-bottom:4px}
+  .journey p{font-size:13.5px}
+  @media (max-width:900px){.shots3{grid-template-columns:1fr}.tall,.journey{grid-template-columns:1fr 1fr}}
+  @media (max-width:560px){.tall,.journey{grid-template-columns:1fr}}
+
+  .wfgrid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px;align-items:start}
+  .wfgrid figure{margin:0;display:grid;grid-template-rows:subgrid;grid-row:span 2;gap:0}
+  .wfgrid figcaption{order:-1;text-align:left;font-weight:700;color:var(--ink-2);margin:0 0 10px;align-self:end}
+  .wfgrid .img{padding:0;overflow:hidden;background:#fff;max-height:640px;position:relative;align-self:start;border:1px solid var(--line-2)}
+  
+  .wfgrid .img img{border-radius:0;box-shadow:none;width:100%}
+  .wfgrid{grid-template-rows:auto auto}
+  @media (max-width:900px){.wfgrid{grid-template-columns:1fr}}
+  .roles{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px}
+  .role{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-xl);padding:24px}
+  .role small{display:block;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--action);margin-bottom:8px}
+  .role h3{font-size:18px;margin-bottom:8px}
+  .role p{font-size:14.5px;margin-bottom:10px}
+  .role ul{list-style:none;display:grid;gap:4px;font-size:13.5px;color:var(--ink-2)}
+  .role li{padding-left:12px;position:relative}.role li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;background:var(--violet)}
+  .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:28px}
+  .steps div{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-lg);padding:16px 16px 18px;position:relative}
+  .steps b{display:block;font-family:var(--display);color:var(--violet);font-size:12px;letter-spacing:.1em;margin-bottom:6px}
+  .steps h3{font-size:15px;margin-bottom:4px}
+  .steps p{font-size:13px}
+  .wfgrid.ui .img{max-height:none;background:#F1F2F4;border-color:var(--line)}
+  .wfgrid.ui figure.pop .img{background:#F1F2F4;padding:24px;display:flex;justify-content:center}
+  .wfgrid.ui figure.pop img{width:auto;max-width:100%;max-height:520px;border-radius:12px;box-shadow:0 20px 50px rgba(15,10,85,.18)}
+  @media (max-width:900px){.roles{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}}
+  @media (max-width:560px){.steps{grid-template-columns:1fr}}
+  .wfgrid .img{max-height:none}
+</style>
+</head>
+<body>
+
+
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a href="../index.html" class="logo"><span class="dot"></span>Abhishek Patade</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#work" class="active">Work</a></li>
+      <li><a href="../index.html#experience">Experience</a></li>
+      <li><a href="../index.html#skills">Skills</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+    <a href="../assets/documents/Abhishek_Patade_Resume_2026.pdf" class="nav-cta" download>Download Resume</a>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#work" class="active">Work</a><a href="../index.html#experience">Experience</a><a href="../index.html#skills">Skills</a><a href="../index.html#contact">Contact</a>
+  <a href="../assets/documents/Abhishek_Patade_Resume_2026.pdf" download style="color:var(--action);border:0">Download Resume ↓</a>
+</nav>
+
+<main>
+  <div class="head">
+    <div class="wrap">
+      <a href="../index.html#work" class="crumb">← Back to work</a><br>
+      <span class="poc">Insurtech · Agent portal · Majesco · 2019 · Wireframes</span>
+      <h1>Heritage Agent Portal — a homeowners quote-to-issue journey, worked out in sixty-one wireframes.</h1>
+      <p class="sub">A web portal for Heritage Insurance agents, built on Majesco's cloud P&amp;C platform: a dashboard for policies, quotes and claims, and a guided homeowners quote that runs from agent details to an issued policy. I designed it at Majesco. This case study shows the lo-fidelity click-through where the structure was decided; the final UI was delivered to the client and isn't shown here.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="hero-visual rv" style="background:none;min-height:0;aspect-ratio:auto"><img src="../assets/work/heritage/cover.jpg" alt="Heritage Agent Portal — cover" style="width:100%;border-radius:var(--r-xl)"></div>
+  </div>
+
+  <!-- SUMMARY -->
+  <section id="summary">
+    <div class="wrap">
+      <h2 class="sec-title rv">Summary</h2>
+      <div class="two">
+        <div>
+          <div class="block rv">
+            <h3>Mission</h3>
+            <p>An insurance agent's day is a queue: quotes to finish, renewals coming up, a claim someone phoned in, tasks from underwriting. Heritage Insurance — a Florida homeowners carrier running on Majesco Policy — needed an agent portal that put all of that on one page and made the hardest job, a homeowners (HO-3) quote with its coverages, underwriting questions and property details, feel like a guided form rather than a system of record. It had to work for a new agent on their first day and a veteran with 200 policies in their book.</p>
+          </div>
+          <div class="block rv">
+            <h3>My contributions</h3>
+            <p>I owned the UX end to end, and this page is about the part that mattered most: the lo-fidelity click-through. Sixty-one wireframe screens cover sign-in, the dashboard, a seven-step quote, the coverage-comparison dialog, underwriting, additional property, policy info, summary, billing and issuance. Product owners, business analysts and the carrier's SMEs walked it screen by screen; that's where fields were cut, sections merged, and the step count came down before any visual design was applied. The hi-fidelity UI that followed used the same structure.</p>
+          </div>
+          <div class="block rv">
+            <h3>Impact</h3>
+            <p>The wireframes became the agreed specification for the Heritage implementation on Majesco Policy: the seven-step journey was compressed to five for build, the "context bar above, summary rail beside" pattern was reused across other carrier portals on the platform, and the coverage-comparison dialog became a standard component.</p>
+          </div>
+        </div>
+        <aside class="meta rv">
+          <div class="block">
+            <h3>Client</h3>
+            <p>Heritage Insurance — designed at Majesco as part of a Majesco Policy implementation for the carrier's agent channel.</p>
+          </div>
+          <div class="block">
+            <h3>What I did</h3>
+            <ul><li>Lo-fi click-through (61 screens)</li><li>Agent dashboard &amp; task management</li><li>Quote journey structure &amp; step model</li><li>Plan selection &amp; coverage comparison</li><li>Underwriting &amp; property questionnaires</li><li>Summary, billing &amp; issuance</li><li>Walkthroughs with PO, BAs and SMEs</li></ul>
+          </div>
+          <div class="block">
+            <h3>My role</h3>
+            <p>Product Designer at Majesco — lead designer on the portal, working with the product owner, business analysts and the implementation engineering team.</p>
+          </div>
+          <div class="block">
+            <h3>Tools</h3>
+            <p>Adobe XD · PowerPoint · Illustrator</p>
+          </div>
+          <div class="block">
+            <h3>Timeline</h3>
+            <p>2019</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap"><hr class="rule"></div>
+
+  <!-- DASHBOARD -->
+  <section id="dashboard" style="background:var(--tint);--sec-bg:var(--tint)">
+    <div class="wrap">
+      <h2 class="sec-title rv">Sign in, then a dashboard that reads like a to-do list.</h2>
+      <p class="lead rv">Sign-in keeps the support number in view for a nervous first-timer and offers "Become an agent?" for everyone else. The dashboard is counters first — Policies, Book of Business, Claims — then the two things an agent starts most: a quote ("get policy coverage premium in three steps": ZIP, product, agent) and a claim (enter your policy number, Start Claim). Task management sits alongside so nothing from underwriting gets missed.</p>
+      <div class="wfgrid">
+        <figure class="rv"><figcaption>Sign in — username, password, remember me, and the "need to speak to our representative?" card.</figcaption><div class="img"><img src="../assets/work/heritage/wf3.jpg" alt="Sign in wireframe"></div></figure>
+        <figure class="rv"><figcaption>Dashboard — Policies / Book of Business / Claims counters, File a Claim, Start Quote in three steps, task management.</figcaption><div class="img"><img src="../assets/work/heritage/wf5.jpg" alt="Dashboard wireframe"></div></figure>
+      </div>
+      <div class="decisions">
+        <div class="dec rv"><small>Decision</small><h3>Counts, then action</h3><p>Every block leads with a big number — 218 quotes, 18 open claims — because that's how an agent thinks about their day. The action that follows (start a quote, start a claim) is right under the number it relates to.</p></div>
+        <div class="dec rv"><small>Decision</small><h3>Start a quote from the dashboard</h3><p>ZIP, product and agent — three fields — and the quote begins before the agent has left the home page. The full form only appears once there's something to fill.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE -->
+  <section id="quote">
+    <div class="wrap">
+      <h2 class="sec-title rv">The quote: seven steps in the wireframes, five in the build.</h2>
+      <p class="lead rv">The click-through modelled the full journey — Quote Info → Property Info → Coverage Plan → Underwriting Questions → Additional Property → Policy Info → Summary — with a progress line under the step tabs and a rail on the right that keeps the product, insured name, property address and replacement-cost estimate in view. Walking it with agents showed that Property and Additional Property were one thing, and Policy Info belonged inside Quote Info, so five steps went to build.</p>
+      <div class="wfgrid" style="--sec-bg:#fff">
+        <figure class="rv"><figcaption>1 · Quote Info — policy and insured details on the left, the Home Owners / HO-3 summary rail on the right.</figcaption><div class="img"><img src="../assets/work/heritage/wf9.jpg" alt="Quote info wireframe"></div></figure>
+        <figure class="rv"><figcaption>Property Address and Construction Details — address, ZIP, city and state, with a Discard Quote escape in the rail.</figcaption><div class="img"><img src="../assets/work/heritage/wf12.jpg" alt="Property address wireframe"></div></figure>
+        <figure class="rv"><figcaption>3 · Coverage Plan — Basic vs Pillar plan, the mandatory coverages table with limits and premium, replacement-cost estimate and valuation date.</figcaption><div class="img"><img src="../assets/work/heritage/wf24.jpg" alt="Coverage plan wireframe"></div></figure>
+        <figure class="rv"><figcaption>Compare Coverages — Basic plan and a customised plan side by side, editable limits, and Calculate Premium before Save &amp; Continue.</figcaption><div class="img"><img src="../assets/work/heritage/wf26.jpg" alt="Compare coverages wireframe"></div></figure>
+      </div>
+      <div class="decisions">
+        <div class="dec rv"><small>Decision</small><h3>The quote context never leaves the screen</h3><p>Product, insured, address and the replacement-cost estimate sit in a rail on every step. An agent interrupted by a phone call can look up and know exactly where they are and for whom.</p></div>
+        <div class="dec rv"><small>Decision</small><h3>Comparison is a dialog, not a step</h3><p>Most agents pick Basic or Pillar and move on. Customising limits is the exception, so it lives in a Compare Coverages dialog with its own Calculate Premium — off the main path but one click away.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- UNDERWRITING -->
+  <section id="underwriting" style="background:var(--tint);--sec-bg:var(--tint)">
+    <div class="wrap">
+      <h2 class="sec-title rv">Underwriting and property: questions, not fields.</h2>
+      <p class="lead rv">Underwriting is dozens of yes / no questions about occupancy and the property. The wireframes group them under headings, phrase each as a full question, and answer them with a toggle. The banner in the rail says the one thing an agent needs to hear at this point: you can continue — the underwriter will approve the final application.</p>
+      <div class="wfgrid">
+        <figure class="rv"><figcaption>4 · Underwriting Questions — Occupancy and Property Type &amp; Characteristics, one toggle per question.</figcaption><div class="img"><img src="../assets/work/heritage/wf37.jpg" alt="Underwriting questions wireframe"></div></figure>
+        <figure class="rv"><figcaption>5 · Additional Property — exterior characteristics, flood-zone and over-water questions, fire district.</figcaption><div class="img"><img src="../assets/work/heritage/wf41.jpg" alt="Property exterior wireframe"></div></figure>
+        <figure class="rv"><figcaption>Property Other Information and Renovation Details — inspection date, families, market value, renovation status as a three-way choice.</figcaption><div class="img"><img src="../assets/work/heritage/wf43.jpg" alt="Renovation details wireframe"></div></figure>
+        <figure class="rv"><figcaption>7 · Summary — every section listed on the left, each with an edit pencil, so the agent reviews the whole quote before billing.</figcaption><div class="img"><img src="../assets/work/heritage/wf57.jpg" alt="Summary wireframe"></div></figure>
+      </div>
+      <div class="decisions">
+        <div class="dec rv"><small>Decision</small><h3>Toggles for yes / no, buttons only for three-way</h3><p>A toggle reads at a glance and works on a tablet. Where a question has three answers — renovation status Yes / Partial / Full — it becomes a segmented button instead, never a dropdown.</p></div>
+        <div class="dec rv"><small>Decision</small><h3>Reassure before the underwriter does</h3><p>"You can continue with the quote process. Your underwriter will need to approve the final application." One sentence in the rail stopped agents from abandoning quotes they thought had been rejected.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BILLING -->
+  <section id="billing">
+    <div class="wrap">
+      <h2 class="sec-title rv">Billing and issuance.</h2>
+      <p class="lead rv">Billing is the annual premium, who to bill, and a payment plan chosen from four options — Full Pay, Semiannual, Quarterly, 11-Pay EFT — with the instalment schedule drawn out by date and amount as soon as one is picked. Submit for Issuance ends with a policy number, the policy document, premium and dates, and a single Done.</p>
+      <div class="wfgrid" style="--sec-bg:#fff">
+        <figure class="rv"><figcaption>Billing Info — annual premium, bill-to entity, four payment plans, the instalment schedule, method of payment.</figcaption><div class="img"><img src="../assets/work/heritage/wf59.jpg" alt="Billing wireframe"></div></figure>
+        <figure class="rv"><figcaption>Policy issued — policy number, coverage plan, property, insured, premium, effective and expiry dates, and the document to download.</figcaption><div class="img"><img src="../assets/work/heritage/wf60.jpg" alt="Policy issued wireframe"></div></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEARNED -->
+  <section id="learned" style="background:var(--tint)">
+    <div class="wrap">
+      <h2 class="sec-title rv">What I'd carry into the next insurance product.</h2>
+      <ul class="principles">
+        <li class="rv"><b>Wireframe the whole journey, not the happy screens.</b> Sixty-one greyscale pages felt excessive until they were the reason seven steps became five.</li>
+        <li class="rv"><b>Keep the context rail; change only the middle.</b> On a long form, stability is what makes it feel short.</li>
+        <li class="rv"><b>Put the exception in a dialog.</b> Customising coverages matters to a few agents; the rest should never see the table.</li>
+        <li class="rv"><b>Say the reassuring thing early.</b> A single sentence about underwriter approval did more for completion than any layout change.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="wrap">
+      <div class="cta-card rv">
+        <div>
+          <h2>Working on an insurance or agent-facing platform?</h2>
+          <p>Happy to talk through the quote-to-issue journey and how the step count came down.</p>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a href="https://wa.me/919967453818?text=Hi%20Abhishek%2C%20I%20saw%20the%20Heritage%20Agent%20Portal%20case%20study%20and%20would%20like%20to%20talk." target="_blank" rel="noopener" class="btn btn-light">Let's talk</a>
+          <a href="../index.html#work" class="btn btn-ghost">More work</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr"></span> Abhishek Patade · Navi Mumbai, India</span>
+    <span><a href="https://www.linkedin.com/in/abhipatade/" target="_blank" rel="noopener">LinkedIn</a> · <a href="../index.html">Home</a></span>
+  </div>
+</footer>
+<script>
+  document.getElementById('yr').textContent=new Date().getFullYear();
+  const nav=document.getElementById('nav'),burger=document.getElementById('burger'),menu=document.getElementById('mobileMenu');
+  burger.addEventListener('click',()=>{const o=menu.classList.toggle('open');burger.classList.toggle('open',o);burger.setAttribute('aria-expanded',o)});
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{menu.classList.remove('open');burger.classList.remove('open')}));
+  addEventListener('keydown',e=>{if(e.key==='Escape'){menu.classList.remove('open');burger.classList.remove('open')}});
+  let lastY=0;addEventListener('scroll',()=>{const y=window.scrollY;if(!menu.classList.contains('open'))nav.classList.toggle('hidden',y>lastY&&y>300);lastY=y},{passive:true});
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+  setTimeout(()=>document.querySelectorAll('.rv').forEach(el=>el.classList.add('in')),4000);
+</script>
+</body>
+</html>

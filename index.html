@@ -149,6 +149,17 @@
 
 
   /* featured */
+  .filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:-24px 0 32px}
+  .chip{font-family:var(--body);font-size:13.5px;font-weight:700;padding:9px 16px;border-radius:var(--r-full);border:1px solid var(--line-2);background:#fff;color:var(--ink-2);cursor:pointer;transition:background .2s,color .2s,border-color .2s,transform .15s}
+  .chip:hover{border-color:var(--violet);color:var(--action)}
+  .chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .chip:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+  .chip:active{transform:scale(.97)}
+  .fcount{font-size:13px;color:var(--ink-3);margin-left:6px}
+  .feat.hide{display:none}
+  .feat.pop{animation:featIn .4s ease both}
+  @keyframes featIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  @media (max-width:680px){.filters{margin-top:-8px}}
   .feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
   @media (max-width:680px){.feat-grid{grid-template-columns:1fr}}
   .feat{text-decoration:none;color:inherit;display:block}
@@ -353,12 +364,26 @@
         <div><span class="num">01 — FEATURED WORK</span><h2>Products, platforms and systems I've shaped.</h2></div>
         <p>Enterprise platforms, consumer marketplaces, mobile apps and design systems — a mix of shipped products, client work and proofs of concept. New case studies are added as they're written up.</p>
       </div>
+      <div class="filters" role="group" aria-label="Filter projects by domain">
+        <button class="chip on" data-f="all" aria-pressed="true">All</button>
+        <button class="chip" data-f="mobile" aria-pressed="false">Mobile apps</button>
+        <button class="chip" data-f="saas" aria-pressed="false">SaaS platforms</button>
+        <button class="chip" data-f="enterprise" aria-pressed="false">Enterprise</button>
+        <button class="chip" data-f="ecommerce" aria-pressed="false">E-commerce</button>
+        <button class="chip" data-f="insurtech" aria-pressed="false">Insurance tech</button>
+        <button class="chip" data-f="fintech" aria-pressed="false">Fintech</button>
+        <button class="chip" data-f="edtech" aria-pressed="false">EdTech</button>
+        <button class="chip" data-f="compliance" aria-pressed="false">Compliance &amp; safety</button>
+        <button class="chip" data-f="brand" aria-pressed="false">Brand &amp; web</button>
+        <button class="chip" data-f="ai" aria-pressed="false">AI-powered design</button>
+        <span class="fcount" id="fcount" aria-live="polite"></span>
+      </div>
       <div class="feat-grid">
-        <div class="feat rv wip">
+        <div class="feat rv wip" data-tags="brand">
           <div class="fv"><img src="assets/work/acharya-gautam/thumbnail.jpg" alt="Acharya Gautam — coming soon" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.85)"><span class="poc-badge">In progress · Brand &amp; Web</span><span class="soon-tag">Coming soon</span></div>
           <div class="ft"><div><h3>Acharya Gautam — Astrovaidya</h3><p>Personal brand, website and a festival-led Reels &amp; Shorts content plan for an astrologer and Vastu consultant — currently underway</p></div></div>
         </div>
-        <a class="feat rv" href="work/mirello.html">
+        <a class="feat rv" href="work/mirello.html" data-tags="saas ai brand">
           <div class="fv">
             <span class="poc-badge">Proof of concept</span>
             <div class="desk"><img src="assets/work/mirello/img00.jpg" alt="Mirello homepage hero"></div>
@@ -366,31 +391,35 @@
           </div>
           <div class="ft"><div><h3>Mirello — Fit-First Hiring Platform</h3><p>Product strategy, design-system foundations and an accessible marketing site with a live demo — a POC built in one sprint with Claude AI</p></div><span class="arr">↗</span></div>
         </a>
-        <a class="feat rv" href="work/phishing-simulation.html">
+        <a class="feat rv" href="work/phishing-simulation.html" data-tags="saas enterprise compliance">
           <div class="fv"><img src="assets/work/phishing/thumbnail.jpg" alt="Phishing Simulation — create campaign and user-level tracking screens" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span class="poc-badge">Enterprise SaaS · LRN Catalyst</span></div>
           <div class="ft"><div><h3>Phishing Simulation — LRN Catalyst</h3><p>0 → 1 enterprise product: campaign creation workflow, a 50+ template library, and behaviour analytics for security and compliance admins</p></div><span class="arr">↗</span></div>
         </a>
-        <a class="feat rv" href="work/smart-lockout.html">
+        <a class="feat rv" href="work/heritage-agent-portal.html" data-tags="insurtech enterprise saas">
+          <div class="fv"><img src="assets/work/heritage/thumbnail.jpg" alt="Heritage Agent Portal dashboard" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span class="poc-badge">Insurtech · Agent portal · Majesco</span></div>
+          <div class="ft"><div><h3>Heritage Agent Portal</h3><p>Homeowners quote-to-issue journey and agent dashboard on Majesco Policy — the 61-screen lo-fi click-through that set the structure</p></div><span class="arr">↗</span></div>
+        </a>
+        <a class="feat rv" href="work/smart-lockout.html" data-tags="enterprise compliance">
           <div class="fv"><img src="assets/work/smart-lockout/thumbnail.jpg" alt="Smart Lockout 2.0 dashboard and create-lockout screens" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span class="poc-badge">Enterprise web portal · Industrial safety</span></div>
           <div class="ft"><div><h3>Smart Lockout 2.0</h3><p>Lockout / tagout and work-permit portal for industrial plants — three role journeys, 40+ high-fidelity screens</p></div><span class="arr">↗</span></div>
         </a>
-        <a class="feat rv" href="work/edumentr.html">
+        <a class="feat rv" href="work/edumentr.html" data-tags="mobile edtech">
           <div class="fv"><img src="assets/work/edumentr/thumbnail.jpg" alt="Edumentr study-abroad app screens" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span class="poc-badge">Mobile app · EdTech · via QUBD Technologies</span></div>
           <div class="ft"><div><h3>Edumentr</h3><p>Study-abroad app for students in India — explore courses, check eligibility, upload documents once, apply and track, 60+ screens</p></div><span class="arr">↗</span></div>
         </a>
-        <a class="feat rv" href="work/digially.html">
+        <a class="feat rv" href="work/digially.html" data-tags="saas fintech">
           <div class="fv"><img src="assets/work/digially/thumbnail.jpg" alt="DigiAlly reliability report screens" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span class="poc-badge">SaaS · Fintech · via V2S Tech Solutions</span></div>
           <div class="ft"><div><h3>DigiAlly — SME Reliability Scoring</h3><p>SaaS platform that scores Indian SMEs out of 1000: portfolio dashboard, treemap drill-down, badge-rated company lists and a seven-section report — wireframes to shipped UI</p></div><span class="arr">↗</span></div>
         </a>
-        <a class="feat rv" href="work/indiedimension.html">
+        <a class="feat rv" href="work/indiedimension.html" data-tags="mobile web edtech">
           <div class="fv"><img src="assets/work/indiedimension/thumbnail.jpg" alt="Indiedimension — sign-up flow and wireframes" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span class="poc-badge">Upwork · ★ 5.0</span></div>
           <div class="ft"><div><h3>Indiedimension — PWA Onboarding</h3><p>Sign-up, sign-in and onboarding flows plus 39 wireframes for an ebook platform serving readers, families, authors and publishers</p></div><span class="arr">↗</span></div>
         </a>
-        <a class="feat rv" href="work/dopahiye.html">
+        <a class="feat rv" href="work/dopahiye.html" data-tags="ecommerce web">
           <div class="fv"><img src="assets/work/dopahiye/thumbnail.jpg" alt="Do Pahiye — two-wheeler platform screens" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span class="poc-badge">E-commerce · Web · via V2S Tech Solutions</span></div>
           <div class="ft"><div><h3>Do Pahiye — Two-Wheeler Platform</h3><p>Discovery, comparison and dealer test-ride booking for India: four-way mega menu, city-aware pricing, and a three-step booking flow with status tracking</p></div><span class="arr">↗</span></div>
         </a>
-        <a class="feat rv" href="work/winelands-pass.html">
+        <a class="feat rv" href="work/winelands-pass.html" data-tags="mobile ecommerce">
           <div class="fv"><img src="assets/work/winelands/thumbnail.jpg" alt="Winelands Pass app screens" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span class="poc-badge">Upwork · ★ 5.0 · Mobile</span></div>
           <div class="ft"><div><h3>Winelands Pass — Tourism App</h3><p>iOS and Android app for South Africa's Cape Winelands: discover discounted tastings, dining and stays, buy a pass, redeem by QR — wireframes to hi-fidelity UI</p></div><span class="arr">↗</span></div>
         </a>
@@ -591,6 +620,18 @@
 
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
   document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+  (function(){
+    const chips=document.querySelectorAll('.filters .chip'),cards=document.querySelectorAll('.feat-grid .feat'),count=document.getElementById('fcount');
+    function apply(f){
+      let n=0;
+      cards.forEach(c=>{const ok=f==='all'||(c.dataset.tags||'').split(' ').includes(f);c.classList.toggle('hide',!ok);c.classList.remove('pop');if(ok){n++;void c.offsetWidth;c.classList.add('pop');c.classList.add('in')}});
+      chips.forEach(ch=>{const on=ch.dataset.f===f;ch.classList.toggle('on',on);ch.setAttribute('aria-pressed',on)});
+      count.textContent=f==='all'?'':n+' of '+cards.length;
+      try{history.replaceState(null,'',f==='all'?location.pathname+'#work':location.pathname+'#work-'+f)}catch(e){}
+    }
+    chips.forEach(ch=>ch.addEventListener('click',()=>apply(ch.dataset.f)));
+    const m=location.hash.match(/^#work-([a-z]+)$/);if(m&&[...chips].some(c=>c.dataset.f===m[1]))apply(m[1]);
+  })();
 </script>
 </body>
 </html>
