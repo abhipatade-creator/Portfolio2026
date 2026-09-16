@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Appointment Reminder Platform - Patient Messaging Web App · Abhishek Patade</title>
+<meta name="description" content="Case study: designing an appointment reminder and patient-messaging platform for medical practices - appointments, arrivals and check-in, text / email / voice broadcast, contact upload, reports, and a responsive tablet layout.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0F0A55; --violet:#9173FF; --action:#6B47E6; --action-hover:#5638cc;
+    --tint:#F5F2FF; --tint-2:#EFEBFF; --ink:#1B1738; --ink-2:#4a476b; --ink-3:#8a87a3;
+    --line:#E6E6E6; --line-2:#ece9f7; --success:#136A4B; --white:#fff;
+    --on-dark:#E9E5FF; --on-dark-2:#B9B2E6;
+    --display:'Montserrat',system-ui,sans-serif; --body:'Lato',system-ui,sans-serif;
+    --r-md:10px; --r-lg:16px; --r-xl:24px; --r-full:999px;
+    --nav-h:72px; --pad-x:clamp(20px,5vw,72px); --max:1200px; --read:760px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--body);color:var(--ink);background:var(--white);line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad-x)}
+  h1,h2,h3,h4{font-family:var(--display);letter-spacing:-0.02em;line-height:1.15;color:var(--navy)}
+  p{color:var(--ink-2)}
+  .rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+  .rv.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+  /* nav */
+  .nav{position:fixed;inset:0 0 auto 0;height:var(--nav-h);z-index:60;display:flex;align-items:center;transition:background .3s,border-color .3s}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;width:100%}
+    .nav{background:rgba(255,255,255,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line-2);color:var(--ink)}
+  .logo{font-family:var(--display);font-weight:800;font-size:17px;white-space:nowrap;text-decoration:none;display:flex;align-items:center;gap:10px}
+  .logo .dot{width:10px;height:10px;border-radius:50%;background:var(--violet);box-shadow:0 0 0 4px rgba(145,115,255,.25)}
+  .nav-links{display:flex;gap:28px;list-style:none}
+  .nav-links a{text-decoration:none;font-size:14px;font-weight:700;opacity:.85;transition:opacity .2s,color .2s}
+  .nav-links a:hover{opacity:1;color:var(--violet)}
+  .nav .nav-links a:hover{color:var(--action)}
+  .nav-cta{display:inline-flex;align-items:center;white-space:nowrap;padding:10px 18px;border-radius:var(--r-full);background:var(--action);color:#fff!important;font-weight:700;font-size:14px;text-decoration:none;opacity:1!important}
+  .nav-cta:hover{background:var(--action-hover);color:#fff!important}
+  .burger{display:none;background:none;border:0;cursor:pointer;width:44px;height:44px;border-radius:var(--r-sm);color:inherit}
+  .burger span{display:block;width:22px;height:2px;background:currentColor;margin:5px auto;transition:.25s}
+  .mobile-menu{position:fixed;top:var(--nav-h);left:0;right:0;background:#fff;border-bottom:1px solid var(--line-2);z-index:59;padding:12px var(--pad-x) 20px;flex-direction:column;gap:4px}
+  .mobile-menu a{padding:12px 4px;text-decoration:none;font-weight:700;font-size:16px;border-bottom:1px solid var(--line-2)}
+
+  /* nav interactions */
+  .nav-links a{position:relative;padding:6px 0;opacity:1;color:inherit}
+  .nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:var(--violet);transform:scaleX(0);transform-origin:left;transition:transform .25s cubic-bezier(.4,0,.2,1)}
+  .nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}
+  .nav-links a:hover{color:var(--violet)}
+  .nav-links a.active{color:#fff}
+  .nav .nav-links a{color:var(--ink-2)}
+  .nav .nav-links a:hover{color:var(--action)}
+  .nav .nav-links a.active{color:var(--navy)}
+  .nav .nav-links a::after{background:var(--action)}
+  .nav-links a:focus-visible,.nav-cta:focus-visible,.logo:focus-visible,.burger:focus-visible{outline:2px solid var(--violet);outline-offset:4px;border-radius:4px}
+  .nav-cta{transition:background .2s,transform .15s,box-shadow .2s}
+  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(107,71,230,.35)}
+  .nav-cta:active{transform:translateY(0) scale(.97);box-shadow:none}
+  .logo{transition:opacity .2s}.logo:hover{opacity:.8}
+  .logo .dot{transition:transform .3s}.logo:hover .dot{transform:scale(1.25)}
+  .nav.hidden{transform:translateY(-100%)}
+  .nav{transition:background .3s,border-color .3s,transform .35s ease,color .3s}
+  .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .burger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+  .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .mobile-menu{transform:translateY(-8px);opacity:0;pointer-events:none;transition:transform .25s,opacity .25s;display:flex}
+  .mobile-menu.open{transform:none;opacity:1;pointer-events:auto}
+  .mobile-menu a{transition:color .2s,padding-left .2s}
+  .mobile-menu a:hover,.mobile-menu a.active{color:var(--action);padding-left:10px}
+  @media (min-width:681px){.mobile-menu{display:none}}
+  .btn:active{transform:translateY(0) scale(.97)}
+  .btn:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+
+  @media (max-width:680px){.nav-links,.nav .nav-cta{display:none}.burger{display:block}}
+
+  /* header */
+  .head{padding:calc(var(--nav-h) + 64px) 0 40px}
+  .crumb{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:700;color:var(--ink-3);text-decoration:none;margin-bottom:22px}
+  .crumb:hover{color:var(--action)}
+  .poc{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--action);background:var(--tint);border:1px solid #d9d0ff;padding:7px 12px;border-radius:var(--r-full);margin-bottom:18px}
+  .poc::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--violet)}
+  .head h1{font-size:clamp(32px,4.4vw,56px);font-weight:700;max-width:900px}
+  .head p.sub{font-size:clamp(17px,1.4vw,20px);max-width:760px;margin-top:18px}
+
+  .hero-visual{position:relative;border-radius:var(--r-xl);overflow:hidden;background:linear-gradient(135deg,#1a1276,var(--action) 60%,var(--violet));min-height:380px;aspect-ratio:16/8}
+  .hero-visual::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.16) 1px,transparent 1px);background-size:22px 22px;opacity:.5}
+  .hero-visual .desk{position:absolute;left:8%;right:22%;top:12%;border-radius:14px;box-shadow:0 30px 80px rgba(0,0,0,.35);overflow:hidden}
+  .hero-visual .mob{position:absolute;right:8%;bottom:-2%;width:19%;border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.4);overflow:hidden;background:#fff;aspect-ratio:9/17.5}
+  .hero-visual .mob img{width:100%;height:100%;object-fit:cover;object-position:top}
+  @media (max-width:680px){.hero-visual{aspect-ratio:4/3}.hero-visual .desk{left:5%;right:5%;top:10%}.hero-visual .mob{display:none}}
+
+  /* sections */
+  section{padding:64px 0}
+  .sec-title{font-size:clamp(26px,3vw,38px);font-weight:700;margin-bottom:12px}
+  .lead{font-size:17px;max-width:var(--read)}
+  .two{display:grid;grid-template-columns:1.4fr .8fr;gap:56px;margin-top:40px}
+  .two h3,.meta h3{font-size:19px;font-weight:700;margin-bottom:12px}
+  .two .block+.block,.meta .block+.block{margin-top:40px}
+  .meta p{font-size:15px}
+  .meta ul{list-style:none;display:grid;gap:8px;font-size:15px;color:var(--ink-2)}
+  .meta li{padding-left:18px;position:relative}
+  .meta li::before{content:"";position:absolute;left:0;top:11px;width:6px;height:6px;background:var(--violet)}
+  .meta a{color:var(--action);font-weight:700}
+  .note{background:var(--tint);border-left:3px solid var(--violet);padding:14px 18px;border-radius:0 var(--r-md) var(--r-md) 0;font-size:14.5px;color:var(--ink-2);margin-top:16px}
+  .note b{color:var(--navy)}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:36px}
+  .stat b{display:block;font-family:var(--display);font-size:clamp(24px,2.2vw,30px);white-space:nowrap;font-weight:700;color:var(--navy);line-height:1}
+  .stat span{display:block;margin-top:8px;font-size:14px;color:var(--ink-2)}
+
+  hr.rule{border:0;border-top:1px solid var(--line-2);margin:0}
+
+  .steps{display:grid;gap:0;margin-top:36px;max-width:900px}
+  .step{display:grid;grid-template-columns:64px 1fr;gap:20px;padding:26px 0;border-top:1px solid var(--line-2)}
+  .step .n{font-family:var(--display);font-weight:700;color:var(--violet);font-size:14px;letter-spacing:.1em;padding-top:4px}
+  .step h3{font-size:19px;margin-bottom:8px}
+  .step p{font-size:15.5px;max-width:var(--read)}
+
+  .sub-h{font-size:22px;font-weight:700;margin:48px 0 12px}
+  .prose p{max-width:var(--read);font-size:16px}
+  .prose p+p{margin-top:14px}
+  figure{margin:32px 0 8px}
+  figure .img{background:var(--tint);border-radius:var(--r-xl);padding:clamp(16px,3vw,40px);border:1px solid var(--line-2)}
+  figure .img.dark{background:var(--navy)}
+  figure .img img{border-radius:var(--r-md);margin:0 auto;box-shadow:0 12px 40px rgba(15,10,85,.12)}
+  figcaption{font-size:13.5px;color:var(--ink-3);text-align:center;margin-top:14px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .grid2 figure{margin:0}
+  .grid2 .img{height:100%;display:flex;align-items:center}
+
+  .principles{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:24px;max-width:900px}
+  .principles li{background:var(--tint);border-radius:var(--r-lg);padding:20px 22px;font-size:15px;color:var(--ink-2)}
+  .principles li b{display:block;color:var(--navy);font-family:var(--display);font-size:15.5px;margin-bottom:6px}
+
+  .decisions{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:32px}
+  .dec{border:1px solid var(--line-2);border-radius:var(--r-xl);padding:26px}
+  .dec small{display:block;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--action);margin-bottom:10px}
+  .dec h3{font-size:18px;margin-bottom:8px}
+  .dec p{font-size:15px}
+
+  table{width:100%;border-collapse:collapse;font-size:14.5px;margin-top:24px;max-width:900px}
+  th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line-2);vertical-align:top}
+  th{font-family:var(--display);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+  td:first-child{color:var(--navy);font-weight:700}
+  .tbl{overflow-x:auto}
+
+  .comp{margin-top:24px;max-width:900px}
+  .comp .row{display:grid;grid-template-columns:150px 1fr;gap:20px;padding:16px 0;border-top:1px solid var(--line-2);font-size:15px}
+  .comp .row b{color:var(--navy)}
+  .comp .row span{color:var(--ink-2)}
+
+  /* research / personas / flows */
+  .rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px}
+  .rcard{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-xl);padding:24px}
+  .rcard small{display:block;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--action);margin-bottom:8px}
+  .rcard h3{font-size:17px;margin-bottom:8px}
+  .rcard p{font-size:14.5px}
+  .insights{list-style:none;display:grid;gap:10px;margin-top:28px;max-width:900px}
+  .insights li{display:grid;grid-template-columns:36px 1fr;gap:14px;padding:16px 18px;background:#fff;border:1px solid var(--line-2);border-radius:var(--r-lg);font-size:15px;color:var(--ink-2)}
+  .insights li b{font-family:var(--display);color:var(--violet);font-size:14px;letter-spacing:.08em;padding-top:2px}
+  .insights li strong{color:var(--navy)}
+  .personas{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px}
+  .persona{border:1px solid var(--line-2);border-radius:var(--r-xl);overflow:hidden;background:#fff;display:flex;flex-direction:column}
+  .persona .ph{background:var(--navy);color:#fff;padding:22px 24px;display:flex;gap:14px;align-items:center}
+  .persona .ph .av{flex:none;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:16px;background:linear-gradient(135deg,var(--action),var(--violet))}
+  .persona .ph h3{color:#fff;font-size:17px;line-height:1.2}
+  .persona .ph span{display:block;font-size:13px;color:var(--on-dark-2);margin-top:3px}
+  .persona .pb{padding:20px 24px 24px;display:grid;gap:14px;font-size:14.5px}
+  .persona .pb h4{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--action);margin-bottom:6px;font-family:var(--body);font-weight:700}
+  .persona .pb ul{list-style:none;display:grid;gap:4px;color:var(--ink-2)}
+  .persona .pb li{padding-left:14px;position:relative}
+  .persona .pb li::before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;background:var(--violet)}
+  .persona .quote{font-style:italic;color:var(--navy);border-left:3px solid var(--violet);padding-left:12px;font-size:14.5px}
+  .persona .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border-radius:var(--r-full);background:var(--tint);color:var(--action)}
+  .flow{margin-top:32px;background:#fff;border:1px solid var(--line-2);border-radius:var(--r-xl);padding:clamp(16px,3vw,32px)}
+  .flow h3{font-size:18px;margin-bottom:4px}
+  .flow p.fd{font-size:14.5px;margin-bottom:18px}
+  .flow .sv{overflow-x:auto}
+  .flow svg{display:block;min-width:820px;width:100%;height:auto}
+  .flow .lg{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:12.5px;color:var(--ink-3)}
+  .flow .lg span{display:inline-flex;align-items:center;gap:6px}
+  .flow .lg i{width:12px;height:12px;border-radius:3px}
+  @media (max-width:900px){.rgrid,.personas{grid-template-columns:1fr}}
+
+  /* next / contact */
+  .cta{background:var(--tint);padding:72px 0}
+  .cta-card{background:var(--navy);color:var(--on-dark);border-radius:28px;padding:clamp(36px,5vw,60px);display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap}
+  .cta-card h2{color:#fff;font-size:clamp(26px,3vw,38px)}
+  .cta-card p{color:var(--on-dark-2);margin-top:8px}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:var(--r-full);font-weight:700;font-size:15px;text-decoration:none;transition:transform .2s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-light{background:#fff;color:var(--navy)}
+  .btn-ghost{border:1.5px solid rgba(233,229,255,.35);color:#fff}
+  footer{padding:28px 0;font-size:13px;color:var(--ink-3)}
+  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  footer a{color:var(--ink-2);text-decoration:none;font-weight:700}
+
+  @media (max-width:900px){.two{grid-template-columns:1fr;gap:40px}.stats{grid-template-columns:1fr 1fr}.grid2,.principles,.decisions{grid-template-columns:1fr}.comp .row{grid-template-columns:1fr;gap:4px}}
+
+  .hero-visual .shot{position:absolute;left:6%;right:6%;top:8%;bottom:-6%}
+  .hero-visual .shot img{width:100%;height:100%;object-fit:cover;object-position:top;border-radius:14px}
+  .persona .ph .av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+  .persona .ph .av{overflow:hidden;background:#fff}
+  .stages{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:28px}
+  .stage{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-xl);padding:22px}
+  .stage b{display:block;font-family:var(--display);color:var(--violet);font-size:13px;letter-spacing:.1em;margin-bottom:8px}
+  .stage h3{font-size:17px;margin-bottom:8px}
+  .stage p{font-size:14px}
+  .stage ul{list-style:none;margin-top:8px;font-size:13.5px;color:var(--ink-2);display:grid;gap:3px}
+  .stage li{padding-left:12px;position:relative}.stage li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;background:var(--violet)}
+  .shots{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px}
+  .shots figure{margin:0}
+  .shots .img{padding:0;overflow:hidden;background:var(--navy)}
+  .shots .img img{border-radius:0;box-shadow:none;width:100%}
+  .feat-list{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+  .feat-list li{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-lg);padding:14px 16px;font-size:14.5px;color:var(--ink);font-weight:700;display:flex;gap:10px;align-items:center}
+  .feat-list li::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--action)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .chips span{font-size:13px;font-weight:700;padding:7px 13px;border-radius:var(--r-full);background:#fff;color:var(--navy);border:1px solid #d9d0ff;box-shadow:0 1px 2px rgba(15,10,85,.06)}
+  @media (max-width:900px){.stages{grid-template-columns:1fr 1fr}.shots{grid-template-columns:1fr}.feat-list{grid-template-columns:1fr}}
+  @media (max-width:600px){.stages{grid-template-columns:1fr}}
+
+  .shots3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:28px}
+  .shots3 figure{margin:0;display:grid;grid-template-rows:subgrid;grid-row:span 2;gap:0}
+  .shots3 figcaption{order:-1;text-align:left;font-weight:700;color:var(--ink-2);margin:0 0 10px;align-self:end}
+  .shots3 .img{padding:0;overflow:hidden;background:var(--navy)}
+  .shots3 .img img{border-radius:0;box-shadow:none;width:100%}
+  .shots3{grid-template-rows:auto auto;align-items:start}
+  .tall{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px;align-items:start}
+  .tall figure{margin:0}
+  .tall .img{padding:0;overflow:hidden;max-height:720px;position:relative}
+  .tall .img::after{content:"";position:absolute;left:0;right:0;bottom:0;height:120px;background:linear-gradient(transparent,var(--tint))}
+  .tall .img img{border-radius:0;box-shadow:none;width:100%}
+  .journey{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px}
+  .journey div{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-lg);padding:18px}
+  .journey b{display:block;font-family:var(--display);color:var(--violet);font-size:12px;letter-spacing:.1em;margin-bottom:6px}
+  .journey h3{font-size:16px;margin-bottom:4px}
+  .journey p{font-size:13.5px}
+  @media (max-width:900px){.shots3{grid-template-columns:1fr}.tall,.journey{grid-template-columns:1fr 1fr}}
+  @media (max-width:560px){.tall,.journey{grid-template-columns:1fr}}
+
+  .wfgrid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px;align-items:start}
+  .wfgrid figure{margin:0;display:grid;grid-template-rows:subgrid;grid-row:span 2;gap:0}
+  .wfgrid figcaption{order:-1;text-align:left;font-weight:700;color:var(--ink-2);margin:0 0 10px;align-self:end}
+  .wfgrid .img{padding:0;overflow:hidden;background:#fff;max-height:640px;position:relative;align-self:start;border:1px solid var(--line-2)}
+  
+  .wfgrid .img img{border-radius:0;box-shadow:none;width:100%}
+  .wfgrid{grid-template-rows:auto auto}
+  @media (max-width:900px){.wfgrid{grid-template-columns:1fr}}
+  .roles{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px}
+  .role{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-xl);padding:24px}
+  .role small{display:block;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--action);margin-bottom:8px}
+  .role h3{font-size:18px;margin-bottom:8px}
+  .role p{font-size:14.5px;margin-bottom:10px}
+  .role ul{list-style:none;display:grid;gap:4px;font-size:13.5px;color:var(--ink-2)}
+  .role li{padding-left:12px;position:relative}.role li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;background:var(--violet)}
+  .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:28px}
+  .steps div{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-lg);padding:16px 16px 18px;position:relative}
+  .steps b{display:block;font-family:var(--display);color:var(--violet);font-size:12px;letter-spacing:.1em;margin-bottom:6px}
+  .steps h3{font-size:15px;margin-bottom:4px}
+  .steps p{font-size:13px}
+  .wfgrid.ui .img{max-height:none;background:#F1F2F4;border-color:var(--line)}
+  .wfgrid.ui figure.pop .img{background:#F1F2F4;padding:24px;display:flex;justify-content:center}
+  .wfgrid.ui figure.pop img{width:auto;max-width:100%;max-height:520px;border-radius:12px;box-shadow:0 20px 50px rgba(15,10,85,.18)}
+  @media (max-width:900px){.roles{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}}
+  @media (max-width:560px){.steps{grid-template-columns:1fr}}
+  .phones{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:28px;align-items:start;grid-template-rows:auto auto}
+  .phones figure{margin:0;display:grid;grid-template-rows:subgrid;grid-row:span 2;gap:0}
+  .phones figcaption{order:-1;font-size:13.5px;text-align:left;margin:0 0 12px;color:var(--ink-2);font-weight:700;align-self:end}
+  .phones .img{padding:0;background:transparent;overflow:hidden;border-radius:26px;box-shadow:0 14px 34px rgba(15,10,85,.16);border:1px solid var(--line-2)}
+  .phones .img img{border-radius:0;box-shadow:none;width:100%}
+  .phones .img.tallcut{max-height:760px;position:relative}
+  .phones .img.tallcut::after{content:"";position:absolute;left:0;right:0;bottom:0;height:110px;background:linear-gradient(transparent,var(--sec-bg,#fff))}
+  @supports not (grid-template-rows:subgrid){.phones figure{display:flex;flex-direction:column}.phones figcaption{min-height:66px;align-self:auto}}
+  .phones5{grid-template-columns:repeat(5,1fr)}
+  .swatches{display:flex;gap:14px;flex-wrap:wrap;margin-top:22px}
+  .sw{width:132px;border:1px solid var(--line-2);border-radius:var(--r-lg);overflow:hidden;background:#fff}
+  .sw i{display:block;height:64px}
+  .sw b{display:block;font-size:12.5px;padding:8px 10px 2px;color:var(--navy)}
+  .sw span{display:block;font-size:11.5px;padding:0 10px 9px;color:var(--ink-3)}
+  @media (max-width:900px){.phones,.phones5{grid-template-columns:1fr 1fr}}
+  @media (max-width:560px){.phones,.phones5{grid-template-columns:1fr}}
+  .wfgrid .img{max-height:none}
+  .phones .img{border-radius:12px}
+</style>
+</head>
+<body>
+
+
+
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a href="../index.html" class="logo"><span class="dot"></span>Abhishek Patade</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#work" class="active">Work</a></li>
+      <li><a href="../index.html#experience">Experience</a></li>
+      <li><a href="../index.html#skills">Skills</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+    <a href="../assets/documents/Abhishek_Patade_Resume_2026.pdf" class="nav-cta" download>Download Resume</a>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#work" class="active">Work</a><a href="../index.html#experience">Experience</a><a href="../index.html#skills">Skills</a><a href="../index.html#contact">Contact</a>
+  <a href="../assets/documents/Abhishek_Patade_Resume_2026.pdf" download style="color:var(--action);border:0">Download Resume ↓</a>
+</nav>
+
+<main>
+  <div class="head">
+    <div class="wrap">
+      <a href="../index.html#work" class="crumb">← Back to work</a><br>
+      <span class="poc">Healthcare · Patient messaging · Majesco · 2020</span>
+      <h1>Appointment Reminder Platform - one place for a medical practice to remind, check in and reach every patient.</h1>
+      <p class="sub">A web application for medical practices that sends appointment reminders by text, email and voice, tracks who has arrived and checked in, broadcasts messages to patient groups, and reports on every transmission. I designed the platform end to end in Adobe XD at Majesco - the navigation model, five modules, the responsive tablet layout and the component set behind them.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="hero-visual rv" style="background:none;min-height:0;aspect-ratio:auto"><img src="../assets/work/appointment/thumbnail.jpg" alt="Appointment Reminder Platform - appointment list and new broadcast screens" style="width:100%;border-radius:var(--r-xl)"></div>
+  </div>
+
+  <!-- SUMMARY -->
+  <section id="summary">
+    <div class="wrap">
+      <h2 class="sec-title rv">Summary</h2>
+      <div class="two">
+        <div>
+          <div class="block rv">
+            <h3>Mission</h3>
+            <p>A busy practice loses money every time a patient forgets an appointment, and loses time every time the front desk has to phone people one by one. The platform's job was to automate the reminding - text, email and recorded voice - and then close the loop: know when a patient has arrived, get the check-in form and payment done before they reach the desk, send recalls and bill reminders to the right group, and show the practice what actually went out and what came back. All of it had to be usable by a receptionist between phone calls, on a desktop or a tablet at the counter.</p>
+          </div>
+          <div class="block rv">
+            <h3>My contributions</h3>
+            <p>I owned the product design from structure to final UI. I started with the navigation model - a slim icon rail with five modules (Appointment, Arrived, Broadcast, Reports, Upload) plus search, notifications and account - so every screen shares one frame. Then the flows inside each module: the appointment list with a messaging-status language, the arrival board with a side panel for check-in and payment, the broadcast composer for text, email and voice with templates and scheduling, group and contact management with CSV upload, and the three report views. I built the master component set the screens are made from, and the tablet layout that collapses the rail into a menu.</p>
+          </div>
+          <div class="block rv">
+            <h3>Impact</h3>
+            <p>Delivered as a complete high-fidelity Adobe XD design with a working click-through prototype: five modules, every dialog and popup state, the notification panel and the tablet breakpoint, all assembled from one master component set so the development team could build from a single source.</p>
+          </div>
+        </div>
+        <aside class="meta rv">
+          <div class="block">
+            <h3>Client</h3>
+            <p>Designed at Majesco - an appointment reminder and patient-messaging platform for medical practices.</p>
+          </div>
+          <div class="block">
+            <h3>Journeys designed</h3>
+            <ul><li>Appointments - schedule view, messaging status, search and filter</li><li>Patient arrival - arrive, check-in form, payment request, doctor ready</li><li>Reminders and notifications - sent, pending, reschedule requested</li><li>Broadcast - compose text, email or voice, choose template, schedule, send</li><li>Groups and contacts - upload CSV, save as group, edit contact</li><li>Reports - transmissions, campaigns, analytics (recalls, bill reminders, surveys)</li><li>Account - profile, plan, password, terms</li></ul>
+          </div>
+          <div class="block">
+            <h3>What I did</h3>
+            <ul><li>Navigation model and information architecture</li><li>Appointment and arrival workflows</li><li>Broadcast composer (text, email, voice)</li><li>Contact upload and group management</li><li>Reports and analytics views</li><li>Notification panel and dialog states</li><li>Master component set</li><li>Responsive tablet layout</li><li>Click-through prototype</li></ul>
+          </div>
+          <div class="block">
+            <h3>My role</h3>
+            <p>Product / UX Designer at Majesco - sole designer, working with the product owner and the development team.</p>
+          </div>
+          <div class="block">
+            <h3>Tools</h3>
+            <p>Adobe XD · Illustrator</p>
+          </div>
+          <div class="block">
+            <h3>Timeline</h3>
+            <p>2020</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap"><hr class="rule"></div>
+
+  <!-- STRUCTURE -->
+  <section id="structure" style="background:var(--tint);--sec-bg:var(--tint)">
+    <div class="wrap">
+      <h2 class="sec-title rv">One rail, five modules, one status language.</h2>
+      <p class="lead rv">Everything hangs off a slim icon rail on the left: Appointment, Arrived, Broadcast, Reports and Upload, with search, notifications and the account at the top and bottom. Badges on the rail icons carry counts, so a receptionist can see two patients waiting or three new reminders without opening anything. Inside, every list uses the same row and the same set of status pills - Noting Scheduled, Pending, In Progress, Complete, Confirmed, Need Attention, Received Too Late - so a status means the same thing on every screen.</p>
+      <div class="wfgrid ui">
+        <figure class="rv"><figcaption>Appointment - the schedule for a date range with a messaging-status pill on every row, sort by status, select all, and Advance Search.</figcaption><div class="img"><img src="../assets/work/appointment/appointments.jpg" alt="Appointment list with messaging status pills"></div></figure>
+        <figure class="rv"><figcaption>Navigation expanded - the rail opens to show each module with a one-line description underneath, for first-time users.</figcaption><div class="img"><img src="../assets/work/appointment/navigation.jpg" alt="Expanded navigation with module descriptions"></div></figure>
+        <figure class="rv"><figcaption>Filter by - date range, message type, status and provider in one panel, applied to any list.</figcaption><div class="img"><img src="../assets/work/appointment/filter.jpg" alt="Filter panel"></div></figure>
+        <figure class="rv"><figcaption>Master components - the list row in its normal, hover, active and selected states, the contact chip, and the upload states the modules share.</figcaption><div class="img"><img src="../assets/work/appointment/components.jpg" alt="Master component set"></div></figure>
+      </div>
+      <div class="decisions">
+        <div class="dec rv"><small>Decision</small><h3>Counts live on the rail</h3><p>A badge on the Arrived icon that says 2 is the whole point of the product for a receptionist. The rail is always visible, so the count is too.</p></div>
+        <div class="dec rv"><small>Decision</small><h3>One row component everywhere</h3><p>Appointments, arrivals, broadcasts and search results all use the same row: date and time on top, patient name large, a status pill on the right. Learn it once.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARRIVAL -->
+  <section id="arrival">
+    <div class="wrap">
+      <h2 class="sec-title rv">Arrival: from car park to doctor ready without the desk.</h2>
+      <p class="lead rv">When a patient marks themselves as arrived, the practice sees it on the Arrived board and a side panel tracks what has to happen next: arrival confirmed, check-in form completed, payment requested and paid, insurance checked, doctor ready. Each step shows its time and a link to the form or receipt. Reminders and reschedule requests appear on the appointment detail so the desk never has to look them up.</p>
+      <div class="wfgrid ui" style="--sec-bg:#fff">
+        <figure class="rv"><figcaption>Arrived - today's patients waiting, each with their arrival time, check-in status and whether the doctor is ready.</figcaption><div class="img"><img src="../assets/work/appointment/arrivals.jpg" alt="Arrived board"></div></figure>
+        <figure class="rv"><figcaption>Arrival with a check-in confirmation popup over the board.</figcaption><div class="img"><img src="../assets/work/appointment/arrival-popup.jpg" alt="Arrival board with popup"></div></figure>
+      </div>
+      <div class="phones" style="grid-template-columns:repeat(3,1fr);--sec-bg:#fff">
+        <figure class="rv"><figcaption>Arrival details - arrival, check-in form, payment request, insurance check and doctor ready as one timeline.</figcaption><div class="img" style="border-radius:12px"><img src="../assets/work/appointment/arrival-details.jpg" alt="Arrival details side panel"></div></figure>
+        <figure class="rv"><figcaption>Appointment details - the scheduled slot, a reschedule request, and sent and pending messages.</figcaption><div class="img" style="border-radius:12px"><img src="../assets/work/appointment/appointment-details.jpg" alt="Appointment details side panel"></div></figure>
+        <figure class="rv"><figcaption>Notifications - Arrived and Appointment Reminders as two tabs, each item dismissable.</figcaption><div class="img" style="border-radius:12px"><img src="../assets/work/appointment/notifications.jpg" alt="Notification panel"></div></figure>
+      </div>
+      <div class="decisions">
+        <div class="dec rv"><small>Decision</small><h3>Check-in as a timeline, not a form</h3><p>Arrival, check-in form, payment, insurance, doctor ready - each step with a tick, a time and a link. The desk sees at a glance which step a waiting patient is stuck on.</p></div>
+        <div class="dec rv"><small>Decision</small><h3>Details in a side panel</h3><p>Patient details open beside the list, not on a new page, so the receptionist keeps the board in view while handling one person.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BROADCAST -->
+  <section id="broadcast" style="background:var(--tint);--sec-bg:var(--tint)">
+    <div class="wrap">
+      <h2 class="sec-title rv">Broadcast: one composer for text, email and voice.</h2>
+      <p class="lead rv">A broadcast starts from a group, then the practice ticks the channels it wants - text, email, voice - and composes each one in a tab. Text has a character counter and templates; email has a branded template with the practice header; voice can be recorded by phone with step-by-step instructions, or online with a waveform preview. Send now or schedule for a date and time. Groups come from a CSV upload that reports how many contacts loaded and how many had warnings.</p>
+      <div class="wfgrid ui">
+        <figure class="rv"><figcaption>New Broadcast - text tab with a template, character count, and the record-by-phone instructions on the right.</figcaption><div class="img"><img src="../assets/work/appointment/broadcast-text.jpg" alt="New broadcast text composer"></div></figure>
+        <figure class="rv"><figcaption>Email tab - a branded template with the practice name and a warning icon for urgent notices.</figcaption><div class="img"><img src="../assets/work/appointment/broadcast-email.jpg" alt="New broadcast email composer"></div></figure>
+        <figure class="rv"><figcaption>Broadcast schedule - loading, scheduled, in progress and complete, with recipients and a stop action.</figcaption><div class="img"><img src="../assets/work/appointment/broadcast-schedule.jpg" alt="Broadcast schedule listing"></div></figure>
+        <figure class="rv"><figcaption>Upload - drag a CSV or browse, save as a group, and a result line: how many uploaded, how many with warnings.</figcaption><div class="img"><img src="../assets/work/appointment/upload.jpg" alt="Contact upload"></div></figure>
+      </div>
+      <div class="decisions">
+        <div class="dec rv"><small>Decision</small><h3>Channels as tabs, not three screens</h3><p>Tick text, email and voice once, then compose each in a tab under the same group header. One broadcast, one send button, three channels.</p></div>
+        <div class="dec rv"><small>Decision</small><h3>Voice for people who will never record online</h3><p>The phone-in instructions sit beside the composer: dial the number, enter the account and access codes, follow the prompts. It is the path most practice managers actually use.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REPORTS & TABLET -->
+  <section id="reports">
+    <div class="wrap">
+      <h2 class="sec-title rv">Reports, and the tablet at the counter.</h2>
+      <p class="lead rv">Reports has three tabs. Transmissions lists every message with its status, file size and record count. Campaigns covers recalls and bill reminders. Analytics turns the patient satisfaction survey into totals, response rates and a per-provider score table. On a tablet the rail becomes a menu button and every list, panel and composer reflows to a single column.</p>
+      <div class="wfgrid ui" style="--sec-bg:#fff">
+        <figure class="rv"><figcaption>Transmissions - date, status, file size, records processed and date range for every send.</figcaption><div class="img"><img src="../assets/work/appointment/reports-transmissions.jpg" alt="Transmission reports"></div></figure>
+        <figure class="rv"><figcaption>Analytics - survey totals, responded vs not, satisfaction breakdown, and a provider score table.</figcaption><div class="img"><img src="../assets/work/appointment/reports-analytics.jpg" alt="Analytics report"></div></figure>
+      </div>
+      <div class="phones" style="grid-template-columns:repeat(3,1fr);--sec-bg:#fff">
+        <figure class="rv"><figcaption>Tablet - the appointment list with the rail collapsed into a menu.</figcaption><div class="img" style="border-radius:12px"><img src="../assets/work/appointment/appointments-tablet.jpg" alt="Appointment list on tablet"></div></figure>
+        <figure class="rv"><figcaption>Tablet - the broadcast composer on the voice tab with the waveform preview.</figcaption><div class="img" style="border-radius:12px"><img src="../assets/work/appointment/broadcast-voice-tablet.jpg" alt="Broadcast voice composer on tablet"></div></figure>
+        <figure class="rv"><figcaption>Account - profile, plan switch, password and terms of service in one settings page.</figcaption><div class="img" style="border-radius:12px"><img src="../assets/work/appointment/account.jpg" alt="Account settings"></div></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEARNED -->
+  <section id="learned" style="background:var(--tint)">
+    <div class="wrap">
+      <h2 class="sec-title rv">What I'd carry into the next operations product.</h2>
+      <ul class="principles">
+        <li class="rv"><b>Decide the status vocabulary first.</b> Seven pills, named and coloured once, made every list in the product readable without a legend.</li>
+        <li class="rv"><b>Keep the board in view.</b> Side panels for details meant the receptionist never lost the queue while handling one patient.</li>
+        <li class="rv"><b>Design for the least technical path.</b> Recording a voice message by phone, with the steps printed on screen, mattered more than the online recorder.</li>
+        <li class="rv"><b>Build the master components before the screens.</b> One row, one chip, one upload state - and the tablet layout was a reflow, not a redesign.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="wrap">
+      <div class="cta-card rv">
+        <div>
+          <h2>Building a healthcare or scheduling product?</h2>
+          <p>Happy to talk through the arrival flow and how the broadcast composer stayed simple.</p>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a href="mailto:abhipatade@gmail.com?subject=Hi%20Abhishek%20%E2%80%94%20Appointment%20Reminder%20Platform%20case%20study" class="btn btn-light">Let's talk</a>
+          <a href="../index.html#work" class="btn btn-ghost">More work</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr"></span> Abhishek Patade · Navi Mumbai, India</span>
+    <span><a href="https://www.linkedin.com/in/abhipatade/" target="_blank" rel="noopener">LinkedIn</a> · <a href="../index.html">Home</a></span>
+  </div>
+</footer>
+<script>
+  document.getElementById('yr').textContent=new Date().getFullYear();
+  const nav=document.getElementById('nav'),burger=document.getElementById('burger'),menu=document.getElementById('mobileMenu');
+  burger.addEventListener('click',()=>{const o=menu.classList.toggle('open');burger.classList.toggle('open',o);burger.setAttribute('aria-expanded',o)});
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{menu.classList.remove('open');burger.classList.remove('open')}));
+  addEventListener('keydown',e=>{if(e.key==='Escape'){menu.classList.remove('open');burger.classList.remove('open')}});
+  let lastY=0;addEventListener('scroll',()=>{const y=window.scrollY;if(!menu.classList.contains('open'))nav.classList.toggle('hidden',y>lastY&&y>300);lastY=y},{passive:true});
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+  setTimeout(()=>document.querySelectorAll('.rv').forEach(el=>el.classList.add('in')),4000);
+</script>
+</body>
+</html>
