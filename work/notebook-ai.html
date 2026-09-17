@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notebook AI - AI Mentor Product & POC Effort Estimate · Abhishek Patade</title>
+<meta name="description" content="Case study: designing Notebook AI, an AI mentor and roadmap planner for high-school students, as a proof-of-concept with a full effort estimate that turned a freelance job into a paid engagement.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0F0A55; --violet:#9173FF; --action:#6B47E6; --action-hover:#5638cc;
+    --tint:#F5F2FF; --tint-2:#EFEBFF; --ink:#1B1738; --ink-2:#4a476b; --ink-3:#8a87a3;
+    --line:#E6E6E6; --line-2:#ece9f7; --success:#136A4B; --white:#fff;
+    --on-dark:#E9E5FF; --on-dark-2:#B9B2E6;
+    --display:'Montserrat',system-ui,sans-serif; --body:'Lato',system-ui,sans-serif;
+    --r-md:10px; --r-lg:16px; --r-xl:24px; --r-full:999px;
+    --nav-h:72px; --pad-x:clamp(20px,5vw,72px); --max:1200px; --read:760px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--body);color:var(--ink);background:var(--white);line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad-x)}
+  h1,h2,h3,h4{font-family:var(--display);letter-spacing:-0.02em;line-height:1.15;color:var(--navy)}
+  p{color:var(--ink-2)}
+  .rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+  .rv.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+  /* nav */
+  .nav{position:fixed;inset:0 0 auto 0;height:var(--nav-h);z-index:60;display:flex;align-items:center;transition:background .3s,border-color .3s}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;width:100%}
+    .nav{background:rgba(255,255,255,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line-2);color:var(--ink)}
+  .logo{font-family:var(--display);font-weight:800;font-size:17px;white-space:nowrap;text-decoration:none;display:flex;align-items:center;gap:10px}
+  .logo .dot{width:10px;height:10px;border-radius:50%;background:var(--violet);box-shadow:0 0 0 4px rgba(145,115,255,.25)}
+  .nav-links{display:flex;gap:28px;list-style:none}
+  .nav-links a{text-decoration:none;font-size:14px;font-weight:700;opacity:.85;transition:opacity .2s,color .2s}
+  .nav-links a:hover{opacity:1;color:var(--violet)}
+  .nav .nav-links a:hover{color:var(--action)}
+  .nav-cta{display:inline-flex;align-items:center;white-space:nowrap;padding:10px 18px;border-radius:var(--r-full);background:var(--action);color:#fff!important;font-weight:700;font-size:14px;text-decoration:none;opacity:1!important}
+  .nav-cta:hover{background:var(--action-hover);color:#fff!important}
+  .burger{display:none;background:none;border:0;cursor:pointer;width:44px;height:44px;border-radius:var(--r-sm);color:inherit}
+  .burger span{display:block;width:22px;height:2px;background:currentColor;margin:5px auto;transition:.25s}
+  .mobile-menu{position:fixed;top:var(--nav-h);left:0;right:0;background:#fff;border-bottom:1px solid var(--line-2);z-index:59;padding:12px var(--pad-x) 20px;flex-direction:column;gap:4px}
+  .mobile-menu a{padding:12px 4px;text-decoration:none;font-weight:700;font-size:16px;border-bottom:1px solid var(--line-2)}
+
+  /* nav interactions */
+  .nav-links a{position:relative;padding:6px 0;opacity:1;color:inherit}
+  .nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:var(--violet);transform:scaleX(0);transform-origin:left;transition:transform .25s cubic-bezier(.4,0,.2,1)}
+  .nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}
+  .nav-links a:hover{color:var(--violet)}
+  .nav-links a.active{color:#fff}
+  .nav .nav-links a{color:var(--ink-2)}
+  .nav .nav-links a:hover{color:var(--action)}
+  .nav .nav-links a.active{color:var(--navy)}
+  .nav .nav-links a::after{background:var(--action)}
+  .nav-links a:focus-visible,.nav-cta:focus-visible,.logo:focus-visible,.burger:focus-visible{outline:2px solid var(--violet);outline-offset:4px;border-radius:4px}
+  .nav-cta{transition:background .2s,transform .15s,box-shadow .2s}
+  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(107,71,230,.35)}
+  .nav-cta:active{transform:translateY(0) scale(.97);box-shadow:none}
+  .logo{transition:opacity .2s}.logo:hover{opacity:.8}
+  .logo .dot{transition:transform .3s}.logo:hover .dot{transform:scale(1.25)}
+  .nav.hidden{transform:translateY(-100%)}
+  .nav{transition:background .3s,border-color .3s,transform .35s ease,color .3s}
+  .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .burger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+  .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .mobile-menu{transform:translateY(-8px);opacity:0;pointer-events:none;transition:transform .25s,opacity .25s;display:flex}
+  .mobile-menu.open{transform:none;opacity:1;pointer-events:auto}
+  .mobile-menu a{transition:color .2s,padding-left .2s}
+  .mobile-menu a:hover,.mobile-menu a.active{color:var(--action);padding-left:10px}
+  @media (min-width:681px){.mobile-menu{display:none}}
+  .btn:active{transform:translateY(0) scale(.97)}
+  .btn:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+
+  @media (max-width:680px){.nav-links,.nav .nav-cta{display:none}.burger{display:block}}
+
+  /* header */
+  .head{padding:calc(var(--nav-h) + 64px) 0 40px}
+  .crumb{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:700;color:var(--ink-3);text-decoration:none;margin-bottom:22px}
+  .crumb:hover{color:var(--action)}
+  .poc{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--action);background:var(--tint);border:1px solid #d9d0ff;padding:7px 12px;border-radius:var(--r-full);margin-bottom:18px}
+  .poc::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--violet)}
+  .head h1{font-size:clamp(32px,4.4vw,56px);font-weight:700;max-width:900px}
+  .head p.sub{font-size:clamp(17px,1.4vw,20px);max-width:760px;margin-top:18px}
+
+  .hero-visual{position:relative;border-radius:var(--r-xl);overflow:hidden;background:linear-gradient(135deg,#1a1276,var(--action) 60%,var(--violet));min-height:380px;aspect-ratio:16/8}
+  .hero-visual::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.16) 1px,transparent 1px);background-size:22px 22px;opacity:.5}
+  .hero-visual .desk{position:absolute;left:8%;right:22%;top:12%;border-radius:14px;box-shadow:0 30px 80px rgba(0,0,0,.35);overflow:hidden}
+  .hero-visual .mob{position:absolute;right:8%;bottom:-2%;width:19%;border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.4);overflow:hidden;background:#fff;aspect-ratio:9/17.5}
+  .hero-visual .mob img{width:100%;height:100%;object-fit:cover;object-position:top}
+  @media (max-width:680px){.hero-visual{aspect-ratio:4/3}.hero-visual .desk{left:5%;right:5%;top:10%}.hero-visual .mob{display:none}}
+
+  /* sections */
+  section{padding:64px 0}
+  .sec-title{font-size:clamp(26px,3vw,38px);font-weight:700;margin-bottom:12px}
+  .lead{font-size:17px;max-width:var(--read)}
+  .two{display:grid;grid-template-columns:1.4fr .8fr;gap:56px;margin-top:40px}
+  .two h3,.meta h3{font-size:19px;font-weight:700;margin-bottom:12px}
+  .two .block+.block,.meta .block+.block{margin-top:40px}
+  .meta p{font-size:15px}
+  .meta ul{list-style:none;display:grid;gap:8px;font-size:15px;color:var(--ink-2)}
+  .meta li{padding-left:18px;position:relative}
+  .meta li::before{content:"";position:absolute;left:0;top:11px;width:6px;height:6px;background:var(--violet)}
+  .meta a{color:var(--action);font-weight:700}
+  .note{background:var(--tint);border-left:3px solid var(--violet);padding:14px 18px;border-radius:0 var(--r-md) var(--r-md) 0;font-size:14.5px;color:var(--ink-2);margin-top:16px}
+  .note b{color:var(--navy)}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:36px}
+  .stat b{display:block;font-family:var(--display);font-size:clamp(24px,2.2vw,30px);white-space:nowrap;font-weight:700;color:var(--navy);line-height:1}
+  .stat span{display:block;margin-top:8px;font-size:14px;color:var(--ink-2)}
+
+  hr.rule{border:0;border-top:1px solid var(--line-2);margin:0}
+
+  .steps{display:grid;gap:0;margin-top:36px;max-width:900px}
+  .step{display:grid;grid-template-columns:64px 1fr;gap:20px;padding:26px 0;border-top:1px solid var(--line-2)}
+  .step .n{font-family:var(--display);font-weight:700;color:var(--violet);font-size:14px;letter-spacing:.1em;padding-top:4px}
+  .step h3{font-size:19px;margin-bottom:8px}
+  .step p{font-size:15.5px;max-width:var(--read)}
+
+  .sub-h{font-size:22px;font-weight:700;margin:48px 0 12px}
+  .prose p{max-width:var(--read);font-size:16px}
+  .prose p+p{margin-top:14px}
+  figure{margin:32px 0 8px}
+  figure .img{background:var(--tint);border-radius:var(--r-xl);padding:clamp(16px,3vw,40px);border:1px solid var(--line-2)}
+  figure .img.dark{background:var(--navy)}
+  figure .img img{border-radius:var(--r-md);margin:0 auto;box-shadow:0 12px 40px rgba(15,10,85,.12)}
+  figcaption{font-size:13.5px;color:var(--ink-3);text-align:center;margin-top:14px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .grid2 figure{margin:0}
+  .grid2 .img{height:100%;display:flex;align-items:center}
+
+  .principles{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:24px;max-width:900px}
+  .principles li{background:var(--tint);border-radius:var(--r-lg);padding:20px 22px;font-size:15px;color:var(--ink-2)}
+  .principles li b{display:block;color:var(--navy);font-family:var(--display);font-size:15.5px;margin-bottom:6px}
+
+  .decisions{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:32px}
+  .dec{border:1px solid var(--line-2);border-radius:var(--r-xl);padding:26px}
+  .dec small{display:block;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--action);margin-bottom:10px}
+  .dec h3{font-size:18px;margin-bottom:8px}
+  .dec p{font-size:15px}
+
+  table{width:100%;border-collapse:collapse;font-size:14.5px;margin-top:24px;max-width:900px}
+  th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line-2);vertical-align:top}
+  th{font-family:var(--display);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+  td:first-child{color:var(--navy);font-weight:700}
+  .tbl{overflow-x:auto}
+
+  .comp{margin-top:24px;max-width:900px}
+  .comp .row{display:grid;grid-template-columns:150px 1fr;gap:20px;padding:16px 0;border-top:1px solid var(--line-2);font-size:15px}
+  .comp .row b{color:var(--navy)}
+  .comp .row span{color:var(--ink-2)}
+
+  /* research / personas / flows */
+  .rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px}
+  .rcard{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-xl);padding:24px}
+  .rcard small{display:block;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--action);margin-bottom:8px}
+  .rcard h3{font-size:17px;margin-bottom:8px}
+  .rcard p{font-size:14.5px}
+  .insights{list-style:none;display:grid;gap:10px;margin-top:28px;max-width:900px}
+  .insights li{display:grid;grid-template-columns:36px 1fr;gap:14px;padding:16px 18px;background:#fff;border:1px solid var(--line-2);border-radius:var(--r-lg);font-size:15px;color:var(--ink-2)}
+  .insights li b{font-family:var(--display);color:var(--violet);font-size:14px;letter-spacing:.08em;padding-top:2px}
+  .insights li strong{color:var(--navy)}
+  .personas{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px}
+  .persona{border:1px solid var(--line-2);border-radius:var(--r-xl);overflow:hidden;background:#fff;display:flex;flex-direction:column}
+  .persona .ph{background:var(--navy);color:#fff;padding:22px 24px;display:flex;gap:14px;align-items:center}
+  .persona .ph .av{flex:none;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:16px;background:linear-gradient(135deg,var(--action),var(--violet))}
+  .persona .ph h3{color:#fff;font-size:17px;line-height:1.2}
+  .persona .ph span{display:block;font-size:13px;color:var(--on-dark-2);margin-top:3px}
+  .persona .pb{padding:20px 24px 24px;display:grid;gap:14px;font-size:14.5px}
+  .persona .pb h4{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--action);margin-bottom:6px;font-family:var(--body);font-weight:700}
+  .persona .pb ul{list-style:none;display:grid;gap:4px;color:var(--ink-2)}
+  .persona .pb li{padding-left:14px;position:relative}
+  .persona .pb li::before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;background:var(--violet)}
+  .persona .quote{font-style:italic;color:var(--navy);border-left:3px solid var(--violet);padding-left:12px;font-size:14.5px}
+  .persona .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border-radius:var(--r-full);background:var(--tint);color:var(--action)}
+  .flow{margin-top:32px;background:#fff;border:1px solid var(--line-2);border-radius:var(--r-xl);padding:clamp(16px,3vw,32px)}
+  .flow h3{font-size:18px;margin-bottom:4px}
+  .flow p.fd{font-size:14.5px;margin-bottom:18px}
+  .flow .sv{overflow-x:auto}
+  .flow svg{display:block;min-width:820px;width:100%;height:auto}
+  .flow .lg{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:12.5px;color:var(--ink-3)}
+  .flow .lg span{display:inline-flex;align-items:center;gap:6px}
+  .flow .lg i{width:12px;height:12px;border-radius:3px}
+  @media (max-width:900px){.rgrid,.personas{grid-template-columns:1fr}}
+
+  /* next / contact */
+  .cta{background:var(--tint);padding:72px 0}
+  .cta-card{background:var(--navy);color:var(--on-dark);border-radius:28px;padding:clamp(36px,5vw,60px);display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap}
+  .cta-card h2{color:#fff;font-size:clamp(26px,3vw,38px)}
+  .cta-card p{color:var(--on-dark-2);margin-top:8px}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:var(--r-full);font-weight:700;font-size:15px;text-decoration:none;transition:transform .2s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-light{background:#fff;color:var(--navy)}
+  .btn-ghost{border:1.5px solid rgba(233,229,255,.35);color:#fff}
+  footer{padding:28px 0;font-size:13px;color:var(--ink-3)}
+  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  footer a{color:var(--ink-2);text-decoration:none;font-weight:700}
+
+  @media (max-width:900px){.two{grid-template-columns:1fr;gap:40px}.stats{grid-template-columns:1fr 1fr}.grid2,.principles,.decisions{grid-template-columns:1fr}.comp .row{grid-template-columns:1fr;gap:4px}}
+
+  .hero-visual .shot{position:absolute;left:6%;right:6%;top:8%;bottom:-6%}
+  .hero-visual .shot img{width:100%;height:100%;object-fit:cover;object-position:top;border-radius:14px}
+  .persona .ph .av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+  .persona .ph .av{overflow:hidden;background:#fff}
+  .stages{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:28px}
+  .stage{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-xl);padding:22px}
+  .stage b{display:block;font-family:var(--display);color:var(--violet);font-size:13px;letter-spacing:.1em;margin-bottom:8px}
+  .stage h3{font-size:17px;margin-bottom:8px}
+  .stage p{font-size:14px}
+  .stage ul{list-style:none;margin-top:8px;font-size:13.5px;color:var(--ink-2);display:grid;gap:3px}
+  .stage li{padding-left:12px;position:relative}.stage li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;background:var(--violet)}
+  .shots{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px}
+  .shots figure{margin:0}
+  .shots .img{padding:0;overflow:hidden;background:var(--navy)}
+  .shots .img img{border-radius:0;box-shadow:none;width:100%}
+  .feat-list{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+  .feat-list li{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-lg);padding:14px 16px;font-size:14.5px;color:var(--ink);font-weight:700;display:flex;gap:10px;align-items:center}
+  .feat-list li::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--action)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .chips span{font-size:13px;font-weight:700;padding:7px 13px;border-radius:var(--r-full);background:#fff;color:var(--navy);border:1px solid #d9d0ff;box-shadow:0 1px 2px rgba(15,10,85,.06)}
+  @media (max-width:900px){.stages{grid-template-columns:1fr 1fr}.shots{grid-template-columns:1fr}.feat-list{grid-template-columns:1fr}}
+  @media (max-width:600px){.stages{grid-template-columns:1fr}}
+
+  .shots3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:28px}
+  .shots3 figure{margin:0;display:grid;grid-template-rows:subgrid;grid-row:span 2;gap:0}
+  .shots3 figcaption{order:-1;text-align:left;font-weight:700;color:var(--ink-2);margin:0 0 10px;align-self:end}
+  .shots3 .img{padding:0;overflow:hidden;background:var(--navy)}
+  .shots3 .img img{border-radius:0;box-shadow:none;width:100%}
+  .shots3{grid-template-rows:auto auto;align-items:start}
+  .tall{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px;align-items:start}
+  .tall figure{margin:0}
+  .tall .img{padding:0;overflow:hidden;max-height:720px;position:relative}
+  .tall .img::after{content:"";position:absolute;left:0;right:0;bottom:0;height:120px;background:linear-gradient(transparent,var(--tint))}
+  .tall .img img{border-radius:0;box-shadow:none;width:100%}
+  .journey{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px}
+  .journey div{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-lg);padding:18px}
+  .journey b{display:block;font-family:var(--display);color:var(--violet);font-size:12px;letter-spacing:.1em;margin-bottom:6px}
+  .journey h3{font-size:16px;margin-bottom:4px}
+  .journey p{font-size:13.5px}
+  @media (max-width:900px){.shots3{grid-template-columns:1fr}.tall,.journey{grid-template-columns:1fr 1fr}}
+  @media (max-width:560px){.tall,.journey{grid-template-columns:1fr}}
+
+  .wfgrid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px;align-items:start}
+  .wfgrid figure{margin:0;display:grid;grid-template-rows:subgrid;grid-row:span 2;gap:0}
+  .wfgrid figcaption{order:-1;text-align:left;font-weight:700;color:var(--ink-2);margin:0 0 10px;align-self:end}
+  .wfgrid .img{padding:0;overflow:hidden;background:#fff;max-height:640px;position:relative;align-self:start;border:1px solid var(--line-2)}
+  
+  .wfgrid .img img{border-radius:0;box-shadow:none;width:100%}
+  .wfgrid{grid-template-rows:auto auto}
+  @media (max-width:900px){.wfgrid{grid-template-columns:1fr}}
+  .roles{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px}
+  .role{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-xl);padding:24px}
+  .role small{display:block;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--action);margin-bottom:8px}
+  .role h3{font-size:18px;margin-bottom:8px}
+  .role p{font-size:14.5px;margin-bottom:10px}
+  .role ul{list-style:none;display:grid;gap:4px;font-size:13.5px;color:var(--ink-2)}
+  .role li{padding-left:12px;position:relative}.role li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;background:var(--violet)}
+  .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:28px}
+  .steps div{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-lg);padding:16px 16px 18px;position:relative}
+  .steps b{display:block;font-family:var(--display);color:var(--violet);font-size:12px;letter-spacing:.1em;margin-bottom:6px}
+  .steps h3{font-size:15px;margin-bottom:4px}
+  .steps p{font-size:13px}
+  .wfgrid.ui .img{max-height:none;background:#F1F2F4;border-color:var(--line)}
+  .wfgrid.ui figure.pop .img{background:#F1F2F4;padding:24px;display:flex;justify-content:center}
+  .wfgrid.ui figure.pop img{width:auto;max-width:100%;max-height:520px;border-radius:12px;box-shadow:0 20px 50px rgba(15,10,85,.18)}
+  @media (max-width:900px){.roles{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}}
+  @media (max-width:560px){.steps{grid-template-columns:1fr}}
+  .phones{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:28px;align-items:start;grid-template-rows:auto auto}
+  .phones figure{margin:0;display:grid;grid-template-rows:subgrid;grid-row:span 2;gap:0}
+  .phones figcaption{order:-1;font-size:13.5px;text-align:left;margin:0 0 12px;color:var(--ink-2);font-weight:700;align-self:end}
+  .phones .img{padding:0;background:transparent;overflow:hidden;border-radius:26px;box-shadow:0 14px 34px rgba(15,10,85,.16);border:1px solid var(--line-2)}
+  .phones .img img{border-radius:0;box-shadow:none;width:100%}
+  .phones .img.tallcut{max-height:760px;position:relative}
+  .phones .img.tallcut::after{content:"";position:absolute;left:0;right:0;bottom:0;height:110px;background:linear-gradient(transparent,var(--sec-bg,#fff))}
+  @supports not (grid-template-rows:subgrid){.phones figure{display:flex;flex-direction:column}.phones figcaption{min-height:66px;align-self:auto}}
+  .phones5{grid-template-columns:repeat(5,1fr)}
+  .swatches{display:flex;gap:14px;flex-wrap:wrap;margin-top:22px}
+  .sw{width:132px;border:1px solid var(--line-2);border-radius:var(--r-lg);overflow:hidden;background:#fff}
+  .sw i{display:block;height:64px}
+  .sw b{display:block;font-size:12.5px;padding:8px 10px 2px;color:var(--navy)}
+  .sw span{display:block;font-size:11.5px;padding:0 10px 9px;color:var(--ink-3)}
+  @media (max-width:900px){.phones,.phones5{grid-template-columns:1fr 1fr}}
+  @media (max-width:560px){.phones,.phones5{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a href="../index.html" class="logo"><span class="dot"></span>Abhishek Patade</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#work" class="active">Work</a></li>
+      <li><a href="../index.html#experience">Experience</a></li>
+      <li><a href="../index.html#skills">Skills</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+    <a href="../assets/documents/Abhishek_Patade_Resume_2026.pdf" class="nav-cta" download>Download Resume</a>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#work" class="active">Work</a><a href="../index.html#experience">Experience</a><a href="../index.html#skills">Skills</a><a href="../index.html#contact">Contact</a>
+  <a href="../assets/documents/Abhishek_Patade_Resume_2026.pdf" download style="color:var(--action);border:0">Download Resume ↓</a>
+</nav>
+
+<main>
+  <div class="head">
+    <div class="wrap">
+      <a href="../index.html#work" class="crumb">← Back to work</a><br>
+      <span class="poc">Web app · AI EdTech · Freelance / Upwork · POC · 2026</span>
+      <h1>Notebook AI - the proof-of-concept that turned an Upwork proposal into a paid engagement.</h1>
+      <p class="sub">Notebook AI is an AI mentor for grades 9-12: ask it anything about your future and it turns the answer into a roadmap, saved in one notebook that remembers every chat. Before any of that could be built, the client needed to see it and know what it would cost. I designed a scoped proof-of-concept - marketing site, product UI, design system and gamification spec - and paired it with a screen-by-screen effort estimate, which is what won the full engagement.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="hero-visual rv" style="background:none;min-height:0;aspect-ratio:auto"><img src="../assets/work/notebook-ai/thumbnail.jpg" alt="Notebook AI homepage and notebook interface screens" style="width:100%;border-radius:var(--r-xl)"></div>
+  </div>
+
+  <!-- SUMMARY -->
+  <section id="summary">
+    <div class="wrap">
+      <h2 class="sec-title rv">Summary</h2>
+      <div class="two">
+        <div>
+          <div class="block rv">
+            <h3>Mission</h3>
+            <p>A student in grade 9 to 12 has real questions - CS or design, how to build a portfolio, whether to take AP CS - and nowhere built for them to ask. Notebook AI's pitch was an AI mentor that answers in plain language and turns that answer into a roadmap with dates and a first step, saved automatically in a notebook it never forgets. The client needed this proven out on screen and priced before committing budget, so the brief was a proof-of-concept: convincing enough to sell the vision, and precise enough to scope the build.</p>
+          </div>
+          <div class="block rv">
+            <h3>My contributions</h3>
+            <p>I designed the marketing site end to end - hero, the "ask, plan, achieve" loop, the notebook product shot, the progress and gamification proof, social proof and the closing CTA - plus the notebook product UI itself: sidebar notebooks, the auto-saved page, the AI mentor panel and the roadmap timeline. Alongside the screens I wrote the design foundations (colour, type, core components) and a full gamification specification - medal tiers, XP bar behaviour, streak states, logo animation timing and a motion token table - so engineering had exact numbers, not vibes. I then broke the entire product into ten modules and 56 screens and built the effort estimate from that breakdown.</p>
+          </div>
+          <div class="block rv">
+            <h3>Impact</h3>
+            <p>The client approved the estimate and moved from a one-off Upwork job to an ongoing engagement, with the design foundations and gamification spec carried straight into the next phase of screens instead of being redone.</p>
+          </div>
+        </div>
+        <aside class="meta rv">
+          <div class="block">
+            <h3>Client</h3>
+            <p>Independent Upwork client - Notebook AI, an AI mentor and roadmap planner for high-school students. Proof-of-concept engagement to scope a full build.</p>
+          </div>
+          <div class="block">
+            <h3>Journeys designed</h3>
+            <ul><li>Landing - hero, product loop, progress proof, CTA</li><li>Ask a question to AI roadmap generated</li><li>Notebook - auto-saved page, tasks, AI mentor chat</li><li>Progress - level, medal shelf, daily streak</li><li>Design foundations - colour, type, components</li><li>Gamification specification &amp; motion tokens</li></ul>
+          </div>
+          <div class="block">
+            <h3>What I did</h3>
+            <ul><li>Marketing site design</li><li>Notebook product UI</li><li>Design system &amp; foundations</li><li>Gamification &amp; motion spec</li><li>Logo &amp; mark ("Spark")</li><li>Module &amp; screen breakdown</li><li>Effort estimate</li></ul>
+          </div>
+          <div class="block">
+            <h3>My role</h3>
+            <p>Product / UX Designer - sole designer on the POC, working directly with the client to scope the build.</p>
+          </div>
+          <div class="block">
+            <h3>Tools</h3>
+            <p>Figma · FigJam</p>
+          </div>
+          <div class="block">
+            <h3>Timeline</h3>
+            <p>2026 - proof-of-concept phase</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap"><hr class="rule"></div>
+
+  <!-- LANDING -->
+  <section id="landing" style="background:var(--tint);--sec-bg:var(--tint)">
+    <div class="wrap">
+      <h2 class="sec-title rv">A landing page that sells the loop, not just the look.</h2>
+      <p class="lead rv">The hero states the whole product in one line - ask anything, get a plan, saved forever - then proves it immediately: an "Ask anything" card on the left, the actual AI conversation in the middle, the roadmap and gamification proof on the right. Scroll once and the notebook itself is on screen, mentor chat included.</p>
+      <div class="wfgrid ui">
+        <figure class="rv"><figcaption>Hero - the pitch, the CTA and the AI conversation proof, side by side.</figcaption><div class="img"><img src="../assets/work/notebook-ai/hero.jpg" alt="Notebook AI homepage hero"></div></figure>
+        <figure class="rv"><figcaption>The notebook - sidebar notebooks, an auto-saved page with tasks, and the AI mentor panel that remembers past chats.</figcaption><div class="img"><img src="../assets/work/notebook-ai/notebook-ui.jpg" alt="Notebook AI product interface"></div></figure>
+      </div>
+      <div class="decisions">
+        <div class="dec rv"><small>Decision</small><h3>Show the product, not a mockup of it</h3><p>The hero's "AI conversation" card is the real UI at real scale, not an illustration - so the client is looking at the product they're paying for, from the first screen.</p></div>
+        <div class="dec rv"><small>Decision</small><h3>One serif, on purpose</h3><p>Inter runs the whole interface; Instrument Serif appears only on notebook page titles - one deliberate accent that makes a page read as a notebook instead of another SaaS dashboard.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRESS -->
+  <section id="progress">
+    <div class="wrap">
+      <h2 class="sec-title rv">The loop, and the reason to come back tomorrow.</h2>
+      <p class="lead rv">Three cards make the product's mechanic legible in one glance - ask, plan, achieve - and the progress row proves the "achieve" step has teeth: a level ring, a medal shelf, a streak counter. Six feature tiles underneath cover the rest of the surface area without needing their own screens yet.</p>
+      <div class="wfgrid ui">
+        <figure class="rv"><figcaption>Ask, Plan, Achieve - the three-step loop the entire product is built around.</figcaption><div class="img"><img src="../assets/work/notebook-ai/three-steps.jpg" alt="Ask, Plan, Achieve three step cards"></div></figure>
+        <figure class="rv"><figcaption>Level, medal shelf and streak - progress made visible, not just implied.</figcaption><div class="img"><img src="../assets/work/notebook-ai/progress-cards.jpg" alt="Progress, medal shelf and daily streak cards"></div></figure>
+      </div>
+      <div class="wfgrid ui" style="margin-top:24px">
+        <figure class="rv" style="grid-column:1/-1"><figcaption>Six things you would otherwise do alone - the feature grid covering AI chat, roadmaps, planner, challenges, memory and personalisation.</figcaption><div class="img"><img src="../assets/work/notebook-ai/features-grid.jpg" alt="Feature grid of six product capabilities"></div></figure>
+      </div>
+      <div class="decisions">
+        <div class="dec rv"><small>Decision</small><h3>Prove the mechanic before the manual</h3><p>Rather than a features list, the level ring and medal shelf show real numbers - 340 XP, Gold unlocked, a 7-day streak - so the loop feels tested, not theoretical.</p></div>
+        <div class="dec rv"><small>Decision</small><h3>Six tiles, one visual weight</h3><p>Every capability gets the same card treatment regardless of how deep it goes later, so the page reads as one coherent product rather than a list of features bolted together.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLOW -->
+  <section id="flow" style="background:var(--tint);--sec-bg:var(--tint)">
+    <div class="wrap">
+      <h2 class="sec-title rv">The flow the estimate was built around.</h2>
+      <p class="lead rv">Before pricing any screens, I mapped the loop end to end - from a student's first question to the habit that brings them back. Every module in the effort estimate below traces back to one step on this path.</p>
+      <div class="flow rv">
+        <h3>Ask to plan to achieve to return</h3>
+        <p class="fd">The core session loop, plus the two systems - notebook memory and gamification - that make it worth repeating.</p>
+        <div class="sv">
+          <svg viewBox="0 0 1100 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Flow diagram: student asks a question, AI plans a roadmap, task is saved to notebook, task completed earns XP, streak and medals bring the student back to ask again">
+            <defs>
+              <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="#8a87a3"/>
+              </marker>
+            </defs>
+            <g font-family="Lato,system-ui,sans-serif">
+              <!-- step 1 -->
+              <rect x="20" y="110" width="150" height="80" rx="14" fill="#EFF1FF" stroke="#3D4EFF"/>
+              <text x="95" y="142" text-anchor="middle" font-size="13" font-weight="700" fill="#0F0A55">Ask a</text>
+              <text x="95" y="160" text-anchor="middle" font-size="13" font-weight="700" fill="#0F0A55">question</text>
+              <text x="95" y="178" text-anchor="middle" font-size="11" fill="#8a87a3">Home / notebook</text>
+
+              <path d="M170,150 L228,150" stroke="#8a87a3" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+              <!-- step 2 -->
+              <rect x="230" y="100" width="160" height="100" rx="14" fill="#F0DEFF" stroke="#9333FF"/>
+              <text x="310" y="135" text-anchor="middle" font-size="13" font-weight="700" fill="#0F0A55">AI builds a</text>
+              <text x="310" y="153" text-anchor="middle" font-size="13" font-weight="700" fill="#0F0A55">roadmap</text>
+              <text x="310" y="171" text-anchor="middle" font-size="11" fill="#8a87a3">dates + first step</text>
+              <text x="310" y="186" text-anchor="middle" font-size="11" fill="#8a87a3">for today</text>
+
+              <path d="M390,150 L448,150" stroke="#8a87a3" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+              <!-- step 3 -->
+              <rect x="450" y="110" width="150" height="80" rx="14" fill="#FFE7DC" stroke="#FF6B2C"/>
+              <text x="525" y="142" text-anchor="middle" font-size="13" font-weight="700" fill="#0F0A55">Saved to</text>
+              <text x="525" y="160" text-anchor="middle" font-size="13" font-weight="700" fill="#0F0A55">notebook</text>
+              <text x="525" y="178" text-anchor="middle" font-size="11" fill="#8a87a3">auto, every time</text>
+
+              <path d="M600,150 L658,150" stroke="#8a87a3" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+              <!-- step 4 -->
+              <rect x="660" y="100" width="150" height="100" rx="14" fill="#EDFCC4" stroke="#A3F600"/>
+              <text x="735" y="135" text-anchor="middle" font-size="13" font-weight="700" fill="#0F0A55">Task done,</text>
+              <text x="735" y="153" text-anchor="middle" font-size="13" font-weight="700" fill="#0F0A55">XP earned</text>
+              <text x="735" y="171" text-anchor="middle" font-size="11" fill="#8a87a3">+10 to +50 per</text>
+              <text x="735" y="186" text-anchor="middle" font-size="11" fill="#8a87a3">action</text>
+
+              <path d="M810,150 L868,150" stroke="#8a87a3" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+              <!-- step 5 -->
+              <rect x="870" y="110" width="200" height="80" rx="14" fill="#FFDCEC" stroke="#FF2D8B"/>
+              <text x="970" y="135" text-anchor="middle" font-size="13" font-weight="700" fill="#0F0A55">Streak, medal or</text>
+              <text x="970" y="153" text-anchor="middle" font-size="13" font-weight="700" fill="#0F0A55">level-up</text>
+              <text x="970" y="171" text-anchor="middle" font-size="11" fill="#8a87a3">the reason to open it tomorrow</text>
+
+              <!-- return loop -->
+              <path d="M970,190 C970,260 95,260 95,190" stroke="#3D4EFF" stroke-width="1.5" fill="none" stroke-dasharray="5 5" marker-end="url(#arrow)"/>
+              <text x="532" y="278" text-anchor="middle" font-size="12" font-weight="700" fill="#3D4EFF">Returns to ask the next question</text>
+            </g>
+          </svg>
+        </div>
+        <div class="lg"><span><i style="background:#3D4EFF"></i>Ask</span><span><i style="background:#9333FF"></i>Plan</span><span><i style="background:#FF6B2C"></i>Notebook</span><span><i style="background:#A3F600"></i>Gamification</span><span><i style="background:#FF2D8B"></i>Retention</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOUNDATIONS -->
+  <section id="foundations">
+    <div class="wrap">
+      <h2 class="sec-title rv">Design foundations - restrained structure, six saturated hues.</h2>
+      <p class="lead rv">Layout, type and spacing stay as disciplined as any B2B SaaS product; colour and motion carry the "built for teenagers" energy. Every colour pairing was checked against WCAG AA before it shipped in the file, and the two brightest hues - lime and magenta - are scoped to fills and large text only, never small body copy.</p>
+      <div class="wfgrid ui">
+        <figure class="rv"><figcaption>Colour and type scale - two brand blues and purples, four accent hues, an eight-step neutral ramp, and the one serif reserved for notebook titles.</figcaption><div class="img"><img src="../assets/work/notebook-ai/foundations-color.jpg" alt="Notebook AI colour palette and typography scale"></div></figure>
+        <figure class="rv"><figcaption>Core components and the "Spark" mark - an open notebook releasing a sparkle, built to survive at 16px and to work as a single-colour glyph.</figcaption><div class="img"><img src="../assets/work/notebook-ai/foundations-components.jpg" alt="Notebook AI core components and logo mark"></div></figure>
+      </div>
+      <div class="decisions">
+        <div class="dec rv"><small>Decision</small><h3>Contrast guardrails, written down</h3><p>The file states exactly where lime and magenta are allowed - fills only, headlines 24px and up - so engineering never has to guess whether a colour pairing is safe to reuse.</p></div>
+        <div class="dec rv"><small>Decision</small><h3>A mark that survives a favicon</h3><p>One closed silhouette instead of an open, detailed illustration, so the logo still reads at 16px and works as a flat one-colour stamp - the point where most AI-startup logos fall apart.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GAMIFICATION -->
+  <section id="gamification" style="background:var(--tint);--sec-bg:var(--tint)">
+    <div class="wrap">
+      <h2 class="sec-title rv">A gamification system specified in numbers, not adjectives.</h2>
+      <p class="lead rv">Ten levels at 500 XP each. Asking a question is worth 10, finishing a roadmap step 50, a daily challenge 30, a streak day 5 - and medals sit at levels 2, 4, 7 and 10, one geometry rendered in four materials so the set reads as a family. Every earning rule is written next to the artwork, because a badge without a rule is just a sticker.</p>
+      <div class="wfgrid ui">
+        <figure class="rv"><figcaption>Medal tiers and progress components - bronze to diamond, plus the XP bar, progress ring and streak states with their exact animation behaviour.</figcaption><div class="img"><img src="../assets/work/notebook-ai/gamification-medals.jpg" alt="Notebook AI medal tiers and progress components"></div></figure>
+        <figure class="rv"><figcaption>Logo animation and motion tokens - a 1.4s entrance broken into four timed beats, plus the five duration/easing tokens used everywhere else.</figcaption><div class="img"><img src="../assets/work/notebook-ai/gamification-motion.jpg" alt="Notebook AI logo animation timing and motion token table"></div></figure>
+      </div>
+      <div class="decisions">
+        <div class="dec rv"><small>Decision</small><h3>Streaks fail quietly</h3><p>A broken streak desaturates over 400ms rather than flashing a warning. The spec is explicit about why: shaming a teenager is how a habit product loses them.</p></div>
+        <div class="dec rv"><small>Decision</small><h3>Five motion tokens, not fifty</h3><p>Every animation in the product maps to one of five named durations and eases - instant, fast, base, slow, spring - so engineering builds a small motion library once instead of guessing per screen.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EFFORT ESTIMATE -->
+  <section id="estimate">
+    <div class="wrap">
+      <h2 class="sec-title rv">The effort estimate that turned the POC into a contract.</h2>
+      <p class="lead rv">A convincing screen doesn't buy budget on its own - a number does. I broke the full product into 10 modules and 56 screens, then estimated design effort against the design system, illustration set, prototype and responsive scope the client had actually asked for.</p>
+      <div class="stats rv">
+        <div class="stat"><b>56</b><span>Product screens scoped</span></div>
+        <div class="stat"><b>10</b><span>Modules</span></div>
+        <div class="stat"><b>10-15</b><span>Badge &amp; medal designs</span></div>
+        <div class="stat"><b>400-460 hrs</b><span>Estimated design effort</span></div>
+      </div>
+      <div class="tbl">
+        <table>
+          <thead><tr><th>#</th><th>Module</th><th>Detailed screens</th><th>Est. screens</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Marketing website</td><td>Homepage, How it works, For schools, Pricing, About us, Blog listing, Blog detail, Privacy policy, Terms &amp; conditions, Student safety, 404 / error page</td><td>9</td></tr>
+            <tr><td>2</td><td>Authentication &amp; onboarding</td><td>Student sign up, Parent consent, Login, Forgot / reset password, Email verification, Age verification &amp; consent, Grade &amp; school setup, Interests, Goals, First AI question, AI roadmap generated</td><td>7</td></tr>
+            <tr><td>3</td><td>AI notebook</td><td>Notebook dashboard, Create notebook, Notebook detail, Empty state, AI chat, Notes block, Task list block, Sticky notes, Sources panel, AI response with references, AI memory view, Search &amp; command palette, Notebook settings, Share &amp; export</td><td>7</td></tr>
+            <tr><td>4</td><td>Learning roadmap</td><td>Roadmap overview, Milestone details, Timeline (grade 9 to college), Edit &amp; reorder, Regenerate roadmap, Milestone celebration</td><td>4</td></tr>
+            <tr><td>5</td><td>Career explorer</td><td>Career directory, Career details, Search &amp; filters, Compare careers, Saved careers</td><td>5</td></tr>
+            <tr><td>6</td><td>Planner &amp; tasks</td><td>Today dashboard, Weekly calendar, Task details, Deadlines &amp; reminders, Daily challenges</td><td>4</td></tr>
+            <tr><td>7</td><td>Gamification</td><td>Progress dashboard, Level-up experience, Medals &amp; badge gallery, Leaderboard</td><td>6</td></tr>
+            <tr><td>8</td><td>Settings &amp; account</td><td>User profile, Avatar management, Notification preferences, Privacy &amp; data controls, Connected accounts, Billing &amp; subscription, Export data, Delete account</td><td>5</td></tr>
+            <tr><td>9</td><td>Notifications &amp; communication</td><td>Notification centre, Welcome email, Email verification, Streak reminder email, Weekly digest email, Level-up &amp; medal notification</td><td>4</td></tr>
+            <tr><td>10</td><td>School portal</td><td>Counsellor dashboard, Class roster, Student progress details, Assign tasks &amp; nudges, Reports &amp; export, School admin &amp; seat management</td><td>9</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="comp">
+        <div class="row"><b>Design system</b><span>10+ components, built once and reused across all 56 screens</span></div>
+        <div class="row"><b>Illustration &amp; icons</b><span>15-20 custom illustrations and icons, 10-15 badge / medal designs, 2-3 logo concepts</span></div>
+        <div class="row"><b>Motion</b><span>1 logo animation, 1 homepage animation</span></div>
+        <div class="row"><b>Prototype</b><span>One complete, connected user flow rather than isolated screens</span></div>
+        <div class="row"><b>Responsive scope</b><span>Desktop, tablet and mobile for every screen</span></div>
+      </div>
+      <div class="note rv"><b>Why this won the engagement:</b> the estimate wasn't a guess against the whole app - it was a sum of ten priced modules the client could see, cut or reorder. Scoping it against screens the client had already approved in the POC made the number feel earned rather than padded.</div>
+    </div>
+  </section>
+
+  <!-- LEARNED -->
+  <section id="learned" style="background:var(--tint)">
+    <div class="wrap">
+      <h2 class="sec-title rv">What I'd carry into the next AI-product pitch.</h2>
+      <ul class="principles">
+        <li class="rv"><b>Design the mechanic before the manual.</b> A level ring showing "340 XP, Gold unlocked" sells a gamification system faster than a paragraph explaining one would.</li>
+        <li class="rv"><b>Write the rule next to the artwork.</b> A medal with no earning rule is a sticker. Stating the rule in the same file as the icon is what makes it a system engineering can build from.</li>
+        <li class="rv"><b>Price against a screen count the client has already seen.</b> An estimate anchored to approved screens reads as scoped; one pulled from a vague spec reads as padded.</li>
+        <li class="rv"><b>Map the loop before you map the screens.</b> The flow diagram came first - every module in the estimate exists because it serves one step of that loop.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="wrap">
+      <div class="cta-card rv">
+        <div>
+          <h2>Pitching an AI product and need it scoped, not just designed?</h2>
+          <p>Happy to talk through how the POC and the effort estimate came together.</p>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a href="mailto:abhipatade@gmail.com?subject=Hi%20Abhishek%20-%20Notebook%20AI%20case%20study" class="btn btn-light">Let's talk</a>
+          <a href="../index.html#work" class="btn btn-ghost">More work</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr"></span> Abhishek Patade · Navi Mumbai, India</span>
+    <span><a href="https://www.linkedin.com/in/abhipatade/" target="_blank" rel="noopener">LinkedIn</a> · <a href="../index.html">Home</a></span>
+  </div>
+</footer>
+<script>
+  document.getElementById('yr').textContent=new Date().getFullYear();
+  const nav=document.getElementById('nav'),burger=document.getElementById('burger'),menu=document.getElementById('mobileMenu');
+  burger.addEventListener('click',()=>{const o=menu.classList.toggle('open');burger.classList.toggle('open',o);burger.setAttribute('aria-expanded',o)});
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{menu.classList.remove('open');burger.classList.remove('open')}));
+  addEventListener('keydown',e=>{if(e.key==='Escape'){menu.classList.remove('open');burger.classList.remove('open')}});
+  let lastY=0;addEventListener('scroll',()=>{const y=window.scrollY;if(!menu.classList.contains('open'))nav.classList.toggle('hidden',y>lastY&&y>300);lastY=y},{passive:true});
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+  setTimeout(()=>document.querySelectorAll('.rv').forEach(el=>el.classList.add('in')),4000);
+</script>
+</body>
+</html>
