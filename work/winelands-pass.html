@@ -193,26 +193,28 @@
   .cta-card h2{color:#fff;font-size:clamp(26px,3vw,38px)}
   .cta-card p{color:var(--on-dark-2);margin-top:8px}
 
-  /* more work */
-  .more-work{background:#fff;padding:64px 0 8px}
+  /* more work - slider */
+  .more-work{background:#fff;padding:64px 0 8px;overflow:hidden}
   .mw-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:28px;flex-wrap:wrap}
   .mw-head h2{font-size:clamp(22px,2.4vw,28px);color:var(--navy)}
-  .mw-head a{font-size:14px;font-weight:700;color:var(--action);text-decoration:none}
-  .mw-head a:hover{text-decoration:underline}
-  .mw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-  .mw-card{text-decoration:none;color:inherit;display:block;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line-2);transition:transform .25s,box-shadow .25s}
+  .mw-head-right{display:flex;align-items:center;gap:18px}
+  .mw-head a.mw-all{font-size:14px;font-weight:700;color:var(--action);text-decoration:none}
+  .mw-head a.mw-all:hover{text-decoration:underline}
+  .mw-arrows{display:flex;gap:8px}
+  .mw-arrow{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line);background:#fff;color:var(--navy);display:grid;place-items:center;cursor:pointer;font-size:16px;transition:background .2s,color .2s,border-color .2s}
+  .mw-arrow:hover{background:var(--action);color:#fff;border-color:var(--action)}
+  .mw-arrow:disabled{opacity:.35;cursor:default}
+  .mw-arrow:disabled:hover{background:#fff;color:var(--navy);border-color:var(--line)}
+  .mw-slider{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:14px;margin:0 calc(var(--pad-x) * -1);padding-left:var(--pad-x);padding-right:var(--pad-x);scrollbar-width:none}
+  .mw-slider::-webkit-scrollbar{display:none}
+  .mw-card{flex:0 0 272px;scroll-snap-align:start;text-decoration:none;color:inherit;display:block;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line-2);transition:transform .25s,box-shadow .25s}
   .mw-card:hover{transform:translateY(-4px);box-shadow:0 20px 46px rgba(15,10,85,.14)}
   .mw-thumb{position:relative;aspect-ratio:16/10;overflow:hidden;background:linear-gradient(135deg,var(--navy),var(--action) 70%,var(--violet))}
   .mw-thumb img{width:100%;height:100%;object-fit:cover;display:block}
   .mw-tag{position:absolute;top:10px;left:10px;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 9px;border-radius:999px;background:rgba(15,10,85,.6);color:#fff;border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(6px)}
   .mw-body{padding:14px 16px 16px}
   .mw-body h3{font-size:15.5px;color:var(--navy);font-weight:800;line-height:1.3}
-  @media (max-width:900px){.mw-grid{grid-template-columns:1fr 1fr}}
-  @media (max-width:680px){.mw-grid{grid-template-columns:1fr}}
-  .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:var(--r-full);font-weight:700;font-size:15px;text-decoration:none;transition:transform .2s}
-  .btn:hover{transform:translateY(-2px)}
-  .btn-light{background:#fff;color:var(--navy)}
-  .btn-ghost{border:1.5px solid rgba(233,229,255,.35);color:#fff}
+  @media (max-width:680px){.mw-card{flex:0 0 78vw}.mw-arrows{display:none}}
   footer{padding:28px 0;font-size:13px;color:var(--ink-3)}
   footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   footer a{color:var(--ink-2);text-decoration:none;font-weight:700}
@@ -554,8 +556,17 @@
   <!-- MORE WORK -->
   <section class="more-work">
     <div class="wrap">
-      <div class="mw-head rv"><h2>More case studies</h2><a href="../work.html">See all work →</a></div>
-      <div class="mw-grid">
+      <div class="mw-head rv">
+        <h2>More case studies</h2>
+        <div class="mw-head-right">
+          <a class="mw-all" href="../work.html">See all work →</a>
+          <div class="mw-arrows">
+            <button class="mw-arrow" id="mwPrev" aria-label="Previous case study">‹</button>
+            <button class="mw-arrow" id="mwNext" aria-label="Next case study">›</button>
+          </div>
+        </div>
+      </div>
+      <div class="mw-slider" id="mwSlider">
         <a class="mw-card" href="acharya-gautam.html">
           <div class="mw-thumb"><img src="../assets/work/acharya-gautam/thumbnail.jpg" alt="Acharya Gautam - Astrovaidya"><span class="mw-tag">In progress · Brand & Web</span></div>
           <div class="mw-body"><h3>Acharya Gautam - Astrovaidya</h3></div>
@@ -567,6 +578,38 @@
         <a class="mw-card" href="phishing-simulation.html">
           <div class="mw-thumb"><img src="../assets/work/phishing/thumbnail.jpg" alt="Phishing Simulation - LRN Catalyst"><span class="mw-tag">Enterprise SaaS · LRN Catalyst</span></div>
           <div class="mw-body"><h3>Phishing Simulation - LRN Catalyst</h3></div>
+        </a>
+        <a class="mw-card" href="heritage-agent-portal.html">
+          <div class="mw-thumb"><img src="../assets/work/heritage/thumbnail.jpg" alt="Heritage Agent Portal"><span class="mw-tag">Insurtech · Agent portal · Majesco</span></div>
+          <div class="mw-body"><h3>Heritage Agent Portal</h3></div>
+        </a>
+        <a class="mw-card" href="smart-lockout.html">
+          <div class="mw-thumb"><img src="../assets/work/smart-lockout/thumbnail.jpg" alt="Smart Lockout 2.0"><span class="mw-tag">Enterprise web portal · Industrial safety</span></div>
+          <div class="mw-body"><h3>Smart Lockout 2.0</h3></div>
+        </a>
+        <a class="mw-card" href="appointment-platform.html">
+          <div class="mw-thumb"><img src="../assets/work/appointment/thumbnail.jpg" alt="Appointment Reminder Platform"><span class="mw-tag">Healthcare · Patient messaging · Majesco</span></div>
+          <div class="mw-body"><h3>Appointment Reminder Platform</h3></div>
+        </a>
+        <a class="mw-card" href="notebook-ai.html">
+          <div class="mw-thumb"><img src="../assets/work/notebook-ai/thumbnail.jpg" alt="Notebook AI"><span class="mw-tag">AI EdTech · Freelance / Upwork · POC</span></div>
+          <div class="mw-body"><h3>Notebook AI</h3></div>
+        </a>
+        <a class="mw-card" href="edumentr.html">
+          <div class="mw-thumb"><img src="../assets/work/edumentr/thumbnail.jpg" alt="Edumentr"><span class="mw-tag">Mobile app · EdTech · via QUBD Technologies</span></div>
+          <div class="mw-body"><h3>Edumentr</h3></div>
+        </a>
+        <a class="mw-card" href="digially.html">
+          <div class="mw-thumb"><img src="../assets/work/digially/thumbnail.jpg" alt="DigiAlly - SME Reliability Scoring"><span class="mw-tag">SaaS · Fintech · via V2S Tech Solutions</span></div>
+          <div class="mw-body"><h3>DigiAlly - SME Reliability Scoring</h3></div>
+        </a>
+        <a class="mw-card" href="indiedimension.html">
+          <div class="mw-thumb"><img src="../assets/work/indiedimension/thumbnail.jpg" alt="Indiedimension - PWA Onboarding"><span class="mw-tag">Upwork ·  5.0</span></div>
+          <div class="mw-body"><h3>Indiedimension - PWA Onboarding</h3></div>
+        </a>
+        <a class="mw-card" href="dopahiye.html">
+          <div class="mw-thumb"><img src="../assets/work/dopahiye/thumbnail.jpg" alt="Do Pahiye - Two-Wheeler Platform"><span class="mw-tag">E-commerce · Web · via V2S Tech Solutions</span></div>
+          <div class="mw-body"><h3>Do Pahiye - Two-Wheeler Platform</h3></div>
         </a>
       </div>
     </div>
@@ -605,6 +648,17 @@
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});
   document.querySelectorAll('.rv').forEach(el=>io.observe(el));
   setTimeout(()=>document.querySelectorAll('.rv').forEach(el=>el.classList.add('in')),4000);
+  (function(){
+    const sl=document.getElementById('mwSlider');
+    if(!sl)return;
+    const prev=document.getElementById('mwPrev'),next=document.getElementById('mwNext');
+    const step=()=>(sl.querySelector('.mw-card')?.offsetWidth||272)+20;
+    const update=()=>{prev.disabled=sl.scrollLeft<=4;next.disabled=sl.scrollLeft>=sl.scrollWidth-sl.clientWidth-4};
+    prev.addEventListener('click',()=>sl.scrollBy({left:-step()*2,behavior:'smooth'}));
+    next.addEventListener('click',()=>sl.scrollBy({left:step()*2,behavior:'smooth'}));
+    sl.addEventListener('scroll',update,{passive:true});
+    update();
+  })();
 </script>
 </body>
 </html>
