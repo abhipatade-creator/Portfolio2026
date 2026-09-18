@@ -192,6 +192,23 @@
   .cta-card{background:var(--navy);color:var(--on-dark);border-radius:28px;padding:clamp(36px,5vw,60px);display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap}
   .cta-card h2{color:#fff;font-size:clamp(26px,3vw,38px)}
   .cta-card p{color:var(--on-dark-2);margin-top:8px}
+
+  /* more work */
+  .more-work{background:#fff;padding:64px 0 8px}
+  .mw-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:28px;flex-wrap:wrap}
+  .mw-head h2{font-size:clamp(22px,2.4vw,28px);color:var(--navy)}
+  .mw-head a{font-size:14px;font-weight:700;color:var(--action);text-decoration:none}
+  .mw-head a:hover{text-decoration:underline}
+  .mw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .mw-card{text-decoration:none;color:inherit;display:block;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line-2);transition:transform .25s,box-shadow .25s}
+  .mw-card:hover{transform:translateY(-4px);box-shadow:0 20px 46px rgba(15,10,85,.14)}
+  .mw-thumb{position:relative;aspect-ratio:16/10;overflow:hidden;background:linear-gradient(135deg,var(--navy),var(--action) 70%,var(--violet))}
+  .mw-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .mw-tag{position:absolute;top:10px;left:10px;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 9px;border-radius:999px;background:rgba(15,10,85,.6);color:#fff;border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(6px)}
+  .mw-body{padding:14px 16px 16px}
+  .mw-body h3{font-size:15.5px;color:var(--navy);font-weight:800;line-height:1.3}
+  @media (max-width:900px){.mw-grid{grid-template-columns:1fr 1fr}}
+  @media (max-width:680px){.mw-grid{grid-template-columns:1fr}}
   .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:var(--r-full);font-weight:700;font-size:15px;text-decoration:none;transition:transform .2s}
   .btn:hover{transform:translateY(-2px)}
   .btn-light{background:#fff;color:var(--navy)}
@@ -473,6 +490,27 @@
     </div>
   </section>
 
+
+  <!-- MORE WORK -->
+  <section class="more-work">
+    <div class="wrap">
+      <div class="mw-head rv"><h2>More case studies</h2><a href="../work.html">See all work →</a></div>
+      <div class="mw-grid">
+        <a class="mw-card" href="phishing-simulation.html">
+          <div class="mw-thumb"><img src="../assets/work/phishing/thumbnail.jpg" alt="Phishing Simulation - LRN Catalyst"><span class="mw-tag">Enterprise SaaS · LRN Catalyst</span></div>
+          <div class="mw-body"><h3>Phishing Simulation - LRN Catalyst</h3></div>
+        </a>
+        <a class="mw-card" href="heritage-agent-portal.html">
+          <div class="mw-thumb"><img src="../assets/work/heritage/thumbnail.jpg" alt="Heritage Agent Portal"><span class="mw-tag">Insurtech · Agent portal · Majesco</span></div>
+          <div class="mw-body"><h3>Heritage Agent Portal</h3></div>
+        </a>
+        <a class="mw-card" href="smart-lockout.html">
+          <div class="mw-thumb"><img src="../assets/work/smart-lockout/thumbnail.jpg" alt="Smart Lockout 2.0"><span class="mw-tag">Enterprise web portal · Industrial safety</span></div>
+          <div class="mw-body"><h3>Smart Lockout 2.0</h3></div>
+        </a>
+      </div>
+    </div>
+  </section>
 
   <!-- CTA -->
   <section class="cta">
