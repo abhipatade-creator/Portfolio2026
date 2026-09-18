@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Experience · Abhishek Patade - Product &amp; UX Career</title>
+<meta name="description" content="18+ years of UX and product design experience across LRN, NTT DATA, Majesco and Cognizant, plus skills, tools and education - Abhishek Patade.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0F0A55; --navy-2:#160f6e; --violet:#9173FF; --action:#6B47E6; --action-hover:#5638cc;
+  --tint:#F5F2FF; --tint-2:#EFEBFF; --ink:#1B1738; --ink-2:#4a476b; --ink-3:#8a87a3;
+  --line:#E6E6E6; --line-2:#ece9f7; --success:#136A4B; --white:#fff;
+  --on-dark:#E9E5FF; --on-dark-2:#B9B2E6;
+  --display:'Montserrat',system-ui,sans-serif; --body:'Lato',system-ui,sans-serif;
+  --r-sm:6px; --r-md:10px; --r-lg:16px; --r-xl:24px; --r-full:999px;
+  --nav-h:72px; --pad-x:clamp(20px,5vw,72px); --max:1200px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 16px)}
+body{font-family:var(--body);color:var(--ink);background:var(--white);line-height:1.55;font-size:16px;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{max-width:100%;display:block}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad-x)}
+h1,h2,h3,h4{font-family:var(--display);letter-spacing:-0.02em;line-height:1.1}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+/* nav */
+.nav{position:fixed;inset:0 0 auto 0;height:var(--nav-h);z-index:60;display:flex;align-items:center;transition:background .3s,border-color .3s}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;width:100%}
+.nav.on-dark{color:var(--on-dark)}
+.nav.scrolled{background:rgba(255,255,255,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line-2);color:var(--ink)}
+.logo{font-family:var(--display);font-weight:800;font-size:17px;white-space:nowrap;text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo .dot{width:10px;height:10px;border-radius:50%;background:var(--violet);box-shadow:0 0 0 4px rgba(145,115,255,.25)}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{text-decoration:none;font-size:14px;font-weight:700;position:relative;padding:6px 0;opacity:1;color:inherit}
+.nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:var(--violet);transform:scaleX(0);transform-origin:left;transition:transform .25s cubic-bezier(.4,0,.2,1)}
+.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}
+.nav-links a:hover{color:var(--violet)}
+.nav-links a.active{color:#fff}
+.nav.scrolled .nav-links a{color:var(--ink-2)}
+.nav.scrolled .nav-links a:hover{color:var(--action)}
+.nav.scrolled .nav-links a.active{color:var(--navy)}
+.nav.scrolled .nav-links a::after{background:var(--action)}
+.nav-cta{display:inline-flex;align-items:center;white-space:nowrap;padding:10px 18px;border-radius:var(--r-full);background:var(--action);color:#fff!important;font-weight:700;font-size:14px;text-decoration:none;opacity:1!important;transition:background .2s,transform .15s,box-shadow .2s}
+.nav-cta:hover{background:var(--action-hover);color:#fff!important;transform:translateY(-1px);box-shadow:0 8px 20px rgba(107,71,230,.35)}
+.nav-cta:active{transform:translateY(0) scale(.97);box-shadow:none}
+.burger{display:none;background:none;border:0;cursor:pointer;width:44px;height:44px;border-radius:var(--r-sm);color:inherit}
+.burger span{display:block;width:22px;height:2px;background:currentColor;margin:5px auto;transition:.25s}
+.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{position:fixed;top:var(--nav-h);left:0;right:0;background:#fff;border-bottom:1px solid var(--line-2);z-index:59;padding:12px var(--pad-x) 20px;flex-direction:column;gap:4px;transform:translateY(-8px);opacity:0;pointer-events:none;transition:transform .25s,opacity .25s;display:flex}
+.mobile-menu.open{transform:none;opacity:1;pointer-events:auto}
+.mobile-menu a{padding:12px 4px;text-decoration:none;font-weight:700;font-size:16px;border-bottom:1px solid var(--line-2);transition:color .2s,padding-left .2s}
+.mobile-menu a:hover,.mobile-menu a.active{color:var(--action);padding-left:10px}
+@media (min-width:681px){.mobile-menu{display:none}}
+.nav-links a:focus-visible,.nav-cta:focus-visible,.logo:focus-visible,.burger:focus-visible{outline:2px solid var(--violet);outline-offset:4px;border-radius:4px}
+.logo{transition:opacity .2s}.logo:hover{opacity:.8}
+.logo .dot{transition:transform .3s}.logo:hover .dot{transform:scale(1.25)}
+.nav.hidden{transform:translateY(-100%)}
+.nav{transition:background .3s,border-color .3s,transform .35s ease,color .3s}
+@media (max-width:680px){.nav-links,.nav .nav-cta{display:none}.burger{display:block}}
+
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:var(--r-full);font-weight:700;font-size:15px;text-decoration:none;transition:transform .2s,background .2s,box-shadow .2s;border:1.5px solid transparent}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(0) scale(.97)}
+.btn:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+.btn-primary{background:var(--action);color:#fff;box-shadow:0 10px 30px rgba(107,71,230,.35)}
+.btn-primary:hover{background:var(--action-hover)}
+.btn-ghost{border-color:rgba(233,229,255,.35);color:#fff}
+.btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.06)}
+.btn-light{background:#fff;color:var(--navy);border-color:#fff}
+.btn-outline{border-color:var(--navy);color:var(--navy)}
+.btn-outline:hover{background:var(--navy);color:#fff}
+.btn-text{color:#fff;padding-left:8px;padding-right:8px}
+.btn-text:hover{color:var(--violet)}
+.btn-text span{transition:transform .2s}.btn-text:hover span{transform:translateY(3px)}
+
+section.block{padding:clamp(72px,9vw,120px) 0}
+.sec-head{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;margin-bottom:56px}
+.sec-head p{align-self:start;padding-top:calc(13px * 1.55 + 16px + 0.35em);color:var(--ink-2);font-size:17px;max-width:480px}
+@media (max-width:980px){.sec-head p{padding-top:0}}
+.sec-head h2{font-size:clamp(30px,3.6vw,46px);font-weight:800;color:var(--navy);margin-top:16px}
+.num{font-family:var(--display);font-weight:700;color:var(--ink-3);font-size:13px;letter-spacing:.12em}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--violet)}
+.eyebrow::before{content:"";width:28px;height:2px;background:var(--violet);border-radius:2px}
+@media (max-width:980px){.sec-head{grid-template-columns:1fr;gap:12px}}
+
+/* contact */
+.contact{background:var(--tint);padding:clamp(72px,9vw,120px) 0}
+.contact-card{background:var(--navy);color:var(--on-dark);border-radius:32px;padding:clamp(40px,6vw,72px);display:grid;grid-template-columns:1.2fr .8fr;gap:48px;position:relative;overflow:hidden}
+.contact-card::before{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(145,115,255,.45),transparent 65%)}
+.contact-card h2{font-size:clamp(32px,4.2vw,54px);color:#fff;font-weight:800}
+.contact-card h2 em{font-style:normal;color:var(--violet)}
+.contact-card p{color:var(--on-dark-2);font-size:17px;margin:18px 0 30px;max-width:520px}
+.contact-list{list-style:none;display:grid;gap:12px;align-self:center;position:relative}
+.contact-list a{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 20px;border-radius:var(--r-lg);background:rgba(255,255,255,.06);border:1px solid rgba(233,229,255,.14);text-decoration:none;color:#fff;font-weight:700;transition:background .2s,transform .2s}
+.contact-list a:hover{background:rgba(255,255,255,.12);transform:translateX(4px)}
+.contact-list a small{font-weight:400;color:var(--on-dark-2);font-size:13px;display:block}
+.contact-list a .arr{color:var(--violet)}
+.copied{display:inline-block;margin-left:14px;font-size:13px;font-weight:700;color:#c8f5dd;opacity:0;transform:translateY(4px);transition:opacity .25s,transform .25s;vertical-align:middle}
+.copied.show{opacity:1;transform:none}
+@media (max-width:980px){.contact-card{grid-template-columns:1fr}}
+
+footer{padding:28px 0;font-size:13px;color:var(--ink-3)}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer a{color:var(--ink-2);text-decoration:none;font-weight:700}
+
+/* page hero */
+.page-hero{background:var(--navy);color:var(--on-dark);padding:calc(var(--nav-h) + 56px) 0 56px}
+.page-hero h1{font-size:clamp(30px,4vw,48px);color:#fff;font-weight:800}
+.page-hero p{color:var(--on-dark-2);font-size:17px;max-width:640px;margin-top:16px}
+
+/* experience */
+.timeline{position:relative;display:grid;gap:0}
+.job{display:grid;grid-template-columns:200px 1fr;gap:40px;padding:36px 0;border-top:1px solid var(--line-2);position:relative}
+.job:last-child{border-bottom:1px solid var(--line-2)}
+.job .when{font-family:var(--display);font-weight:700;color:var(--navy);font-size:15px}
+.job .when small{display:block;color:var(--ink-3);font-family:var(--body);font-weight:400;font-size:13px;margin-top:6px}
+.job h3{font-size:22px;color:var(--navy);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.job h3 .co{font-family:var(--body);font-size:15px;font-weight:700;color:var(--action);padding:4px 10px;background:var(--tint);border-radius:var(--r-full)}
+.job p.sum{color:var(--ink-2);margin:10px 0 14px;max-width:760px}
+.job ul{list-style:none;display:grid;gap:8px;max-width:760px}
+.job li{padding-left:22px;position:relative;color:var(--ink-2);font-size:15px}
+.job li::before{content:"";position:absolute;left:0;top:10px;width:10px;height:2px;background:var(--violet)}
+.job li b{color:var(--navy)}
+.job .clients{margin-top:14px;font-size:14px;color:var(--ink-2);padding:10px 14px;background:var(--tint);border-radius:var(--r-md);max-width:760px}
+.job .clients b{color:var(--navy)}
+.job .clients a{color:var(--action);font-weight:700;text-decoration:none}
+.job.current h3::after{content:"Current";font-family:var(--body);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--success);background:#e6f6ee;padding:4px 9px;border-radius:var(--r-full)}
+.earlier{margin-top:28px;display:grid;grid-template-columns:200px 1fr;gap:40px}
+.earlier .list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 32px}
+.earlier .list div{display:flex;justify-content:space-between;gap:12px;font-size:14.5px;color:var(--ink-2);padding:10px 0;border-bottom:1px dashed var(--line)}
+.earlier .list b{color:var(--ink)}
+.earlier .list span{white-space:nowrap}
+
+/* facts grid (about-page style) */
+.facts{background:var(--tint)}
+.facts-grid{border:1px solid var(--line-2);border-radius:var(--r-xl);background:#fff;overflow:hidden}
+.facts-row{display:grid;grid-template-columns:220px 1fr;border-top:1px solid var(--line-2)}
+.facts-row:first-child{border-top:0}
+.facts-row .fk{padding:22px 28px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);background:var(--tint)}
+.facts-row .fv{padding:22px 28px;font-size:15.5px;color:var(--ink)}
+.facts-row .fv b{color:var(--navy)}
+@media (max-width:680px){.facts-row{grid-template-columns:1fr}.facts-row .fk{padding-bottom:8px}}
+
+/* skills */
+.skills{background:var(--navy);color:var(--on-dark)}
+.skills .sec-head h2{color:#fff}
+.skills .sec-head p{color:var(--on-dark-2)}
+.skills .num{color:var(--violet)}
+.skill-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.sk{background:rgba(255,255,255,.05);border:1px solid rgba(233,229,255,.12);border-radius:var(--r-lg);padding:26px 24px}
+.sk h3{font-size:15px;color:var(--violet);letter-spacing:.04em;text-transform:uppercase;margin-bottom:14px}
+.sk ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.sk li{font-size:13px;padding:7px 12px;border-radius:var(--r-full);background:rgba(255,255,255,.08);border:1px solid rgba(233,229,255,.12);color:var(--on-dark)}
+.sk.ai{grid-column:span 2;background:linear-gradient(135deg,rgba(107,71,230,.45),rgba(145,115,255,.18));border-color:rgba(145,115,255,.4)}
+.sk.ai p{font-size:14px;color:var(--on-dark-2);margin-bottom:14px}
+
+/* education */
+.edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.edu{border:1px solid var(--line-2);border-radius:var(--r-xl);padding:30px}
+.edu h3{font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--action);margin-bottom:18px}
+.edu .row{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-top:1px solid var(--line-2)}
+.edu .row b{display:block;color:var(--navy);font-size:15.5px}
+.edu .row span{color:var(--ink-3);font-size:13.5px}
+.edu .row em{font-style:normal;font-family:var(--display);font-weight:700;color:var(--ink-3);white-space:nowrap}
+
+@media (max-width:980px){
+  .skill-grid{grid-template-columns:1fr 1fr}
+  .sk.ai{grid-column:span 2}
+  .job,.earlier{grid-template-columns:1fr;gap:12px}
+}
+@media (max-width:680px){
+  .skill-grid,.edu-grid,.earlier .list{grid-template-columns:1fr}
+  .sk.ai{grid-column:span 1}
+}
+
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a href="index.html" class="logo"><span class="dot"></span>Abhishek Patade</a>
+    <ul class="nav-links">
+      <li><a href="work.html">Work</a></li>
+      <li><a href="experience.html" class="active">Experience</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <a href="assets/documents/Abhishek_Patade_Resume_2026.pdf" class="nav-cta" download>Download Resume</a>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="mobile-menu" id="mobileMenu">
+  <a href="work.html">Work</a><a href="experience.html" class="active">Experience</a><a href="index.html#contact">Contact</a>
+  <a href="assets/documents/Abhishek_Patade_Resume_2026.pdf" download style="color:var(--action);border:0">Download Resume ↓</a>
+</nav>
+
+<main id="top">
+
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow" style="margin-bottom:14px;display:inline-flex">Career</span>
+      <h1>Where I've done the work.</h1>
+      <p>Enterprise SaaS, insurance and banking - mostly leading UX for products with a lot of moving parts. Roles as listed on LinkedIn, 18+ years, 2007 to present.</p>
+    </div>
+  </section>
+
+  <!-- FACTS -->
+  <section class="block facts">
+    <div class="wrap">
+      <div class="facts-grid rv">
+        <div class="facts-row"><div class="fk">Currently</div><div class="fv"><b>Independent Product Design Consultant</b> - self-employed since Jan 2026, Navi Mumbai / Remote. Product design and UX consulting for Enterprise SaaS, BFSI, Compliance and AI-enabled products.</div></div>
+        <div class="facts-row"><div class="fk">Previously</div><div class="fv">Product Designer at <b>LRN</b> (2023-2025), <b>NTT DATA</b> (2021-2023) and <b>Majesco</b> (2018-2021); Senior UX Designer at <b>Cognizant</b> (2014-2018); earlier roles at Grass Roots, Inspira Enterprise, iGATE and Zwa Designs (2007-2014).</div></div>
+        <div class="facts-row"><div class="fk">Education</div><div class="fv"><b>Bachelor of Commerce (Accounting)</b>, The Global Open University, 2009-2011.</div></div>
+        <div class="facts-row"><div class="fk">Based in</div><div class="fv">Navi Mumbai, India - open to remote, hybrid or on-site roles.</div></div>
+        <div class="facts-row"><div class="fk">Toolkit</div><div class="fv">Figma, FigJam, Sketch, Adobe XD, Axure RP - and increasingly Figma AI, Claude MCP, Cursor and V0 for AI-assisted design.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE TIMELINE -->
+  <section class="block" id="experience">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <div><span class="num">01 - EXPERIENCE</span><h2>The roles, in full.</h2></div>
+        <p>Five roles since 2014, each with more ownership than the last, plus seven years finding my footing before that.</p>
+      </div>
+      <div class="timeline">
+
+        <div class="job current rv">
+          <div class="when">Jan 2026 - Present<small>Navi Mumbai · Remote</small></div>
+          <div>
+            <h3>Independent Product Design Consultant <span class="co">Self-employed</span></h3>
+            <p class="sum">Product design and UX consulting for Enterprise SaaS, BFSI, Compliance and AI-enabled products.</p>
+            <ul>
+              <li>Lead UX strategy, product discovery and experience design initiatives.</li>
+              <li>Design scalable workflows, dashboards and enterprise applications; create user journeys, wireframes, prototypes and design systems in Figma.</li>
+              <li>Facilitate stakeholder workshops and requirements-gathering sessions; partner with Product Managers and Engineering.</li>
+              <li>Conduct UX audits, heuristic evaluations and usability improvements; advise on product modernisation and digital transformation.</li>
+            </ul>
+            <p class="clients"><b>Clients:</b> Mirello (hiring platform, POC) · Taruveda Xtracts · Acharya Gautam / Astrovaidya</p>
+          </div>
+        </div>
+
+        <div class="job rv">
+          <div class="when">Sep 2023 - Nov 2025<small>Mumbai · On-site</small></div>
+          <div>
+            <h3>Product Designer <span class="co">LRN</span></h3>
+            <p class="sum">Led end-to-end UX strategy across LRN's compliance and risk management SaaS platform - Client Onboarding, User Manager, Campaign Manager, Phishing Simulation, Content Library and Reveal Analytics - serving enterprise clients across North America and Europe.</p>
+            <ul>
+              <li>Owned UX for the Phishing Simulation product, redesigning the campaign workflow and improving admin task completion across multiple user personas.</li>
+              <li>Led UX design for Client Onboarding, User Manager and Campaign Manager, and designed Reveal Analytics dashboards covering click rates, report rates and risk scores.</li>
+              <li>Built a modular design system with 60+ reusable components spanning the Content Library and core product modules, improving cross-product UI consistency and cutting design-to-dev handoff time.</li>
+              <li>Conducted UX audits across 8 core platform workflows, identifying friction points and leading resolution with Product and Engineering.</li>
+              <li>Managed and mentored 2 junior designers through critique sessions and structured growth plans; partnered with global Product, Engineering and Content teams across 3 time zones.</li>
+            </ul>
+            <p class="clients"><b>Product:</b> LRN Catalyst - 3,000+ organisations globally · <a href="work/phishing-simulation.html">See the Phishing Simulation case study →</a></p>
+          </div>
+        </div>
+
+        <div class="job rv">
+          <div class="when">Dec 2021 - May 2023<small>Bengaluru · Remote</small></div>
+          <div>
+            <h3>Product Designer <span class="co">NTT DATA</span></h3>
+            <p class="sum">Delivered UX design across Policy Management, Claim Management, the API Platform and Client Tracker for global insurance clients.</p>
+            <ul>
+              <li>Led UX design for Policy Management and Claim Management workflows, plus the API Platform and Client Tracker modules, across multiple global insurance clients.</li>
+              <li>Simplified complex insurance workflows for global insurer clients across North America, APAC and Europe.</li>
+              <li>Adapted UX patterns to regional regulatory and workflow requirements during large-scale platform implementations.</li>
+            </ul>
+            <p class="clients"><b>Clients:</b> Global insurers across North America, APAC and Europe (FA Insurance practice)</p>
+          </div>
+        </div>
+
+        <div class="job rv">
+          <div class="when">Oct 2018 - Dec 2021<small>Mumbai · Hybrid · 3 yrs 3 mos</small></div>
+          <div>
+            <h3>Product Designer <span class="co">Majesco</span></h3>
+            <p class="sum">Led UX across Majesco's cloud-based insurance suite - Policy Management, Claim Management, the API Platform and Client Tracker - spanning 5 products on an Agile PI planning cycle.</p>
+            <ul>
+              <li><b>Jul 2020 - Dec 2021:</b> Built and scaled a multi-product design system across Policy, Claims, the API Platform and Client Tracker, standardising UI patterns across the 5-product suite.</li>
+              <li>Travelled onsite to the US to facilitate UX workshops with product owners and SMEs - defining user journeys, running usability sessions and influencing product strategy decisions.</li>
+              <li>Delivered PI-ready designs consistently ahead of development cycles, enabling faster QA and fewer late-stage changes.</li>
+              <li><b>Oct 2018 - Jul 2020:</b> Led discovery-to-delivery UX for 3 new product modules - journey mapping, wireframing, prototyping and handoff - and contributed to the early design-system foundations later scaled across the suite.</li>
+            </ul>
+            <p class="clients"><b>Products:</b> Majesco Policy · Claims · API Platform · Client Tracker · Agent 360 - for P&amp;C and L&amp;A insurers · <a href="work/heritage-agent-portal.html">See the Heritage Agent Portal case study →</a></p>
+          </div>
+        </div>
+
+        <div class="job rv">
+          <div class="when">Jun 2014 - Oct 2018<small>Mumbai · 4 yrs 5 mos</small></div>
+          <div>
+            <h3>Senior User Experience Designer <span class="co">Cognizant</span></h3>
+            <p class="sum">Led UX strategy and execution for banking and insurance clients across BFSI, Insurtech, Healthcare and Telecom engagements.</p>
+            <ul>
+              <li><b>Jan 2017 - Oct 2018, Senior UX Designer:</b> Led end-to-end UX engagements from discovery and research through MVP and POC delivery; facilitated design thinking workshops and stakeholder alignment sessions for multiple transformation programmes.</li>
+              <li>Contributed UX inputs to RFP proposals and pre-sales pitches, supporting new project wins in BFSI and Healthcare.</li>
+              <li>Simplified enterprise information architecture and workflow design across banking and insurance platforms; partnered closely with SMEs, business analysts and engineering leads.</li>
+              <li><b>Jun 2014 - Jan 2017, UX Designer:</b> Designed wireframes, user flows and high-fidelity UI for enterprise client projects across BFSI and Healthcare; supported research and usability testing to validate decisions with real users.</li>
+            </ul>
+            <p class="clients"><b>Clients:</b> Kotak Mahindra Bank · Prudential Insurance · ICICI Bank · Franklin Templeton</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="earlier rv">
+        <div class="when" style="font-family:var(--display);font-weight:700;color:var(--navy)">Earlier<small style="display:block;color:var(--ink-3);font-family:var(--body);font-weight:400;font-size:13px;margin-top:6px">2007 - 2014</small></div>
+        <div class="list">
+          <div><b>Lead Designer · Grass Roots</b><span>2013 - 2014</span></div>
+          <div><b>Sr. Web Visualizer · Inspira Enterprise</b><span>2011 - 2013</span></div>
+          <div><b>Web Analyst · iGATE</b><span>2008 - 2011</span></div>
+          <div><b>Senior Web Designer · Zwa Designs</b><span>2007 - 2008</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="block skills" id="skills">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <div><span class="num">02 - SKILLS &amp; TOOLS</span><h2>The toolkit.</h2></div>
+        <p>Figma-first, systems-minded, and increasingly AI-assisted.</p>
+      </div>
+      <div class="skill-grid">
+        <div class="sk rv"><h3>UX &amp; Product Leadership</h3><ul><li>UX Strategy</li><li>Roadmap Planning</li><li>Team Leadership</li><li>Mentorship</li><li>Executive Stakeholders</li><li>Design Governance</li><li>Design Thinking Facilitation</li><li>Agile / Scrum / PI</li></ul></div>
+        <div class="sk rv"><h3>User-Centred Design</h3><ul><li>User Research</li><li>Personas</li><li>Journey Mapping</li><li>Task Flows</li><li>Usability Testing</li><li>Heuristic Evaluation</li><li>UX Audits</li><li>WCAG 2.1</li><li>Information Architecture</li><li>MVP Strategy</li></ul></div>
+        <div class="sk rv"><h3>Design Craft</h3><ul><li>High-Fidelity UI</li><li>Prototyping</li><li>Micro-interactions</li><li>Responsive Web &amp; Mobile</li><li>Design Systems</li><li>Component Libraries</li><li>Design Tokens</li><li>Variable Theming</li></ul></div>
+        <div class="sk ai rv"><h3>AI-Powered Design</h3><p>I use AI in the actual design workflow - not just for ideation - to get to high-fidelity prototypes and documentation faster.</p><ul><li>Figma AI (Make / Slides / Design)</li><li>Figma MCP</li><li>Claude MCP</li><li>V0 by Vercel</li><li>Cursor</li><li>GitHub Copilot</li><li>Midjourney</li><li>Claude · ChatGPT · Gemini · Perplexity</li></ul></div>
+        <div class="sk rv"><h3>Tools &amp; Domains</h3><ul><li>Figma</li><li>FigJam</li><li>Sketch</li><li>Adobe XD</li><li>Axure RP</li><li>Illustrator</li><li>Photoshop</li><li>Jira</li><li>Confluence</li><li>Notion</li><li>Miro</li><li>Enterprise SaaS</li><li>BFSI</li><li>Insurtech</li><li>Compliance &amp; Risk</li><li>AWS / Azure</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section class="block" id="education">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <div><span class="num">03 - EDUCATION &amp; CERTIFICATIONS</span><h2>Credentials.</h2></div>
+      </div>
+      <div class="edu-grid">
+        <div class="edu rv">
+          <h3>Certifications</h3>
+          <div class="row"><div><b>Certified Usability Analyst (CUA)</b><span>Human Factors International</span></div><em>2011</em></div>
+          <div class="row"><div><b>Core Programme in UX</b><span>Design Incubator</span></div><em>2012</em></div>
+          <div class="row"><div><b>UX for AI: Design Practices for AI Developers</b><span>LinkedIn Learning</span></div><em>2025</em></div>
+          <div class="row"><div><b>Data-Driven Product Research and Design</b><span>LinkedIn Learning</span></div><em>2025</em></div>
+        </div>
+        <div class="edu rv">
+          <h3>Education</h3>
+          <div class="row"><div><b>Bachelor of Commerce (Accounting)</b><span>The Global Open University</span></div><em>2009 - 2011</em></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <div class="contact-card rv">
+        <div>
+          <span class="eyebrow">Get in touch</span>
+          <h2 style="margin-top:18px">Have a complex product? <em>Let's make it clear.</em></h2>
+          <p>Open to principal / lead design roles and consulting engagements - remote, hybrid or in India. Happy to talk through a problem before there's a brief.</p>
+          <a href="mailto:abhipatade@gmail.com?subject=Hi%20Abhishek%20%E2%80%94%20from%20your%20portfolio" class="btn btn-light js-mail">Email me →</a>
+          <span class="copied" id="copied" aria-live="polite">Copied abhipatade@gmail.com ✓</span>
+        </div>
+        <ul class="contact-list">
+          <li><a href="mailto:abhipatade@gmail.com?subject=Hi%20Abhishek%20%E2%80%94%20from%20your%20portfolio" class="js-mail"><span>abhipatade@gmail.com<small>Email · click to open or copy</small></span><span class="arr">↗</span></a></li>
+          <li><a href="https://www.linkedin.com/in/abhipatade/" target="_blank" rel="noopener"><span>linkedin.com/in/abhipatade<small>LinkedIn</small></span><span class="arr">↗</span></a></li>
+          <li><a href="assets/documents/Abhishek_Patade_Resume_2026.pdf" download><span>Resume (PDF)<small>Download</small></span><span class="arr">↓</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr"></span> Abhishek Patade · Navi Mumbai, India</span>
+    <span><a href="index.html">Home</a> · <a href="work.html">Work</a> · <a href="https://www.linkedin.com/in/abhipatade/" target="_blank" rel="noopener">LinkedIn</a> · <a href="#top">Back to top ↑</a></span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent=new Date().getFullYear();
+  document.querySelectorAll('.js-mail').forEach(a=>a.addEventListener('click',()=>{
+    const t=document.getElementById('copied');
+    try{navigator.clipboard.writeText('abhipatade@gmail.com').then(()=>{t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)})}catch(e){}
+  }));
+  const nav=document.getElementById('nav');
+  const onScroll=()=>{nav.classList.toggle('scrolled',window.scrollY>40)};
+  onScroll();addEventListener('scroll',onScroll,{passive:true});
+  const burger=document.getElementById('burger'),menu=document.getElementById('mobileMenu');
+  burger.addEventListener('click',()=>{const o=menu.classList.toggle('open');burger.classList.toggle('open',o);burger.setAttribute('aria-expanded',o);nav.classList.toggle('scrolled',o||window.scrollY>40)});
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{menu.classList.remove('open');burger.classList.remove('open');burger.setAttribute('aria-expanded','false')}));
+  let lastY=0;
+  addEventListener('scroll',()=>{const y=window.scrollY;if(!menu.classList.contains('open')){nav.classList.toggle('hidden',y>lastY&&y>300)}lastY=y},{passive:true});
+  addEventListener('keydown',e=>{if(e.key==='Escape'&&menu.classList.contains('open')){menu.classList.remove('open');burger.classList.remove('open');burger.setAttribute('aria-expanded','false')}});
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
