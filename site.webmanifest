@@ -1,0 +1,11 @@
+{
+  "name": "Abhishek Patade - Product & UX Portfolio",
+  "short_name": "Abhishek Patade",
+  "icons": [
+    { "src": "assets/images/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/images/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "theme_color": "#0F0A55",
+  "background_color": "#0F0A55",
+  "display": "browser"
+}
