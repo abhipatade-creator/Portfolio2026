@@ -366,6 +366,17 @@
   .dsgrid .img img{box-shadow:none;border-radius:0;max-height:420px;width:auto;max-width:100%}
   .dsgrid figcaption{text-align:left}
   @media (max-width:900px){.tallshot,.dsgrid{grid-template-columns:1fr}.swatches{grid-template-columns:repeat(3,1fr)}}
+
+  /* STAR summary */
+  .star-head{display:flex;align-items:center;gap:10px;margin:40px 0 18px}
+  .star-head b{font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+  .star-head::after{content:"";flex:1;height:1px;background:var(--line-2)}
+  .star{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:8px}
+  .star-card{background:var(--tint);border:1px solid var(--line-2);border-radius:var(--r-xl);padding:22px 20px}
+  .star-card small{display:block;font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--action);margin-bottom:10px}
+  .star-card p{font-size:14.5px;color:var(--ink-2);margin:0}
+  @media (max-width:900px){.star{grid-template-columns:1fr 1fr}}
+  @media (max-width:680px){.star{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -401,7 +412,21 @@
     <div class="hero-visual rv" style="background:none;min-height:0;aspect-ratio:auto"><img src="../assets/work/winelands/thumbnail.jpg" alt="Winelands Pass - Deals, Explore and My Pass screens" style="width:100%;border-radius:var(--r-xl)"></div>
   </div>
 
+  <!-- STAR -->
+  <section id="star" style="padding-bottom:0">
+    <div class="wrap">
+      <div class="star-head rv"><b>Quick read - the STAR breakdown</b></div>
+      <div class="star rv">
+        <div class="star-card"><small>Situation</small><p>The client wanted a GrabOne-style deals app for the Cape Winelands, with only a reference app and a fixed colour palette to start from.</p></div>
+        <div class="star-card"><small>Task</small><p>Design an app that sells a membership pass to someone who's never heard of it, then earns repeat opens all weekend.</p></div>
+        <div class="star-card"><small>Action</small><p>Wireframed every screen in greyscale first, then built the full UI - onboarding, Explore, Deals, the 3-step pass purchase, the My PASS QR wallet - in the client's brand.</p></div>
+        <div class="star-card"><small>Result</small><p>Visual design milestone approved on submission; contract closed with a 5.0 Upwork rating and few structural changes after wireframe sign-off.</p></div>
+      </div>
+    </div>
+  </section>
+
   <!-- SUMMARY -->
+
   <section id="summary">
     <div class="wrap">
       <h2 class="sec-title rv">Summary</h2>

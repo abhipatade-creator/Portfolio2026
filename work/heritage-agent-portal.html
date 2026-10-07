@@ -359,6 +359,17 @@
   @media (max-width:900px){.roles{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}}
   @media (max-width:560px){.steps{grid-template-columns:1fr}}
   .wfgrid .img{max-height:none}
+
+  /* STAR summary */
+  .star-head{display:flex;align-items:center;gap:10px;margin:40px 0 18px}
+  .star-head b{font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+  .star-head::after{content:"";flex:1;height:1px;background:var(--line-2)}
+  .star{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:8px}
+  .star-card{background:var(--tint);border:1px solid var(--line-2);border-radius:var(--r-xl);padding:22px 20px}
+  .star-card small{display:block;font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--action);margin-bottom:10px}
+  .star-card p{font-size:14.5px;color:var(--ink-2);margin:0}
+  @media (max-width:900px){.star{grid-template-columns:1fr 1fr}}
+  @media (max-width:680px){.star{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -396,7 +407,21 @@
     <div class="hero-visual rv" style="background:none;min-height:0;aspect-ratio:auto"><img src="../assets/work/heritage/cover.jpg" alt="Heritage Agent Portal - cover" style="width:100%;border-radius:var(--r-xl)"></div>
   </div>
 
+  <!-- STAR -->
+  <section id="star" style="padding-bottom:0">
+    <div class="wrap">
+      <div class="star-head rv"><b>Quick read - the STAR breakdown</b></div>
+      <div class="star rv">
+        <div class="star-card"><small>Situation</small><p>A Florida homeowners carrier's agents worked from an unsorted queue of quotes, renewals and tasks, and the HO-3 quote itself read like a system-of-record form.</p></div>
+        <div class="star-card"><small>Task</small><p>Design an agent portal, and especially a homeowners quote, simple enough for a first-day agent and fast enough for a 200-policy veteran.</p></div>
+        <div class="star-card"><small>Action</small><p>Built and walked a full lo-fi click-through - sign-in, dashboard, 7-step quote, coverage comparison, underwriting, billing - screen by screen with POs, BAs and SMEs.</p></div>
+        <div class="star-card"><small>Result</small><p>Became the agreed build specification; the quote compressed from 7 to 5 steps and the coverage-comparison pattern was reused across other carrier portals.</p></div>
+      </div>
+    </div>
+  </section>
+
   <!-- SUMMARY -->
+
   <section id="summary">
     <div class="wrap">
       <h2 class="sec-title rv">Summary</h2>

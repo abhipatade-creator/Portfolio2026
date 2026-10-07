@@ -335,6 +335,17 @@
   .fig-links a:hover{background:var(--action);color:#fff}
   @media (max-width:900px){.phones,.types{grid-template-columns:1fr 1fr}}
   @media (max-width:560px){.phones,.types{grid-template-columns:1fr}}
+
+  /* STAR summary */
+  .star-head{display:flex;align-items:center;gap:10px;margin:40px 0 18px}
+  .star-head b{font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+  .star-head::after{content:"";flex:1;height:1px;background:var(--line-2)}
+  .star{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:8px}
+  .star-card{background:var(--tint);border:1px solid var(--line-2);border-radius:var(--r-xl);padding:22px 20px}
+  .star-card small{display:block;font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--action);margin-bottom:10px}
+  .star-card p{font-size:14.5px;color:var(--ink-2);margin:0}
+  @media (max-width:900px){.star{grid-template-columns:1fr 1fr}}
+  @media (max-width:680px){.star{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -370,7 +381,21 @@
     <div class="hero-visual rv" style="background:none;min-height:0;aspect-ratio:auto"><img src="../assets/work/indiedimension/thumbnail.jpg" alt="Indiedimension sign-up flow chart and three wireframe screens" style="width:100%;border-radius:var(--r-xl)"></div>
   </div>
 
+  <!-- STAR -->
+  <section id="star" style="padding-bottom:0">
+    <div class="wrap">
+      <div class="star-head rv"><b>Quick read - the STAR breakdown</b></div>
+      <div class="star rv">
+        <div class="star-card"><small>Situation</small><p>An ebook-subscription PWA needed sign-up and sign-in flows for individual, family, author and publisher accounts, with nothing designed yet.</p></div>
+        <div class="star-card"><small>Task</small><p>Deliver a visually appealing, dev-ready login and sign-up experience across devices, per a fixed-price Upwork brief.</p></div>
+        <div class="star-card"><small>Action</small><p>Mapped the full onboarding flow chart first, then wireframed all five journeys - sign-in, membership, payment, family members, author/publisher registration.</p></div>
+        <div class="star-card"><small>Result</small><p>Closed both milestones with a 5.0 rating on Upwork and a complete, agreed onboarding map ready for UI design.</p></div>
+      </div>
+    </div>
+  </section>
+
   <!-- SUMMARY -->
+
   <section id="summary">
     <div class="wrap">
       <h2 class="sec-title rv">Summary</h2>

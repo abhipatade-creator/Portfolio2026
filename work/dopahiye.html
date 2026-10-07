@@ -332,6 +332,17 @@
   .journey p{font-size:13.5px}
   @media (max-width:900px){.shots3{grid-template-columns:1fr}.tall,.journey{grid-template-columns:1fr 1fr}}
   @media (max-width:560px){.tall,.journey{grid-template-columns:1fr}}
+
+  /* STAR summary */
+  .star-head{display:flex;align-items:center;gap:10px;margin:40px 0 18px}
+  .star-head b{font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+  .star-head::after{content:"";flex:1;height:1px;background:var(--line-2)}
+  .star{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:8px}
+  .star-card{background:var(--tint);border:1px solid var(--line-2);border-radius:var(--r-xl);padding:22px 20px}
+  .star-card small{display:block;font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--action);margin-bottom:10px}
+  .star-card p{font-size:14.5px;color:var(--ink-2);margin:0}
+  @media (max-width:900px){.star{grid-template-columns:1fr 1fr}}
+  @media (max-width:680px){.star{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -367,7 +378,21 @@
     <div class="hero-visual rv" style="background:none;min-height:0;aspect-ratio:auto"><img src="../assets/work/dopahiye/thumbnail.jpg" alt="Do Pahiye - listing, product, checkout and test-ride status screens" style="width:100%;border-radius:var(--r-xl)"></div>
   </div>
 
+  <!-- STAR -->
+  <section id="star" style="padding-bottom:0">
+    <div class="wrap">
+      <div class="star-head rv"><b>Quick read - the STAR breakdown</b></div>
+      <div class="star rv">
+        <div class="star-card"><small>Situation</small><p>Buying a two-wheeler in India is still a showroom-first process - city-by-city pricing, brand-siloed sites, and a test ride that means a phone call.</p></div>
+        <div class="star-card"><small>Task</small><p>Move discovery, comparison and test-ride booking online for both a first-time buyer and an enthusiast comparing variants, on one navigation.</p></div>
+        <div class="star-card"><small>Action</small><p>Designed the four-way mega menu, city-aware pricing, product pages, OTP sign-in, and the full test-ride booking flow with a post-booking status timeline.</p></div>
+        <div class="star-card"><small>Result</small><p>A single, consistent 3-step path from browsing to a confirmed test ride, with the dealer relationship kept intact.</p></div>
+      </div>
+    </div>
+  </section>
+
   <!-- SUMMARY -->
+
   <section id="summary">
     <div class="wrap">
       <h2 class="sec-title rv">Summary</h2>

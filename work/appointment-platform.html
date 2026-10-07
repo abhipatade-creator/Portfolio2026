@@ -376,6 +376,17 @@
   @media (max-width:560px){.phones,.phones5{grid-template-columns:1fr}}
   .wfgrid .img{max-height:none}
   .phones .img{border-radius:12px}
+
+  /* STAR summary */
+  .star-head{display:flex;align-items:center;gap:10px;margin:40px 0 18px}
+  .star-head b{font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+  .star-head::after{content:"";flex:1;height:1px;background:var(--line-2)}
+  .star{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:8px}
+  .star-card{background:var(--tint);border:1px solid var(--line-2);border-radius:var(--r-xl);padding:22px 20px}
+  .star-card small{display:block;font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--action);margin-bottom:10px}
+  .star-card p{font-size:14.5px;color:var(--ink-2);margin:0}
+  @media (max-width:900px){.star{grid-template-columns:1fr 1fr}}
+  @media (max-width:680px){.star{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -414,7 +425,21 @@
     <div class="hero-visual rv" style="background:none;min-height:0;aspect-ratio:auto"><img src="../assets/work/appointment/thumbnail.jpg" alt="Appointment Reminder Platform - appointment list and new broadcast screens" style="width:100%;border-radius:var(--r-xl)"></div>
   </div>
 
+  <!-- STAR -->
+  <section id="star" style="padding-bottom:0">
+    <div class="wrap">
+      <div class="star-head rv"><b>Quick read - the STAR breakdown</b></div>
+      <div class="star rv">
+        <div class="star-card"><small>Situation</small><p>A busy medical practice loses revenue to missed appointments and staff time to manual phone reminders, with no single tool closing the loop.</p></div>
+        <div class="star-card"><small>Task</small><p>Design a platform a receptionist can run between phone calls, to automate reminders, capture check-in and payment, and report on what went out and came back.</p></div>
+        <div class="star-card"><small>Action</small><p>Owned product design end to end - the five-module navigation model, appointment and arrival flows, broadcast composer, groups and reports, a master component set and a tablet layout.</p></div>
+        <div class="star-card"><small>Result</small><p>Delivered a complete high-fidelity design with a working click-through prototype, ready for the dev team to build from a single source.</p></div>
+      </div>
+    </div>
+  </section>
+
   <!-- SUMMARY -->
+
   <section id="summary">
     <div class="wrap">
       <h2 class="sec-title rv">Summary</h2>
